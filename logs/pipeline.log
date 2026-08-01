@@ -1614,3 +1614,15 @@
 2026-08-01 06:32:00,561 INFO    site                   wrote docs/data/core.json (2.4 MB)
 2026-08-01 06:32:00,588 INFO    site                   copied 58 figures into docs/figures
 2026-08-01 06:32:00,609 INFO    site                   copied 33 tables into docs/tables
+2026-08-01 06:32:46,511 INFO    pi_department            MGH: 800/1,101
+2026-08-01 06:36:54,051 INFO    pi_department            MGH: 1,000/1,101
+2026-08-01 06:39:29,378 INFO    pi_department          MGH: 1,101 investigators, 67 surgical by majority rule
+2026-08-01 06:39:29,403 INFO    pi_department          BWH: profiling 677 investigators
+2026-08-01 06:43:40,020 INFO    pi_department            BWH: 200/677
+2026-08-01 06:47:56,489 INFO    pi_department            BWH: 400/677
+2026-08-01 06:52:10,809 INFO    pi_department            BWH: 600/677
+2026-08-01 06:54:02,168 INFO    pi_department          BWH: 677 investigators, 46 surgical by majority rule
+2026-08-01 06:54:02,185 INFO    pi_department          wrote pi_departments.parquet: 1,778 rows
+2026-08-01 06:56:38,978 INFO    pi_department          MGH: profiling 1,101 investigators
+2026-08-01 07:03:57,827 INFO    pi_department            MGH: 200/1,101
+2026-08-01 07:09:36,673 INFO    pi_department            MGH: 400/1,101

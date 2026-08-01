@@ -8,7 +8,7 @@
     python3 run_pipeline.py harvest     collect PubMed affiliation evidence (slow, cached)
     python3 run_pipeline.py surgery     publication-derived department + NIH agreement
     python3 run_pipeline.py biblio      flagship-journal output and citation impact
-    python3 run_pipeline.py mgb         MGH/BWH surgical attribution and context tables
+    python3 run_pipeline.py mgb         departmental totals where NIH codes no department
     python3 run_pipeline.py figures     produce figures
     python3 run_pipeline.py validate    reconciliation and QC checks
     python3 run_pipeline.py all         everything, in order
@@ -83,8 +83,19 @@ def main(argv: list[str]) -> int:
         steps.append("surgery")
 
     if stage in ("mgb", "all"):
-        # Requires the PubMed harvest, which is slow and cached under
-        # data/interim. Run `python3 run_pipeline.py harvest` first.
+        # Departmental totals for recipients NIH does not department-code, from
+        # the validated per-investigator majority rule (see pi_department.py).
+        from rankmgb import mgb_context, pi_department
+
+        if not (PROCESSED / "pi_departments.parquet").exists():
+            raise SystemExit("run the pi-departments profiling before the mgb stage")
+        pi_department.summarise_surgery(cfg)
+        mgb_context.build_all(cfg)
+        steps.append("mgb")
+
+    if stage == "mgb_legacy":
+        # The superseded per-award evidence rule, kept runnable so the change in
+        # method can be reproduced and compared rather than just asserted.
         from rankmgb import mgb_context, mgb_surgery
 
         df, pis = _load_processed()
@@ -95,7 +106,7 @@ def main(argv: list[str]) -> int:
         res = mgb_surgery.attribute(df, pis, pub)
         mgb_surgery.summarise(res["attribution"], cfg)
         mgb_context.build_all(cfg)
-        steps.append("mgb")
+        steps.append("mgb_legacy")
 
     if stage == "harvest":
         from rankmgb import pubmed_evidence

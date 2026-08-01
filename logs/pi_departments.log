@@ -2,3 +2,12 @@
 2026-08-01 06:19:35,713 INFO    pi_department            MGH: 200/1,101
 2026-08-01 06:23:51,651 INFO    pi_department            MGH: 400/1,101
 2026-08-01 06:28:32,821 INFO    pi_department            MGH: 600/1,101
+2026-08-01 06:32:46,511 INFO    pi_department            MGH: 800/1,101
+2026-08-01 06:36:54,051 INFO    pi_department            MGH: 1,000/1,101
+2026-08-01 06:39:29,378 INFO    pi_department          MGH: 1,101 investigators, 67 surgical by majority rule
+2026-08-01 06:39:29,403 INFO    pi_department          BWH: profiling 677 investigators
+2026-08-01 06:43:40,020 INFO    pi_department            BWH: 200/677
+2026-08-01 06:47:56,489 INFO    pi_department            BWH: 400/677
+2026-08-01 06:52:10,809 INFO    pi_department            BWH: 600/677
+2026-08-01 06:54:02,168 INFO    pi_department          BWH: 677 investigators, 46 surgical by majority rule
+2026-08-01 06:54:02,185 INFO    pi_department          wrote pi_departments.parquet: 1,778 rows

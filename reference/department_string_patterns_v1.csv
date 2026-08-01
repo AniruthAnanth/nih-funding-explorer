@@ -21,17 +21,17 @@ priority,pattern,specialty,kind,note,version,effective_date
 50,"(department|dept|division|section)[ .a-z]{0,12}of surgery",GENERAL_AND_UNSPECIFIED_SURGERY,include,,v2,2026-08-01
 51,general surgery,GENERAL_AND_UNSPECIFIED_SURGERY,include,,v2,2026-08-01
 52,surgical (service|department|division),GENERAL_AND_UNSPECIFIED_SURGERY,include,,v2,2026-08-01
-60,\bsurg,OTHER_EXPLICIT_SURGERY,include,Residual catch for explicitly surgical units not matched above,v2,2026-08-01
+53,(center|centre|institute|program|laborator(y|ies)|division|department) (for|of) surgery,OTHER_EXPLICIT_SURGERY,include,"A unit whose head noun is Surgery is a surgery unit, even when the name also carries another field: BWH's Center for Surgery and Public Health sits inside the Department of Surgery. Ranked with the named surgical departments, not with the bare-keyword catch-all at 99.",v2,2026-08-01
 70,\b(cardiolog|interventional cardiolog),INTERNAL_MEDICINE,include,Medicine subspecialty,v2,2026-08-01
 71,\b(gastroenterolog|hepatolog),INTERNAL_MEDICINE,include,Medicine subspecialty,v2,2026-08-01
+72,radiation oncolog,RADIOLOGY_RADONC,include,,v2,2026-08-01
 72,\b(nephrolog|pulmonar|critical care medicine|endocrinolog|rheumatolog|infectious disease|hematolog|geriatric),INTERNAL_MEDICINE,include,Medicine subspecialty,v2,2026-08-01
-73,\b(medical oncolog|oncolog),INTERNAL_MEDICINE,include,Medical oncology unless surgical oncology matched earlier,v2,2026-08-01
-74,"(department|dept|division|section)[ .a-z]{0,12}of (internal )?medicine",INTERNAL_MEDICINE,include,,v2,2026-08-01
-75,\binternal medicine\b,INTERNAL_MEDICINE,include,,v2,2026-08-01
-76,\bpediatric,PEDIATRICS,include,Pediatrics unless pediatric surgery matched earlier,v2,2026-08-01
+74,\b(medical oncolog|oncolog),INTERNAL_MEDICINE,include,Medical oncology unless surgical oncology matched earlier,v2,2026-08-01
+75,"(department|dept|division|section)[ .a-z]{0,12}of (internal )?medicine",INTERNAL_MEDICINE,include,,v2,2026-08-01
+76,\binternal medicine\b,INTERNAL_MEDICINE,include,,v2,2026-08-01
+77,\bpediatric,PEDIATRICS,include,Pediatrics unless pediatric surgery matched earlier,v2,2026-08-01
 77,\bneurolog,NEUROLOGY,include,,v2,2026-08-01
 78,\bpsychiatr|behavioral health,PSYCHIATRY,include,,v2,2026-08-01
-79,radiation oncolog,RADIOLOGY_RADONC,include,,v2,2026-08-01
 80,\bradiolog|nuclear medicine|medical imaging,RADIOLOGY_RADONC,include,,v2,2026-08-01
 81,\bpatholog,PATHOLOGY,include,,v2,2026-08-01
 82,\bdermatolog,DERMATOLOGY,include,,v2,2026-08-01
@@ -48,3 +48,4 @@ priority,pattern,specialty,kind,note,version,effective_date
 93,(biomedical engineering|bioengineering),ENGINEERING,include,,v2,2026-08-01
 94,(school|college|department|dept) of nursing,OTHER_HEALTH_PROF,include,,v2,2026-08-01
 95,\bdent(al|istry),DENTISTRY,include,,v2,2026-08-01
+99,\bsurg,OTHER_EXPLICIT_SURGERY,include,"Residual catch for explicitly surgical units not matched above. Ranked last on purpose: a named department, surgical or otherwise, always wins.",v2,2026-08-01
