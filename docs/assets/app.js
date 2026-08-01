@@ -23,6 +23,21 @@ const LOWER_BOUND_NOTE =
   'Reconstructed from dated PubMed author affiliations. A lower bound, not '
   + 'like-for-like with an NIH department-coded row.';
 
+/* A roll-up row is held out of the ordinary rank because it aggregates rows
+   already in the table. Where it is drawn at its as-a-single-institution
+   position instead, that position is marked everywhere it is printed. */
+const AS_SINGLE_MARK = '§';
+const AS_SINGLE_NOTE =
+  'A roll-up such as Mass General Brigham is held out of the ordinary rank because it aggregates '
+  + 'rows already in the table, and counting it would push every real institution down a place. '
+  + 'Its hollow markers sit instead at the position it would take as a single institution '
+  + 'inserted into that ranking, counted against the non-roll-up population only. The two are '
+  + 'different measurements; the tooltip and the ' + AS_SINGLE_MARK + ' marker in the table say '
+  + 'which one is on screen. A dashed line is a separate fact: a figure reconstructed from '
+  + 'publication affiliations, and a lower bound.';
+const asifMark = () =>
+  `<sup class="asif" title="${esc(AS_SINGLE_NOTE)}">${AS_SINGLE_MARK}</sup>`;
+
 /* A row is reconstructed if the pipeline says so, or if it is one of the MGB
    entities, which are never NIH department-coded. Both tests are kept: the
    flag can be absent from a grain, the org id never is. */
@@ -45,7 +60,10 @@ const MECH_KEYS = [
   ['funding_F', 'F'], ['funding_OTHER', 'Other'],
 ];
 
-const state = { core: null, pairs: {}, sort: {}, expanded: {}, view: {} };
+const state = {
+  core: null, pairs: {}, sort: {}, expanded: {}, view: {},
+  trend: {}, trendReq: {}, trendIx: {},
+};
 
 /* The explorer's whole interface state. Everything here round-trips through
    the location hash, so a view is a URL. */
@@ -70,6 +88,19 @@ const EX = {
   cols: null,
   topn: 20,
   scale: 'lin',
+};
+
+/* The trend view's state, kept apart from the explorer's because the two share
+   no filter and answer different questions. It round-trips through the hash on
+   the same terms. */
+const TR = {
+  grain: 'inst',
+  metric: 'total_funding',
+  axis: 'rank',
+  pool: 250,
+  n: 10,
+  sel: new Set(),
+  dept: new Set(),
 };
 
 const colorFor = id => (state.core && state.core.colors && state.core.colors[id]) || BAR_DEFAULT;
@@ -190,6 +221,18 @@ function cellHTML(c, r, opts, flag, tint, max) {
   if (c.fmt === 'pct') return `<td class="num">${pct(v)}</td>`;
   if (c.fmt === 'ratio') return `<td class="num">${ratio(v)}</td>`;
   if (c.fmt === 'int') return `<td class="num">${int(v)}</td>`;
+  // A rank taken as-a-single-institution is a different measurement from a
+  // peer-set rank, so it carries a footnote marker wherever it is printed.
+  if (c.fmt === 'rank') {
+    if (v == null) return '<td class="num flat">—</td>';
+    return `<td class="num">${int(v)}${c.asifKey && r[c.asifKey] ? asifMark() : ''}</td>`;
+  }
+  if (c.fmt === 'delta') {
+    if (v == null) return '<td class="num flat">—</td>';
+    const n = Number(v);
+    return `<td class="num ${n > 0 ? 'up' : n < 0 ? 'down' : 'flat'}">`
+      + `${n > 0 ? '+' : ''}${int(n)}${c.asifKey && r[c.asifKey] ? asifMark() : ''}</td>`;
+  }
   if (c.fmt === 'name') {
     return `<td class="name${st}"><span class="swatch" style="background:${tint}"></span>${esc(v)}${
       flag ? '<span class="tag lb" title="' + esc(LOWER_BOUND_NOTE) + '">lower bound</span>' : ''}</td>`;
@@ -286,7 +329,8 @@ function renderTable(mountId, rows, spec, opts) {
   const head = (expand ? '<th class="nosort xcol" aria-label="Expand"></th>' : '') + spec.map(c => {
     const s = sortIx[c.key];
     const cls = [c.sortable === false ? 'nosort' : '', c.sticky ? 'sticky' : '',
-      c.fmt === 'money' || c.fmt === 'int' || c.fmt === 'pct' || c.fmt === 'ratio' ? 'r' : ''].filter(Boolean).join(' ');
+      c.fmt === 'money' || c.fmt === 'int' || c.fmt === 'pct' || c.fmt === 'ratio'
+        || c.fmt === 'delta' || c.fmt === 'rank' ? 'r' : ''].filter(Boolean).join(' ');
     const style = c.sticky ? ` style="left:${c.stickyLeft}px"` : '';
     const aria = s ? ` aria-sort="${s.dir === 'asc' ? 'ascending' : 'descending'}"` : '';
     const tab = c.sortable === false ? '' : ' tabindex="0" role="button"';
@@ -617,6 +661,11 @@ function syncControls() {
   set('c-pagesize', String(EX.pageSize));
   set('ex-topn', String(EX.topn));
   set('ex-scale', EX.scale);
+  set('tr-grain', TR.grain);
+  set('tr-metric', TR.metric);
+  set('tr-axis', TR.axis);
+  set('tr-pool', String(TR.pool));
+  set('tr-n', String(TR.n));
   chk('c-rollup', EX.hideRollup);
   chk('c-uncoded', EX.uncoded);
   document.querySelectorAll('input[name="recon"]').forEach(r => { r.checked = r.value === EX.recon; });
@@ -910,6 +959,513 @@ function renderExplorerChart(sorted) {
   });
 }
 
+/* --- trends over time ---------------------------------------------------- */
+
+/* Two per-year files, one row per entity per fiscal year, each carrying both
+   the figure and the rank NIH's own ordering gives it that year. They are
+   large and only one tab needs them, so they are fetched the first time that
+   tab is opened and never again. */
+const TREND_FILES = {
+  inst: 'data/trend_institution.json',
+  pairs: 'data/trend_institution_department.json',
+};
+const TREND_YEARS = [2021, 2022, 2023, 2024, 2025];
+const TREND_METRICS = [
+  'total_funding', 'award_years', 'distinct_projects', 'r01_funding', 'r01_award_years',
+];
+// Running-text forms. Lower-casing METRIC_LABEL mid-sentence would print
+// "r01 funding", which is not what the mechanism is called.
+const TREND_PHRASE = {
+  total_funding: 'total funding', award_years: 'award-years',
+  distinct_projects: 'distinct projects', r01_funding: 'R01 funding',
+  r01_award_years: 'R01 award-years',
+};
+// Departments that exist in the file only as the absence of a department.
+const TREND_NO_DEPT = new Set(['__MISSING__', 'NONE', '']);
+
+/* Fallback series colours for the ~4,970 institutions with no brand colour in
+   core.json. Taken from the published figures rather than invented, so a chart
+   of unbranded institutions still looks like the rest of the site. */
+const SERIES_RAMP = [
+  '#1b3a5c', '#b8352c', '#2e6b4f', '#a8481f', '#2e6b9e', '#7a1f5c',
+  '#4a5967', '#4e9ac4', '#8a7a2e', '#c97c5d', '#6b8f71', '#7fbfd8',
+];
+// Weighted-RGB distance below which two lines read as the same colour.
+const COLOR_MIN_GAP = 85;
+
+const hexToRgb = h => {
+  const s = String(h == null ? '' : h).replace('#', '');
+  const p = s.length === 3
+    ? [s[0] + s[0], s[1] + s[1], s[2] + s[2]]
+    : [s.slice(0, 2), s.slice(2, 4), s.slice(4, 6)];
+  const n = p.map(x => parseInt(x, 16));
+  return n.some(x => Number.isNaN(x)) ? null : n;
+};
+const rgbToHex = a => '#' + a.map(v => {
+  const s = Math.max(0, Math.min(255, Math.round(v))).toString(16);
+  return s.length === 1 ? '0' + s : s;
+}).join('');
+const colorGap = (a, b) => Math.sqrt(
+  2 * (a[0] - b[0]) ** 2 + 4 * (a[1] - b[1]) ** 2 + 3 * (a[2] - b[2]) ** 2);
+// k > 0 mixes toward white, k < 0 toward black.
+const shade = (rgb, k) => rgb.map(v => (k > 0 ? v + (255 - v) * k : v * (1 + k)));
+
+async function loadTrend(grain) {
+  if (state.trend[grain]) return state.trend[grain];
+  if (!state.trendReq[grain]) {
+    state.trendReq[grain] = fetch(TREND_FILES[grain])
+      .then(r => r.json())
+      .then(j => { state.trend[grain] = unpack(j); return state.trend[grain]; })
+      .catch(err => { state.trendReq[grain] = null; throw err; });
+  }
+  return state.trendReq[grain];
+}
+
+const trendKey = (r, grain) => (grain === 'inst'
+  ? r.canonical_org_id
+  : r.canonical_org_id + '||' + (r.nih_org_dept == null ? '' : r.nih_org_dept));
+
+/* One entity per key, with its five years hung off it. Built once per grain. */
+function trendIndex(grain) {
+  if (state.trendIx[grain]) return state.trendIx[grain];
+  const rows = state.trend[grain] || [];
+  const map = new Map();
+  const denom = {};
+  rows.forEach(r => {
+    if (r.n_ranked != null) denom[r.fiscal_year] = r.n_ranked;
+    if (grain === 'pairs' && TREND_NO_DEPT.has(r.nih_org_dept)) return;
+    const k = trendKey(r, grain);
+    let e = map.get(k);
+    if (!e) {
+      const name = r.display_name || r.canonical_org_id;
+      e = {
+        key: k,
+        canonical_org_id: r.canonical_org_id,
+        nih_org_dept: grain === 'inst' ? null : r.nih_org_dept,
+        specialty: r.specialty || null,
+        display_name: name,
+        label: grain === 'inst' ? name : name + ' — ' + r.nih_org_dept,
+        org_country: r.org_country,
+        is_rollup: r.is_rollup,
+        years: {},
+      };
+      map.set(k, e);
+    }
+    e.years[r.fiscal_year] = r;
+  });
+  state.trendIx[grain] = { map, list: Array.from(map.values()), denom };
+  return state.trendIx[grain];
+}
+
+/* The standing to plot for one entity in one year, and which of the two
+   measurements it came from.
+
+   A roll-up is held out of the ordinary rank on purpose: it aggregates rows
+   that are already in the table, so counting it would push every real
+   institution down a place. `rank_*_if_single_entity` answers the other
+   question — where the aggregate would sit if it were one institution
+   inserted into that ranking — counted against the non-roll-up population
+   only. The two are different measurements and are never presented as one.
+
+   The pipeline also emits the as-single column on rows that are not roll-ups
+   at the institution-department grain (MISCELLANEOUS departments, and rows
+   with no department code), where that reading does not hold. It is therefore
+   taken only where the row is genuinely a roll-up. */
+function trendStanding(e, y, metric) {
+  const r = e.years[y];
+  if (!r) return null;
+  const peer = r['rank_' + metric];
+  if (peer != null) return { rank: Number(peer), asSingle: false, n: r.n_ranked };
+  if (r.is_rollup === 1) {
+    const solo = r['rank_' + metric + '_if_single_entity'];
+    if (solo != null) return { rank: Number(solo), asSingle: true, n: r.n_ranked };
+  }
+  return null;
+}
+
+const trendRank = (e, y, metric) => {
+  const s = trendStanding(e, y, metric);
+  return s ? s.rank : null;
+};
+const trendValue = (e, y, metric) => {
+  const r = e.years[y];
+  const v = r ? r[metric] : null;
+  return v == null ? null : Number(v);
+};
+
+/* The pool a preset draws from: the department filter, then a cut on FY2025
+   standing so "biggest riser" does not just surface churn at the tail of a
+   3,500-row table. */
+function trendPool(ix) {
+  let list = ix.list;
+  if (TR.grain === 'pairs' && TR.dept.size) {
+    list = list.filter(e => TR.dept.has(e.nih_org_dept));
+  }
+  return list;
+}
+
+function applyTrendPreset(kind) {
+  if (kind === 'clear') { TR.sel.clear(); return; }
+  if (!state.trend[TR.grain]) { toast('Still loading the per-year file.'); return; }
+  const ix = trendIndex(TR.grain);
+  const m = TR.metric;
+  const last = TREND_YEARS[TREND_YEARS.length - 1];
+  const first = TREND_YEARS[0];
+  let list = trendPool(ix).filter(e => trendRank(e, last, m) != null);
+  if (TR.pool) list = list.filter(e => trendRank(e, last, m) <= TR.pool);
+
+  let picked;
+  if (kind === 'top') {
+    picked = list.slice().sort((a, b) => trendRank(a, last, m) - trendRank(b, last, m));
+  } else {
+    const moved = list.filter(e => trendRank(e, first, m) != null).map(e => ({
+      e, d: trendRank(e, first, m) - trendRank(e, last, m),
+    }));
+    moved.sort((a, b) => (kind === 'risers' ? b.d - a.d : a.d - b.d));
+    picked = moved
+      .filter(x => (kind === 'risers' ? x.d > 0 : x.d < 0))
+      .map(x => x.e);
+  }
+  TR.sel = new Set(picked.slice(0, TR.n).map(e => e.key));
+  if (!TR.sel.size) toast('Nothing in that pool moved that way. Widen the pool.');
+}
+
+/* One drawable series per selected entity, ordered by final-year standing so
+   the colour assignment and the legend agree with the chart top to bottom. */
+function trendSelected() {
+  const ix = trendIndex(TR.grain);
+  const m = TR.metric;
+  const last = TREND_YEARS[TREND_YEARS.length - 1];
+  const out = [];
+  TR.sel.forEach(k => { const e = ix.map.get(k); if (e) out.push(e); });
+  out.sort((a, b) => {
+    const ra = trendRank(a, last, m), rb = trendRank(b, last, m);
+    if (ra != null && rb != null && ra !== rb) return ra - rb;
+    if (ra != null && rb == null) return -1;
+    if (ra == null && rb != null) return 1;
+    const va = trendValue(a, last, m) || 0, vb = trendValue(b, last, m) || 0;
+    if (va !== vb) return vb - va;
+    return a.label.localeCompare(b.label);
+  });
+
+  // Brand colour first. But six of the ten best-funded US institutions brand
+  // themselves in near-identical navy, and six navy lines crossing each other
+  // is not a chart. Where two would collide the second is lightened or
+  // darkened until it separates, which keeps the identity and the legibility.
+  const used = [];
+  const take = hex => {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return null;
+    if (!used.some(u => colorGap(u, rgb) < COLOR_MIN_GAP)) { used.push(rgb); return hex; }
+    const tries = [0.3, -0.35, 0.5];
+    for (let i = 0; i < tries.length; i++) {
+      const c = shade(rgb, tries[i]);
+      if (!used.some(u => colorGap(u, c) < COLOR_MIN_GAP)) { used.push(c); return rgbToHex(c); }
+    }
+    return null;
+  };
+  out.forEach((e, i) => {
+    const brand = (state.core && state.core.colors && state.core.colors[e.canonical_org_id]) || null;
+    let c = brand ? take(brand) : null;
+    let h = i;
+    for (let j = 0; j < e.key.length; j++) h = (h * 31 + e.key.charCodeAt(j)) >>> 0;
+    for (let k = 0; k < SERIES_RAMP.length && !c; k++) {
+      c = take(SERIES_RAMP[(h + k) % SERIES_RAMP.length]);
+    }
+    e._color = c || brand || SERIES_RAMP[h % SERIES_RAMP.length];
+  });
+  return out;
+}
+
+/* Row objects for the table and the export. Both the short display keys and
+   long self-describing keys are carried, so a downloaded CSV says
+   rank_2021 rather than r_2021 without the table needing to know. */
+function trendTableRows(entities) {
+  const m = TR.metric;
+  return entities.map(e => {
+    const row = {
+      canonical_org_id: e.canonical_org_id,
+      nih_org_dept: e.nih_org_dept,
+      label: e.label,
+      metric: m,
+      _color: e._color,
+    };
+    TREND_YEARS.forEach(y => {
+      const st = trendStanding(e, y, m);
+      const rk = st ? st.rank : null;
+      const v = trendValue(e, y, m);
+      const r = e.years[y];
+      row['r_' + y] = rk;
+      row['s_' + y] = !!(st && st.asSingle);
+      row['v_' + y] = v;
+      row['rank_' + y] = rk;
+      row['rank_basis_' + y] = rk == null ? '' : (st.asSingle ? 'as_single_entity' : 'peer_set');
+      row[m + '_' + y] = v;
+      row['n_ranked_' + y] = r ? r.n_ranked : null;
+    });
+    const a = row.r_2021, b = row.r_2025;
+    row.d_rank = (a == null || b == null) ? null : a - b;
+    row.d_asif = row.d_rank != null && (row.s_2021 || row.s_2025);
+    row.rank_change_2021_2025 = row.d_rank;
+    return row;
+  });
+}
+
+function trendChipsHTML() {
+  const ix = trendIndex(TR.grain);
+  const out = [];
+  const add = (kind, val, label) =>
+    out.push(`<button type="button" class="chip" data-kind="${kind}" data-v="${esc(val)}">`
+      + `${esc(label)}<span class="x" aria-hidden="true">×</span>`
+      + `<span class="vis-hidden"> — stop following this</span></button>`);
+  TR.dept.forEach(d => add('dept', d, 'Dept: ' + d));
+  TR.sel.forEach(k => {
+    const e = ix.map.get(k);
+    add('sel', k, e ? e.label : k);
+  });
+  if (!out.length) return '<span class="chip-none">Nothing followed yet. Try a preset.</span>';
+  return out.join('')
+    + '<button type="button" class="chip clear" id="tr-chip-clear">Clear all</button>';
+}
+
+let trBusy = false;
+
+async function renderTrends() {
+  if (trBusy) return;
+  const grain = TR.grain;
+  document.getElementById('tfb-dept').hidden = grain !== 'pairs';
+  document.getElementById('tfb-inst').className = 'fbox ' + (grain === 'pairs' ? 'span2' : 'span4');
+  document.getElementById('tr-inst-t').textContent =
+    grain === 'pairs' ? 'Follow these institution–department pairs' : 'Follow these institutions';
+
+  if (!state.trend[grain]) {
+    document.getElementById('ch-trend').innerHTML =
+      '<p class="emptystate">Loading the per-year file…</p>';
+    const t = document.getElementById('t-trend');
+    t.className = 'loading';
+    t.textContent = 'Loading the per-year file…';
+  }
+
+  trBusy = true;
+  try {
+    await loadTrend(grain);
+  } catch (err) {
+    document.getElementById('ch-trend').innerHTML =
+      `<p class="emptystate">Could not load ${esc(TREND_FILES[grain])}.</p>`;
+    trBusy = false;
+    return;
+  }
+  trBusy = false;
+  if (TR.grain !== grain) { renderTrends(); return; }
+
+  const ix = trendIndex(grain);
+  const m = TR.metric;
+
+  if (grain === 'pairs') {
+    const counts = new Map();
+    ix.list.forEach(e => counts.set(e.nih_org_dept, (counts.get(e.nih_org_dept) || 0) + 1));
+    const dopts = Array.from(counts.keys()).sort()
+      .map(v => ({ value: v, label: v, n: counts.get(v) }));
+    document.getElementById('n-tr-dept').textContent =
+      TR.dept.size ? `${TR.dept.size} of ${dopts.length}` : `${dopts.length} available`;
+    multiSelect('ms-tr-dept', {
+      options: dopts, selected: TR.dept, placeholder: 'Filter departments…',
+      onChange: renderTrends,
+    });
+  }
+
+  // Ordered by final-year standing rather than alphabetically: a list of 5,007
+  // institutions in A–Z order opens on noise, and the filter box is there for
+  // anyone who knows the name they want.
+  const finalYear = TREND_YEARS[TREND_YEARS.length - 1];
+  const iopts = trendPool(ix).map(e => {
+    const rk = trendRank(e, finalYear, m);
+    return { value: e.key, label: e.label, n: rk, rk };
+  }).sort((a, b) => {
+    if (a.rk != null && b.rk != null && a.rk !== b.rk) return a.rk - b.rk;
+    if (a.rk != null && b.rk == null) return -1;
+    if (a.rk == null && b.rk != null) return 1;
+    return a.label.localeCompare(b.label);
+  });
+  document.getElementById('n-tr-inst').textContent =
+    TR.sel.size ? `${TR.sel.size} followed of ${int(iopts.length)}` : `${int(iopts.length)} available`;
+  multiSelect('ms-tr-inst', {
+    options: iopts, selected: TR.sel, cap: 250,
+    placeholder: grain === 'pairs' ? 'Filter pairs…' : 'Filter institutions…',
+    onChange: renderTrends,
+  });
+
+  document.getElementById('tr-chips').innerHTML = trendChipsHTML();
+
+  const entities = trendSelected();
+  const rows = trendTableRows(entities);
+  const label = (METRIC_LABEL[m] || m);
+  const f = fmtFn(fmtFor(m));
+  const byRank = TR.axis === 'rank';
+
+  // Two different absences. An entity that resolves to nothing in any year has
+  // no standing of either kind and genuinely cannot be drawn on a rank axis; a
+  // roll-up resolves to its as-a-single-institution position and is drawn.
+  const unranked = entities.filter(e =>
+    TREND_YEARS.every(y => trendStanding(e, y, m) == null)).length;
+  const asSingle = entities.filter(e =>
+    TREND_YEARS.some(y => { const s = trendStanding(e, y, m); return s && s.asSingle; })).length;
+
+  const phrase = TREND_PHRASE[m] || label.toLowerCase();
+  document.getElementById('tr-ch-title').textContent = byRank
+    ? `Rank by ${phrase}, FY2021 to FY2025`
+    : `${label}, FY2021 to FY2025`;
+  document.getElementById('tr-ch-sub').textContent =
+    `${entities.length} ${grain === 'pairs' ? 'institution–department pair' : 'institution'}`
+    + `${entities.length === 1 ? '' : 's'} followed · `
+    + (byRank
+      ? 'rank 1 at the top, so a line rising on the page is an institution moving up the table'
+      : 'the figure itself, so a line rising on the page is an institution growing')
+    + (byRank && asSingle
+      ? ` · ${asSingle} roll-up${asSingle === 1 ? '' : 's'} drawn with hollow markers at the `
+        + 'position it would take as a single institution, which is not a peer-set rank'
+      : '')
+    + (unranked
+      ? ` · ${unranked} of them carries no rank of either kind and is drawn only on the value axis`
+      : '')
+    + ' · hover a point for the year, the rank, the denominator and the figure';
+
+  const noteEl = document.getElementById('tr-note-rank');
+  if (noteEl) {
+    const parts = [];
+    if (byRank && asSingle) parts.push(AS_SINGLE_NOTE);
+    if (unranked) {
+      parts.push('A row NIH holds outside the ranked table — no department code, or a residual '
+        + 'category such as MISCELLANEOUS — has no rank of either kind. It carries a figure, so '
+        + 'it appears on the value axis and breaks on the rank axis.');
+    }
+    noteEl.textContent = parts.join(' ');
+  }
+
+  RMGBCharts.bumpChart(document.getElementById('ch-trend'), entities.map(e => ({
+    key: e.key,
+    label: e.label,
+    color: e._color,
+    dashed: isRecon(e),
+    points: TREND_YEARS.map(y => {
+      const st = trendStanding(e, y, m);
+      const rk = st ? st.rank : null;
+      const v = trendValue(e, y, m);
+      const r = e.years[y];
+      const n = r && r.n_ranked != null ? r.n_ranked : ix.denom[y];
+      const basis = st && st.asSingle ? ' — as a single institution' : ' ranked';
+      const tip = `<strong>${esc(e.label)}</strong><br>FY${y}`
+        + (rk != null
+          ? `<br><span class="tipv">#${int(rk)}</span> of ${int(n)}${basis}`
+          : (r
+            ? '<br><em>No rank of either kind this year — NIH holds this row outside the ranked '
+              + 'table</em>'
+            : '<br><em>No figure at all this year</em>'))
+        + (v != null ? `<br>${esc(label)}: <span class="tipv">${esc(f(v))}</span>` : '')
+        + (st && st.asSingle
+          ? '<br><em>A roll-up is held out of the peer-set rank because it aggregates rows already '
+            + 'in the table. This is where it would sit inserted as one institution.</em>' : '')
+        + (isRecon(e) ? '<br><em>Reconstructed from publication affiliations — a lower bound</em>' : '');
+      return {
+        x: y,
+        y: byRank ? rk : v,
+        hollow: byRank && !!(st && st.asSingle),
+        tip,
+        aria: rk != null
+          ? `rank ${rk} of ${n}${st.asSingle ? ' as a single institution' : ''}, ${f(v)}`
+          : `not ranked, ${v == null ? 'no figure' : f(v)}`,
+      };
+    }),
+  })), {
+    years: TREND_YEARS,
+    invert: byRank,
+    fmt: f,
+    denoms: byRank ? ix.denom : null,
+    yTitle: byRank ? 'Rank (1 at the top)' : label,
+    legendMount: document.getElementById('lg-trend'),
+    labelW: grain === 'pairs' ? 280 : 220,
+    empty: 'Nothing followed yet. Tick an institution above, or take a preset.',
+    emptyValues: byRank
+      ? 'None of these carries a rank on this measure in any year. NIH ranks only rows it can '
+        + 'attribute; switch the y axis to the metric itself to see the figures.'
+      : 'None of these carries a figure on this measure.',
+  });
+
+  const spec = [{ key: '__rank', label: '#', sortable: false },
+    { key: 'label', label: grain === 'pairs' ? 'Institution — department' : 'Institution', fmt: 'name' }];
+  TREND_YEARS.forEach(y => spec.push({
+    key: 'r_' + y, label: '#FY' + String(y).slice(2), fmt: 'rank', asifKey: 's_' + y,
+  }));
+  spec.push({ key: 'd_rank', label: 'Δ rank 21→25', fmt: 'delta', asifKey: 'd_asif' });
+  TREND_YEARS.forEach(y => spec.push({
+    key: 'v_' + y, label: 'FY' + String(y).slice(2), fmt: fmtFor(m),
+  }));
+
+  // Untouched, the table keeps the chart's order: best FY2025 standing first.
+  // A header click takes over from there.
+  const keys = state.sort['t-trend'];
+  const sorted = (keys && keys.length) ? applySort(rows, 't-trend', 'r_2025') : rows;
+  document.getElementById('tr-count').innerHTML =
+    `<strong>${int(rows.length)}</strong> followed · measured on ${esc(phrase)} · `
+    + '#FY columns carry the rank, FY columns the figure'
+    + (asSingle ? ` · <span class="warnink">${AS_SINGLE_MARK}</span> marks a position taken as a `
+      + 'single institution, not a peer-set rank' : '');
+
+  state.view.trend = {
+    rows: sorted, grain: 'trend_' + grain, period: 'FY2021_FY2025',
+    keys: ['canonical_org_id'].concat(grain === 'pairs' ? ['nih_org_dept'] : [])
+      .concat(['label', 'metric'])
+      .concat(TREND_YEARS.map(y => 'rank_' + y))
+      .concat(TREND_YEARS.map(y => 'rank_basis_' + y))
+      .concat(['rank_change_2021_2025'])
+      .concat(TREND_YEARS.map(y => m + '_' + y))
+      .concat(TREND_YEARS.map(y => 'n_ranked_' + y)),
+  };
+
+  renderTable('t-trend', sorted, spec, {
+    flagFn: r => (isRecon(r) ? 'recon' : null),
+    colorFn: r => r._color || BAR_DEFAULT,
+    onSort: renderTrends,
+    emptyTitle: 'Nothing followed yet.',
+    emptyHint: 'Tick an institution in the panel above, or take one of the presets.',
+  });
+
+  writeHash();
+}
+
+function initTrendControls() {
+  const on = (id, fn) => {
+    const e = document.getElementById(id);
+    if (e) e.addEventListener('change', fn);
+  };
+  on('tr-grain', e => {
+    TR.grain = e.target.value;
+    TR.sel.clear();
+    TR.dept.clear();
+    state.sort['t-trend'] = [];
+    renderTrends();
+  });
+  on('tr-metric', e => { TR.metric = e.target.value; renderTrends(); });
+  on('tr-axis', e => { TR.axis = e.target.value; renderTrends(); });
+  on('tr-pool', e => { TR.pool = Number(e.target.value) || 0; writeHash(); });
+  on('tr-n', e => { TR.n = Number(e.target.value) || 10; writeHash(); });
+
+  document.querySelectorAll('#tr-panel [data-preset]').forEach(b =>
+    b.addEventListener('click', () => {
+      applyTrendPreset(b.dataset.preset);
+      renderTrends();
+    }));
+
+  document.getElementById('tr-chips').addEventListener('click', e => {
+    const c = e.target.closest('.chip');
+    if (!c) return;
+    if (c.id === 'tr-chip-clear') { TR.sel.clear(); TR.dept.clear(); }
+    else if (c.dataset.kind === 'dept') TR.dept.delete(c.dataset.v);
+    else TR.sel.delete(c.dataset.v);
+    renderTrends();
+  });
+}
+
 /* --- export -------------------------------------------------------------- */
 
 function csvCell(v) {
@@ -955,8 +1511,7 @@ function download(text, mime, filename) {
 }
 
 function exportView(kind, which) {
-  const v = which === 'surgery' ? state.view.surgery
-    : which === 'dept' ? state.view.dept : state.view.explorer;
+  const v = state.view[which || 'explorer'] || state.view.explorer;
   if (!v || !v.rows.length) { toast('Nothing to export.'); return; }
   const keys = v.keys || exportCols(v.grain);
   const recs = viewToRecords(v.rows, keys);
@@ -1030,6 +1585,15 @@ function hashParams() {
   if (EX.cols) p.set('cols', Array.from(EX.cols).join('~'));
   if (EX.topn !== 20) p.set('tn', String(EX.topn));
   if (EX.scale !== 'lin') p.set('sc', EX.scale);
+  if (TR.grain !== 'inst') p.set('tg', TR.grain);
+  if (TR.metric !== 'total_funding') p.set('tm', TR.metric);
+  if (TR.axis !== 'rank') p.set('ty', TR.axis);
+  if (TR.pool !== 250) p.set('tp', String(TR.pool));
+  if (TR.n !== 10) p.set('tk', String(TR.n));
+  if (TR.dept.size) p.set('td', j(TR.dept));
+  if (TR.sel.size) p.set('tsel', j(TR.sel));
+  const ts = state.sort['t-trend'];
+  if (ts && ts.length) p.set('tso', ts.map(x => x.key + ':' + x.dir[0]).join('~'));
   const sp = document.getElementById('s-period');
   if (sp && sp.value !== 'FY2021_FY2025') p.set('sp', sp.value);
   const sf = document.getElementById('s-floor');
@@ -1092,6 +1656,18 @@ function readHash() {
   if (p.get('cols')) EX.cols = new Set(p.get('cols').split('~').filter(Boolean));
   if (p.get('tn')) EX.topn = Number(p.get('tn')) || 20;
   if (p.get('sc')) EX.scale = p.get('sc');
+  if (p.get('tg')) TR.grain = p.get('tg') === 'pairs' ? 'pairs' : 'inst';
+  if (TREND_METRICS.indexOf(p.get('tm')) > -1) TR.metric = p.get('tm');
+  if (p.get('ty')) TR.axis = p.get('ty') === 'value' ? 'value' : 'rank';
+  if (p.get('tp') != null) TR.pool = Number(p.get('tp')) || 0;
+  if (p.get('tk')) TR.n = Number(p.get('tk')) || 10;
+  sset('td', TR.dept); sset('tsel', TR.sel);
+  if (p.get('tso')) {
+    state.sort['t-trend'] = p.get('tso').split('~').filter(Boolean).map(t => {
+      const b = t.split(':');
+      return { key: b[0], dir: b[1] === 'a' ? 'asc' : 'desc' };
+    });
+  }
   const put = (id, v) => { const e = document.getElementById(id); if (e && v) e.value = v; };
   put('s-period', p.get('sp')); put('s-floor', p.get('sf'));
   put('s-metric', p.get('sm')); put('d-period', p.get('dp'));
@@ -1597,7 +2173,22 @@ function showTab(id) {
   if (activeTab === 'specialties') renderPairsChart();
   if (activeTab === 'agreement') renderMethodChart();
   if (activeTab === 'coverage') renderCoverageChart();
+  if (activeTab === 'trends') openTrends();
   if (activeTab === 'explorer' && state.view.explorer) renderExplorerChart(state.view.explorer.rows);
+}
+
+/* An empty bump chart teaches nobody anything, so the first time the tab is
+   opened with nothing followed it starts on the default preset. A set that
+   arrived in the URL is left exactly as it came. */
+let trendOpened = false;
+async function openTrends() {
+  const first = !trendOpened;
+  trendOpened = true;
+  await renderTrends();
+  if (first && !TR.sel.size && state.trend[TR.grain]) {
+    applyTrendPreset('top');
+    await renderTrends();
+  }
 }
 
 function initTabs() {
@@ -1731,6 +2322,7 @@ async function boot() {
   state.core = await corePromise;
 
   initExplorerControls();
+  initTrendControls();
   initGlobalButtons();
   initTabs();
 
@@ -1763,6 +2355,7 @@ async function boot() {
       if (activeTab === 'specialties') renderPairsChart();
       if (activeTab === 'agreement') renderMethodChart();
       if (activeTab === 'coverage') renderCoverageChart();
+      if (activeTab === 'trends') renderTrends();
       if (activeTab === 'explorer' && state.view.explorer) renderExplorerChart(state.view.explorer.rows);
     }, 200);
   });
@@ -1782,6 +2375,7 @@ async function boot() {
   if (activeTab === 'specialties') await renderPairsChart();
   if (activeTab === 'agreement') renderMethodChart();
   if (activeTab === 'coverage') renderCoverageChart();
+  if (activeTab === 'trends') await openTrends();
 
   document.getElementById('gen').textContent =
     ' Generated ' + String(state.core.generated_at).slice(0, 10) + '.';

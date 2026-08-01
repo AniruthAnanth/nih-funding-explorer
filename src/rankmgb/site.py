@@ -25,6 +25,7 @@ SITE_FIGS = SITE / "figures"
 PERIODS = ["FY2025", "FY2024_FY2025", "FY2021_FY2025"]
 
 PAIR_COLS = [
+    "rank_total_funding", "rank_total_funding_if_single_entity", "n_ranked",
     "canonical_org_id", "canonical_name", "display_name", "org_country", "nih_org_dept", "specialty",
     "total_funding", "award_years", "distinct_projects", "r01_funding", "r01_award_years",
     "m_award_years", "funded_investigators", "funding_R01", "funding_R_OTHER", "funding_U",
@@ -34,6 +35,7 @@ PAIR_COLS = [
     "meets_intensity_floor", "is_reconstructed",
 ]
 INST_COLS = [
+    "rank_total_funding", "rank_total_funding_if_single_entity", "n_ranked",
     "canonical_org_id", "canonical_name", "display_name", "org_country", "total_funding", "award_years",
     "distinct_projects", "r01_funding", "r01_award_years", "m_award_years",
     "funded_investigators", "funding_R01", "funding_R_OTHER", "funding_U", "funding_P",
@@ -54,13 +56,23 @@ DEPT_COLS = [
 def _pack(df: pd.DataFrame, cols: list[str]) -> dict:
     cols = [c for c in cols if c in df.columns]
     sub = df[cols].copy()
+    # Dollars and counts are whole numbers and rounding them keeps the payload
+    # small. Everything else is a rate, a ratio or a statistic, where rounding to
+    # zero decimals destroys the value: Cohen's kappa of 0.267 became 0.0 that
+    # way, and mean RCR of 2.24 became 2.0. Round by what the number *is*, not by
+    # a list of exceptions that a new column silently falls off.
+    WHOLE_PREFIXES = ("funding", "total_funding", "r01_funding", "direct", "indirect")
+    WHOLE_EXACT = {
+        "total_citations", "papers", "award_years", "distinct_projects",
+        "funded_investigators", "mean_award_size", "funding_per_project",
+        "funding_per_investigator", "r01_funding_per_investigator",
+        "r01_award_years", "m_award_years", "comparable_award_years",
+        "nih_surgical", "pub_surgical", "both", "nih_only", "publication_only",
+    }
     for c in sub.columns:
         if sub[c].dtype.kind == "f":
-            # Ratio columns are NaN where the denominator was zero. Round to
-            # whole units but keep the null, so the site shows an em dash rather
-            # than a fabricated zero.
-            keep_decimals = c in ("projects_per_investigator", "r01_share_of_funding")
-            vals = sub[c] if keep_decimals else sub[c].round(0)
+            whole = c in WHOLE_EXACT or c.startswith(WHOLE_PREFIXES)
+            vals = sub[c].round(0) if whole else sub[c].round(3)
             sub[c] = vals.astype(object).where(sub[c].notna(), None)
         elif sub[c].dtype == bool:
             sub[c] = sub[c].astype(int)
@@ -187,6 +199,32 @@ def build() -> None:
                  "papers_Ann Surg", "papers_JAMA Surg", "total_citations",
                  "citations_per_paper", "median_citations", "mean_rcr"],
             )
+
+    # Per-year trajectories. Emitted as their own files: the pair-level trend is
+    # 32k rows and only the trend chart needs it.
+    TREND_COLS = [
+        "fiscal_year", "canonical_org_id", "display_name", "org_country", "is_rollup",
+        "total_funding", "award_years", "distinct_projects", "r01_funding",
+        "r01_award_years", "funded_investigators", "funding_per_investigator",
+        "mean_award_size", "r01_share_of_funding",
+        "rank_total_funding", "rank_award_years", "rank_distinct_projects",
+        "rank_r01_funding", "rank_r01_award_years", "is_ranked", "n_ranked",
+        # Roll-ups are excluded from the peer-set rank but carry the rank they
+        # would take if inserted into it as a single institution.
+        "rank_total_funding_if_single_entity", "rank_award_years_if_single_entity",
+        "rank_distinct_projects_if_single_entity", "rank_r01_funding_if_single_entity",
+        "rank_r01_award_years_if_single_entity",
+    ]
+    for grain in ("institution", "institution_department"):
+        src = TABLES / f"trend_{grain}.csv"
+        if not src.exists():
+            continue
+        t = pd.read_csv(src)
+        t = t[~t.canonical_org_id.isin(("MGH", "BWH", "MGB_SYSTEM"))]
+        cols = TREND_COLS + (["nih_org_dept", "specialty"] if grain != "institution" else [])
+        dst = SITE_DATA / f"trend_{grain}.json"
+        dst.write_text(json.dumps(_pack(t, cols), separators=(",", ":")))
+        log.info("wrote %s (%.1f MB)", dst.relative_to(ROOT), dst.stat().st_size / 1e6)
 
     colors = pd.read_csv(REFERENCE / "institution_colors_v1.csv")
     payload["colors"] = dict(zip(colors.canonical_org_id, colors.color))

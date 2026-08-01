@@ -258,6 +258,7 @@ select:focus, input:focus { outline: 2px solid var(--ink); outline-offset: -1px;
   min-width: 0;
 }
 .fbox.span2 { grid-column: span 2; }
+.fbox.span4 { grid-column: 1 / -1; }
 .fbox[hidden] { display: none; }
 .fbox-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 7px; }
 .fbox-n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); white-space: nowrap; }
@@ -412,6 +413,11 @@ thead th.sticky { z-index: 4; }
 tbody td { padding: 7px 10px; border-bottom: 1px solid var(--rule-soft); vertical-align: middle; }
 tbody tr:hover > td { background: var(--hover); }
 td.num { font-family: var(--mono); text-align: right; white-space: nowrap; font-size: 13px; }
+/* A movement up the table is a fall in the rank number, so the colour, not the
+   sign, is what a reader scans. */
+td.num.up { color: var(--ok); }
+td.num.down { color: var(--mgh); }
+td.num.flat { color: var(--ink-faint); }
 td.rk { font-family: var(--mono); color: var(--ink-faint); text-align: right; width: 46px; }
 td.name { min-width: 250px; }
 td.dept { color: var(--ink-soft); font-size: 12.5px; white-space: nowrap; }
@@ -435,6 +441,13 @@ tr.isopen > td { border-bottom-color: var(--rule); }
   white-space: nowrap;
 }
 .tag.lb { border-color: var(--flag); color: var(--flag); }
+
+/* Footnote marker on a rank that is an as-a-single-institution position rather
+   than a peer-set rank. */
+sup.asif {
+  font-family: var(--mono); font-size: 9px; color: var(--flag);
+  margin-left: 2px; cursor: help; vertical-align: super; line-height: 0;
+}
 
 /* Inline bar in the ranked table. The track carries the width so the column
    has an intrinsic size; an empty percentage-width span would collapse to
@@ -523,6 +536,15 @@ tr.isopen > td { border-bottom-color: var(--rule); }
 .chart .barrow:focus text.barlabel { text-decoration: underline; }
 .chart .barrow:focus rect.hitrow { fill: #e4ebf1; }
 .chart rect { cursor: default; }
+
+/* Rank trajectories. Hovering one line drops the others back rather than
+   hiding them, so a crossing stays readable without losing its context. */
+.chart text.bumplabel { font-family: var(--sans); font-size: 11.5px; font-weight: 500; }
+.chart svg.bump .series { transition: opacity .12s ease; }
+.chart svg.bump.hot .series { opacity: .16; }
+.chart svg.bump.hot .series.on { opacity: 1; }
+.chart svg.bump .bumpdot:focus { outline: none; }
+.chart svg.bump .bumpdot:focus circle.hitdot { fill: rgba(22, 32, 42, .1); }
 .chart .emptystate {
   font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint);
   padding: 34px 18px; text-align: center; margin: 0;

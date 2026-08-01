@@ -57,7 +57,10 @@ def build_person_evidence(pub: pd.DataFrame) -> pd.DataFrame:
         f"{int(pub.specialty.notna().sum()):,}",
     )
 
-    surg = pub[pub.specialty.notna()].copy()
+    # The classifier now labels non-surgical departments too, so "has a label"
+    # no longer means "is surgical". Filtering on NARROW is what keeps a
+    # Department of Medicine affiliation out of the surgical evidence set.
+    surg = pub[pub.specialty.isin(NARROW)].copy()
     keys = [_name_key(l, f) for l, f in zip(surg.last_name, surg.fore_name)]
     surg["last_key"] = [k[0] for k in keys]
     surg["first_initial"] = [k[1] for k in keys]

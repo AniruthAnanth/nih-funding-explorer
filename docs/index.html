@@ -33,6 +33,7 @@
 <nav>
   <div class="wrap" role="tablist" aria-label="Sections">
     <button role="tab" id="tab-explorer"    aria-controls="explorer"    aria-selected="true"  tabindex="0"  data-tab="explorer">Explorer</button>
+    <button role="tab" id="tab-trends"      aria-controls="trends"      aria-selected="false" tabindex="-1" data-tab="trends">Trends over time</button>
     <button role="tab" id="tab-surgery"     aria-controls="surgery"     aria-selected="false" tabindex="-1" data-tab="surgery">Departments of surgery</button>
     <button role="tab" id="tab-specialties" aria-controls="specialties" aria-selected="false" tabindex="-1" data-tab="specialties">All specialties</button>
     <button role="tab" id="tab-agreement"   aria-controls="agreement"   aria-selected="false" tabindex="-1" data-tab="agreement">Method agreement</button>
@@ -255,6 +256,135 @@
       </div>
       <div class="chart" id="ex-chart"></div>
     </div>
+  </section>
+
+  <!-- ================= TRENDS OVER TIME ================= -->
+  <section id="trends" role="tabpanel" aria-labelledby="tab-trends" tabindex="-1">
+    <h2 class="head">Trends over time</h2>
+    <p class="note">
+      One line per institution you choose, FY2021 to FY2025. Read it two ways. Plotted as a
+      <strong>rank</strong> it answers whether an institution is moving up the table; plotted as
+      the <strong>raw figure</strong> it answers whether it is growing. Those two questions have
+      different answers whenever the table itself moves, which is why both are here.
+    </p>
+
+    <form class="panel" id="tr-panel" autocomplete="off" onsubmit="return false;">
+      <div class="panel-line">
+        <div class="field">
+          <label for="tr-grain">Grain</label>
+          <select id="tr-grain">
+            <option value="inst" selected>Institution</option>
+            <option value="pairs">Institution × department</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="tr-metric">Rank by</label>
+          <select id="tr-metric">
+            <option value="total_funding" selected>Total funding</option>
+            <option value="award_years">Award-years</option>
+            <option value="distinct_projects">Distinct projects</option>
+            <option value="r01_funding">R01 funding</option>
+            <option value="r01_award_years">R01 award-years</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="tr-axis">Y axis</label>
+          <select id="tr-axis">
+            <option value="rank" selected>Rank — 1 at the top</option>
+            <option value="value">The metric itself</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="tr-pool">Presets draw from</label>
+          <select id="tr-pool">
+            <option value="50">The FY2025 top 50</option>
+            <option value="100">The FY2025 top 100</option>
+            <option value="250" selected>The FY2025 top 250</option>
+            <option value="500">The FY2025 top 500</option>
+            <option value="0">Everything ranked</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="tr-n">Lines per preset</label>
+          <select id="tr-n">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+        <div class="field grow">
+          <label id="tr-preset-lbl">Quick presets</label>
+          <span class="btnrow" role="group" aria-labelledby="tr-preset-lbl">
+            <button type="button" class="btn" data-preset="top">Top 10 in the final year</button>
+            <button type="button" class="btn" data-preset="risers">Biggest risers</button>
+            <button type="button" class="btn" data-preset="fallers">Biggest fallers</button>
+            <button type="button" class="btn" data-preset="clear">Clear</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="panel-grid primary">
+        <div class="fbox span4" id="tfb-inst">
+          <div class="fbox-h">
+            <span class="fbox-t" id="tr-inst-t">Follow these institutions</span>
+            <span class="fbox-n" id="n-tr-inst"></span>
+          </div>
+          <div class="msel" id="ms-tr-inst"></div>
+          <p class="hint">
+            Ordered by FY2025 standing, and the figure beside each name is that rank — blank where
+            NIH gives the row no rank. Type to filter, tick to follow. Every selection is in the
+            URL, so a set of lines can be sent to someone else as a link.
+          </p>
+        </div>
+
+        <div class="fbox span2" id="tfb-dept" hidden>
+          <div class="fbox-h">
+            <span class="fbox-t">Department</span>
+            <span class="fbox-n" id="n-tr-dept"></span>
+          </div>
+          <div class="msel" id="ms-tr-dept"></div>
+          <p class="hint">
+            Narrows both the list beside this one and the presets. Pick <code>SURGERY</code> and
+            take the top ten to follow every large department of surgery at once.
+          </p>
+        </div>
+      </div>
+
+      <div class="chipbar" id="tr-chips"></div>
+    </form>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3 id="tr-ch-title">Rank trajectory</h3>
+          <p class="csub" id="tr-ch-sub"></p>
+        </div>
+        <div class="chart-tools">
+          <button type="button" class="btn" data-chart="ch-trend" data-fmt="png" data-name="nih_rank_trajectory">PNG</button>
+          <button type="button" class="btn" data-chart="ch-trend" data-fmt="svg" data-name="nih_rank_trajectory">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-trend"><p class="emptystate">Pick an institution above.</p></div>
+      <div class="legend" id="lg-trend"></div>
+      <p class="chartnote" id="tr-note">
+        The number of ranked entities changes every year, printed under each fiscal year and
+        repeated in every tooltip. Read the two together: 40th of 2,711 one year and 40th of 2,587
+        another are not the same position, and a table that shrinks moves everyone in it who has
+        not moved. A break in a line is a year with no ranked figure, never a zero.
+        <span id="tr-note-rank"></span>
+      </p>
+    </div>
+
+    <div class="tablebar">
+      <div class="count" id="tr-count"></div>
+      <div class="tablebar-r">
+        <button type="button" class="btn" data-export="csv" data-table="trend">CSV</button>
+        <button type="button" class="btn" data-export="json" data-table="trend">JSON</button>
+        <button type="button" class="btn" data-export="copy" data-table="trend">Copy</button>
+      </div>
+    </div>
+    <div class="tablewrap"><div id="t-trend" class="loading">Pick an institution above.</div></div>
   </section>
 
   <!-- ================= DEPARTMENTS OF SURGERY ================= -->

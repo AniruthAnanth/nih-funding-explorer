@@ -178,6 +178,27 @@ def _add_ranks(agg: pd.DataFrame, grain: str) -> pd.DataFrame:
         agg.funding_per_investigator.where(big).rank(ascending=False, method="min")
     )
 
+    # A roll-up is excluded from the peer-set rank above because it aggregates
+    # rows that are already in the table, and counting it would push every real
+    # institution down a place. But "where would Mass General Brigham sit if it
+    # were a single institution" is a real question with a defensible answer, so
+    # each roll-up also gets the rank it would take when inserted on its own
+    # into the non-roll-up ranking. Only the roll-up itself is inserted, never
+    # two roll-ups at once, since they overlap.
+    # Only roll-ups get this. `~eligible` also covers rows whose department is a
+    # placeholder, and "where would this sit as a single institution" says
+    # nothing about, say, Michigan's MISCELLANEOUS row: it aggregates nothing.
+    rollup_mask = agg.is_rollup.astype(bool) if "is_rollup" in agg.columns \
+        else pd.Series(False, index=agg.index)
+    for rank_col, metric in ranked_metrics.items():
+        peer = agg.loc[eligible, metric]
+        as_single = pd.Series(np.nan, index=agg.index)
+        for i in agg.index[rollup_mask]:
+            v = agg.at[i, metric]
+            if pd.notna(v):
+                as_single.at[i] = int((peer > v).sum()) + 1
+        agg[rank_col + "_if_single_entity"] = as_single
+
     agg["is_ranked"] = eligible
     agg["n_ranked"] = int(eligible.sum())
     agg["rank_peer_set"] = (
@@ -252,3 +273,42 @@ def build_rankings(df: pd.DataFrame, pis: pd.DataFrame, cfg: dict, ref: dict) ->
             log.info("  wrote %s (%s rows)", path.name, f"{len(agg):,}")
 
     return results
+
+
+def build_trend(df: pd.DataFrame, pis: pd.DataFrame, cfg: dict, ref: dict) -> dict[str, pd.DataFrame]:
+    """Per-fiscal-year tables, so rank can be plotted as a trajectory.
+
+    The three reporting periods are cumulative windows and cannot show movement:
+    FY2021-FY2025 contains FY2025. A trend needs one observation per year, which
+    is what this produces, with the rank recomputed within each year against the
+    same peer set the period tables use.
+    """
+    pis = _pi_key(pis)
+    df = _prepare_metric_columns(_apply_rollups(df, ref["rollups"]))
+    out: dict[str, pd.DataFrame] = {}
+
+    grains = {
+        "institution": ["canonical_org_id", "canonical_name", "display_name", "org_country", "is_rollup"],
+        "institution_department": [
+            "canonical_org_id", "canonical_name", "display_name", "org_country",
+            "specialty", "nih_org_dept", "is_rollup",
+        ],
+    }
+    for grain, keys in grains.items():
+        frames = []
+        for fy in sorted(cfg["fiscal_years"]):
+            sub = df[df.fiscal_year == fy]
+            sub_pis = pis[pis.application_id.isin(set(sub.application_id))]
+            agg = _aggregate(sub, sub_pis, keys)
+            agg = agg.sort_values("total_funding", ascending=False).reset_index(drop=True)
+            agg = _add_ranks(agg, grain)
+            agg.insert(0, "fiscal_year", fy)
+            frames.append(agg)
+        tidy = pd.concat(frames, ignore_index=True)
+        path = TABLES / f"trend_{grain}.csv"
+        tidy.to_csv(path, index=False)
+        out[grain] = tidy
+        log.info(
+            "  wrote %s (%s rows, %d years)", path.name, f"{len(tidy):,}", tidy.fiscal_year.nunique()
+        )
+    return out

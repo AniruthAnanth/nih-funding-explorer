@@ -56,6 +56,7 @@ def main(argv: list[str]) -> int:
         df, pis = _load_processed()
         ref = annotate.load_reference(cfg)
         rank.build_rankings(df, pis, cfg, ref)
+        rank.build_trend(df, pis, cfg, ref)
         steps.append("rank")
 
     if stage in ("affiliation", "all"):

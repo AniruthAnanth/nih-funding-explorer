@@ -1,0 +1,15 @@
+sample: 300 PI-institution pairs (150 NIH-surgical, 150 not)
+  40/300 ... 27 with evidence
+  80/300 ... 63 with evidence
+  120/300 ... 92 with evidence
+  200/300 ... 119 with evidence
+  280/300 ... 129 with evidence
+
+resolved 132 of 300 sampled PIs
+
+rule                                   n   sens%   prec%   kappa
+ANY surgical paper                   132   100.0    90.0   0.214
+modal dept is surgical               132    99.1    89.9   0.192
+surgical share > 50%                 132    99.1    89.9   0.192
+surgical share > 70%                 132    99.1    89.9   0.192
+share>50% and >=3 records            132    68.4    92.0   0.116

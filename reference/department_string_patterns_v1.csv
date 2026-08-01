@@ -1,24 +1,50 @@
 priority,pattern,specialty,kind,note,version,effective_date
-10,surgical patholog,PATHOLOGY,exclude,"""Surgical pathology is a pathology unit; the word surgical must not trigger a surgical classification""",v1,2026-08-01
-11,anesthesi,ANESTHESIOLOGY,exclude,Perioperative not surgical,v1,2026-08-01
-12,surgical (intensive care|icu) nursing,OTHER_HEALTH_PROF,exclude,Nursing unit,v1,2026-08-01
-13,oral (and |and-)?maxillofacial,DENTISTRY,exclude,"""Not separable from dentistry under the Section 7 rules""",v1,2026-08-01
-20,neuro(logical )?surg,NEUROSURGERY,include,,v1,2026-08-01
-21,(cardiac|cardiothoracic|cardiovascular|thoracic)[ -]+surg,CARDIAC_CARDIOTHORACIC_SURGERY,include,,v1,2026-08-01
-22,(endo)?vascular[ -]+surg,VASCULAR_SURGERY,include,,v1,2026-08-01
-23,transplant(ation)?[ -]+surg,TRANSPLANT_SURGERY,include,,v1,2026-08-01
-24,abdominal transplant,TRANSPLANT_SURGERY,include,,v1,2026-08-01
-25,surgical oncolog,SURGICAL_ONCOLOGY,include,,v1,2026-08-01
-26,"(acute care surg|surgical critical care|trauma[, ]+(burn[s]?[, ]+)?(and )?(acute care )?surg)",TRAUMA_ACUTE_CARE_SURGERY,include,,v1,2026-08-01
-27,(colorectal|colon and rectal)[ -]+surg,COLORECTAL_SURGERY,include,,v1,2026-08-01
-28,pediatric[ -]+surg,PEDIATRIC_SURGERY,include,,v1,2026-08-01
-29,\borthop(a)?edic,ORTHOPEDIC_SURGERY,include,,v1,2026-08-01
-30,"(plastic|reconstructive)[ a-z]{0,20}surg",PLASTIC_SURGERY,include,,v1,2026-08-01
-31,(otolaryngolog|head and neck surg|otorhinolaryngolog),OTOLARYNGOLOGY_HNS,include,,v1,2026-08-01
-32,\burolog,UROLOGY,include,,v1,2026-08-01
-40,\bophthalmolog,OPHTHALMIC_SURGERY,include,Broad definition only,v1,2026-08-01
-41,(obstetric|gyn(a)?ecolog),OBGYN,include,Broad definition only,v1,2026-08-01
-50,"(department|dept|division|section)[ .a-z]{0,12}of surgery",GENERAL_AND_UNSPECIFIED_SURGERY,include,,v1,2026-08-01
-51,general surgery,GENERAL_AND_UNSPECIFIED_SURGERY,include,,v1,2026-08-01
-52,surgical (service|department|division),GENERAL_AND_UNSPECIFIED_SURGERY,include,,v1,2026-08-01
-60,\bsurg,OTHER_EXPLICIT_SURGERY,include,"""Residual catch for explicitly surgical units not matched above; lowest priority""",v1,2026-08-01
+10,surgical patholog,PATHOLOGY,include,Pathology unit; the word surgical must not trigger a surgical label,v2,2026-08-01
+11,\banesthesi,ANESTHESIOLOGY,include,"Perioperative, not surgical",v2,2026-08-01
+12,surgical (intensive care|icu) nursing,OTHER_HEALTH_PROF,include,Nursing unit,v2,2026-08-01
+13,oral (and |and-)?maxillofacial,DENTISTRY,include,Not separable from dentistry under the Section 7 rules,v2,2026-08-01
+20,neuro(logical )?surg,NEUROSURGERY,include,,v2,2026-08-01
+21,(cardiac|cardiothoracic|cardiovascular|thoracic)[ -]+surg,CARDIAC_CARDIOTHORACIC_SURGERY,include,,v2,2026-08-01
+22,(endo)?vascular[ -]+surg,VASCULAR_SURGERY,include,,v2,2026-08-01
+23,transplant(ation)?[ -]+surg,TRANSPLANT_SURGERY,include,,v2,2026-08-01
+24,abdominal transplant,TRANSPLANT_SURGERY,include,,v2,2026-08-01
+25,surgical oncolog,SURGICAL_ONCOLOGY,include,,v2,2026-08-01
+26,"(acute care surg|surgical critical care|trauma[, ]+(burn[s]?[, ]+)?(and )?(acute care )?surg)",TRAUMA_ACUTE_CARE_SURGERY,include,,v2,2026-08-01
+27,(colorectal|colon and rectal)[ -]+surg,COLORECTAL_SURGERY,include,,v2,2026-08-01
+28,pediatric[ -]+surg,PEDIATRIC_SURGERY,include,,v2,2026-08-01
+29,\borthop(a)?edic,ORTHOPEDIC_SURGERY,include,,v2,2026-08-01
+30,"(plastic|reconstructive)[ a-z]{0,20}surg",PLASTIC_SURGERY,include,,v2,2026-08-01
+31,(otolaryngolog|head and neck surg|otorhinolaryngolog),OTOLARYNGOLOGY_HNS,include,,v2,2026-08-01
+32,\burolog,UROLOGY,include,,v2,2026-08-01
+40,\bophthalmolog,OPHTHALMIC_SURGERY,include,Broad definition only,v2,2026-08-01
+41,(obstetric|gyn(a)?ecolog),OBGYN,include,Broad definition only,v2,2026-08-01
+50,"(department|dept|division|section)[ .a-z]{0,12}of surgery",GENERAL_AND_UNSPECIFIED_SURGERY,include,,v2,2026-08-01
+51,general surgery,GENERAL_AND_UNSPECIFIED_SURGERY,include,,v2,2026-08-01
+52,surgical (service|department|division),GENERAL_AND_UNSPECIFIED_SURGERY,include,,v2,2026-08-01
+60,\bsurg,OTHER_EXPLICIT_SURGERY,include,Residual catch for explicitly surgical units not matched above,v2,2026-08-01
+70,\b(cardiolog|interventional cardiolog),INTERNAL_MEDICINE,include,Medicine subspecialty,v2,2026-08-01
+71,\b(gastroenterolog|hepatolog),INTERNAL_MEDICINE,include,Medicine subspecialty,v2,2026-08-01
+72,\b(nephrolog|pulmonar|critical care medicine|endocrinolog|rheumatolog|infectious disease|hematolog|geriatric),INTERNAL_MEDICINE,include,Medicine subspecialty,v2,2026-08-01
+73,\b(medical oncolog|oncolog),INTERNAL_MEDICINE,include,Medical oncology unless surgical oncology matched earlier,v2,2026-08-01
+74,"(department|dept|division|section)[ .a-z]{0,12}of (internal )?medicine",INTERNAL_MEDICINE,include,,v2,2026-08-01
+75,\binternal medicine\b,INTERNAL_MEDICINE,include,,v2,2026-08-01
+76,\bpediatric,PEDIATRICS,include,Pediatrics unless pediatric surgery matched earlier,v2,2026-08-01
+77,\bneurolog,NEUROLOGY,include,,v2,2026-08-01
+78,\bpsychiatr|behavioral health,PSYCHIATRY,include,,v2,2026-08-01
+79,radiation oncolog,RADIOLOGY_RADONC,include,,v2,2026-08-01
+80,\bradiolog|nuclear medicine|medical imaging,RADIOLOGY_RADONC,include,,v2,2026-08-01
+81,\bpatholog,PATHOLOGY,include,,v2,2026-08-01
+82,\bdermatolog,DERMATOLOGY,include,,v2,2026-08-01
+83,emergency medicine,EMERGENCY_MEDICINE,include,,v2,2026-08-01
+84,family (medicine|and community medicine),FAMILY_MEDICINE,include,,v2,2026-08-01
+85,physical medicine|rehabilitation medicine,PMR,include,,v2,2026-08-01
+86,(public health|epidemiolog|population health|preventive medicine|health polic|health services research),PUBLIC_HEALTH,include,,v2,2026-08-01
+87,(biostatistic|data science|bioinformatic),QUANTITATIVE,include,,v2,2026-08-01
+88,\bgenetic|genomic,BASIC_SCIENCE,include,,v2,2026-08-01
+89,(microbiolog|immunolog|virolog),BASIC_SCIENCE,include,,v2,2026-08-01
+90,(biochemistr|molecular biolog|cell biolog|cellular biolog|structural biolog),BASIC_SCIENCE,include,,v2,2026-08-01
+91,neuroscienc,BASIC_SCIENCE,include,,v2,2026-08-01
+92,(pharmacolog|physiolog|pathobiolog|anatomy),BASIC_SCIENCE,include,,v2,2026-08-01
+93,(biomedical engineering|bioengineering),ENGINEERING,include,,v2,2026-08-01
+94,(school|college|department|dept) of nursing,OTHER_HEALTH_PROF,include,,v2,2026-08-01
+95,\bdent(al|istry),DENTISTRY,include,,v2,2026-08-01

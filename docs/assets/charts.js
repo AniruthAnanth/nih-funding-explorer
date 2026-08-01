@@ -526,6 +526,207 @@ function columnStackChart(mount, groups, series, opts) {
   }
 }
 
+/* --- bump / trajectory lines --------------------------------------------- */
+
+/* series: [{key, label, color, dashed, points:[{x, y, tip, aria}]}]
+   One line per entity, one point per fiscal year.
+
+   Two things this has to get right. First, when `invert` is set the y values
+   are ranks, so the scale runs downwards and rank 1 sits at the top; getting
+   that backwards reverses the meaning of the whole chart. Second, a year the
+   entity has no figure for is `y: null`, and a null breaks the path rather
+   than dropping the line to zero or drawing straight through the gap. */
+function bumpChart(mount, series, opts) {
+  opts = opts || {};
+  mount.innerHTML = '';
+  if (opts.legendMount) opts.legendMount.innerHTML = '';
+  if (!series.length) {
+    mount.innerHTML = `<p class="emptystate">${escText(opts.empty || 'Nothing to draw.')}</p>`;
+    return;
+  }
+  const years = opts.years || [];
+  const fmt = opts.fmt || (v => v);
+  const invert = !!opts.invert;
+
+  const vals = [];
+  series.forEach(s => s.points.forEach(p => {
+    if (p.y != null && isFinite(p.y)) vals.push(Number(p.y));
+  }));
+  if (!vals.length) {
+    mount.innerHTML = `<p class="emptystate">${escText(opts.emptyValues
+      || 'None of the selected entities carries a value on this measure.')}</p>`;
+    return;
+  }
+
+  const full = Math.max(mount.clientWidth || 900, 560);
+  const labelW = Math.min(opts.labelW || 230, Math.round(full * 0.3));
+  const padL = 74, padT = 18;
+  const padB = opts.denoms ? 54 : 40;
+  const plotW = Math.max(full - padL - labelW, 160);
+  const h = Math.max(opts.height || 420, Math.min(series.length * 24 + 150, 940));
+  const plotH = h - padT - padB;
+
+  let lo, hi;
+  if (invert) {
+    lo = Math.min.apply(null, vals);
+    hi = Math.max.apply(null, vals);
+    if (hi === lo) { lo = Math.max(1, lo - 1); hi = lo + 2; }
+  } else {
+    lo = 0;
+    hi = Math.max.apply(null, vals) || 1;
+  }
+  const X = i => padL + (years.length > 1 ? (i / (years.length - 1)) * plotW : plotW / 2);
+  // Inverted: the smallest number (best rank) maps to the smallest y, the top.
+  const Y = v => (invert
+    ? padT + ((v - lo) / (hi - lo)) * plotH
+    : padT + plotH - ((v - lo) / (hi - lo)) * plotH);
+
+  const svg = el('svg', {
+    viewBox: `0 0 ${full} ${h}`, width: '100%', height: h, class: 'bump',
+    role: 'img', 'aria-label': opts.title || 'rank trajectory chart',
+  });
+
+  // Structure, not grid: one baseline and one left rule, drawn as rects
+  // because the stylesheet zeroes every <line> to enforce no gridlines.
+  svg.appendChild(el('rect', {
+    x: padL, y: padT + plotH, width: plotW, height: 1, class: 'axisrule',
+  }));
+  svg.appendChild(el('rect', {
+    x: padL - 1, y: padT, width: 1, height: plotH, class: 'axisrule',
+  }));
+
+  let ticks;
+  if (invert) {
+    const step = Math.max(1, Math.round((hi - lo) / 4));
+    ticks = [];
+    for (let v = lo; v < hi; v += step) ticks.push(Math.round(v));
+    ticks.push(hi);
+    ticks = ticks.filter((v, i, a) => a.indexOf(v) === i);
+  } else {
+    ticks = [0, 1, 2, 3, 4].map(i => lo + ((hi - lo) / 4) * i);
+  }
+  ticks.forEach(v => svg.appendChild(el('text', {
+    x: padL - 9, y: Y(v) + 3.5, 'text-anchor': 'end', class: 'axis',
+  }, invert ? '#' + v : fmt(v))));
+  svg.appendChild(el('text', {
+    x: 13, y: padT + plotH / 2, 'text-anchor': 'middle', class: 'axistitle',
+    transform: `rotate(-90 13 ${padT + plotH / 2})`,
+  }, opts.yTitle || ''));
+
+  years.forEach((yr, i) => {
+    svg.appendChild(el('text', {
+      x: X(i), y: padT + plotH + 17, 'text-anchor': 'middle', class: 'axis',
+    }, 'FY' + yr));
+    if (opts.denoms && opts.denoms[yr] != null) {
+      svg.appendChild(el('text', {
+        x: X(i), y: padT + plotH + 31, 'text-anchor': 'middle', class: 'axis',
+      }, 'of ' + Number(opts.denoms[yr]).toLocaleString('en-US')));
+    }
+  });
+
+  const groups = [];
+  series.forEach(s => {
+    const g = el('g', { class: 'series' });
+    groups.push(g);
+
+    let run = [];
+    const segs = [];
+    s.points.forEach((p, i) => {
+      if (p.y == null) { if (run.length) segs.push(run); run = []; return; }
+      run.push(X(i).toFixed(1) + ' ' + Y(p.y).toFixed(1));
+    });
+    if (run.length) segs.push(run);
+    segs.forEach(seg => {
+      if (seg.length < 2) return;
+      g.appendChild(el('path', {
+        d: 'M' + seg.join(' L'), fill: 'none', stroke: s.color, 'stroke-width': 1.9,
+        'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+        'stroke-dasharray': s.dashed ? '5 3.5' : '',
+      }));
+    });
+
+    s.points.forEach((p, i) => {
+      if (p.y == null) return;
+      const cx = X(i), cy = Y(p.y);
+      const dot = el('g', {
+        class: 'bumpdot', tabindex: '0', role: 'img',
+        'aria-label': `${s.label}, FY${p.x}, ${p.aria || ''}`,
+      });
+      dot.appendChild(el('circle', { cx, cy, r: 12, fill: 'transparent', class: 'hitdot' }));
+      // A hollow marker is a point derived a different way from its
+      // neighbours. The dash carries a different fact — see s.dashed — so the
+      // two never have to share one channel.
+      dot.appendChild(el('circle', {
+        cx, cy, r: p.hollow ? 4 : 4.2,
+        fill: p.hollow ? '#ffffff' : s.color,
+        stroke: p.hollow ? s.color : '#ffffff',
+        'stroke-width': p.hollow ? 1.9 : 1.3,
+      }));
+      const html = p.tip || `<strong>${escText(s.label)}</strong><br>FY${p.x}`;
+      const on = () => { svg.classList.add('hot'); g.classList.add('on'); };
+      const off = () => { svg.classList.remove('hot'); g.classList.remove('on'); };
+      dot.addEventListener('mousemove', evt => { on(); showTip(html, evt); });
+      dot.addEventListener('mouseleave', () => { off(); hideTip(); });
+      dot.addEventListener('focus', () => { on(); tipAtElement(html, dot); });
+      dot.addEventListener('blur', () => { off(); hideTip(); });
+      g.appendChild(dot);
+    });
+
+    g.addEventListener('mouseenter', () => { svg.classList.add('hot'); g.classList.add('on'); });
+    g.addEventListener('mouseleave', () => { svg.classList.remove('hot'); g.classList.remove('on'); });
+    svg.appendChild(g);
+  });
+
+  // End labels, nudged apart so two lines finishing close together stay
+  // readable. A leader connects the label back to its own point.
+  const ends = [];
+  series.forEach((s, si) => {
+    let last = -1;
+    s.points.forEach((p, i) => { if (p.y != null) last = i; });
+    if (last === -1) return;
+    const y = Y(s.points[last].y);
+    ends.push({ s, g: groups[si], x: X(last), y, ly: y });
+  });
+  ends.sort((a, b) => a.y - b.y);
+  const gap = 13;
+  for (let i = 1; i < ends.length; i++) {
+    if (ends[i].ly - ends[i - 1].ly < gap) ends[i].ly = ends[i - 1].ly + gap;
+  }
+  if (ends.length) {
+    const over = ends[ends.length - 1].ly - (padT + plotH);
+    if (over > 0) {
+      ends.forEach(e => { e.ly -= over; });
+      for (let i = ends.length - 2; i >= 0; i--) {
+        if (ends[i + 1].ly - ends[i].ly < gap) ends[i].ly = ends[i + 1].ly - gap;
+      }
+    }
+  }
+  const roomForLabels = !ends.length || ends[0].ly >= padT - 3;
+  if (roomForLabels) {
+    ends.forEach(e => {
+      if (Math.abs(e.ly - e.y) > 1.5) {
+        e.g.appendChild(el('path', {
+          d: `M${(e.x + 5).toFixed(1)} ${e.y.toFixed(1)} L${(e.x + 12).toFixed(1)} ${e.ly.toFixed(1)}`,
+          fill: 'none', stroke: '#c9d0d6', 'stroke-width': 1,
+        }));
+      }
+      e.g.appendChild(el('text', {
+        x: e.x + 14, y: e.ly + 3.6, class: 'bumplabel', fill: e.s.color,
+      }, clip(e.s.label, Math.floor((labelW - 16) / 6.1))));
+    });
+  }
+
+  mount.appendChild(svg);
+
+  // The end labels are the key. A legend only appears when there were too many
+  // lines to label in place.
+  if (opts.legendMount && !roomForLabels) {
+    opts.legendMount.innerHTML = series.map(s =>
+      `<span class="lgd"><i class="${s.dashed ? 'hatch' : ''}" style="background:${s.color}"></i>`
+      + `${escText(s.label)}</span>`).join('');
+  }
+}
+
 /* --- scatter ------------------------------------------------------------- */
 
 /* points: [{label, x, y, color, hatched, sub, detail, id}] */
@@ -712,5 +913,5 @@ function exportPNG(mount, filename, scale) {
 
 window.RMGBCharts = {
   barChart, stackedChart, groupedChart, scatterChart, divergingChart, columnStackChart,
-  exportSVG, exportPNG, MECH_ORDER, MECH_COLORS, MECH_LABEL,
+  bumpChart, exportSVG, exportPNG, MECH_ORDER, MECH_COLORS, MECH_LABEL,
 };

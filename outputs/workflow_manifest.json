@@ -1,8 +1,8 @@
 {
   "pipeline_version": "1.0.0",
-  "run_at": "2026-08-01T09:15:38+00:00",
+  "run_at": "2026-08-01T10:31:51+00:00",
   "stages_run": [
-    "biblio"
+    "rank"
   ],
   "config": {
     "pipeline_version": "1.0.0",
@@ -131,8 +131,8 @@
     "pandas": "2.3.3",
     "numpy": "2.0.2",
     "matplotlib": "3.9.4",
-    "git_commit": "6833478f8ee7a6324a3970af8938e563032cb691",
-    "stamped_at": "2026-08-01T09:15:38+00:00"
+    "git_commit": "7e35cd252e96f39b71ab0a1d891299ef8cc5ba06",
+    "stamped_at": "2026-08-01T10:31:52+00:00"
   },
   "source_manifest": {
     "files": {

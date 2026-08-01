@@ -23,14 +23,14 @@ from rankmgb.pubmed_evidence import INSTITUTION_PATTERNS  # noqa: E402
 
 CASES: list[tuple[str, str | None]] = [
     # the substring traps
-    ("Department of Neurology, Massachusetts General Hospital", None),
-    ("Neurobiology Research Unit, Department of Neurology", None),
+    ("Department of Neurology, Massachusetts General Hospital", "NEUROLOGY"),
+    ("Neurobiology Research Unit, Department of Neurology", "NEUROLOGY"),
     ("Department of Urology, Massachusetts General Hospital", "UROLOGY"),
     ("Division of Urologic Oncology, Brigham and Women's Hospital", "UROLOGY"),
     # exclusions win over the surgical catch-all
-    ("Department of Pathology, Division of Surgical Pathology, MGH", None),
-    ("Department of Anesthesia, Critical Care and Pain Medicine, MGH", None),
-    ("Department of Oral and Maxillofacial Surgery, MGH", None),
+    ("Department of Pathology, Division of Surgical Pathology, MGH", "PATHOLOGY"),
+    ("Department of Anesthesia, Critical Care and Pain Medicine, MGH", "ANESTHESIOLOGY"),
+    ("Department of Oral and Maxillofacial Surgery, MGH", "DENTISTRY"),
     # specific specialties
     ("Department of Neurosurgery, Brigham and Women's Hospital", "NEUROSURGERY"),
     ("Department of Neurological Surgery, MGH", "NEUROSURGERY"),
@@ -50,9 +50,9 @@ CASES: list[tuple[str, str | None]] = [
     ("Department of Ophthalmology, Massachusetts Eye and Ear", "OPHTHALMIC_SURGERY"),
     ("Department of Obstetrics and Gynecology, BWH", "OBGYN"),
     # nonsurgical departments must not match anything
-    ("Department of Medicine, Brigham and Women's Hospital", None),
-    ("Department of Radiology, Massachusetts General Hospital", None),
-    ("Department of Dermatology, Massachusetts General Hospital", None),
+    ("Department of Medicine, Brigham and Women's Hospital", "INTERNAL_MEDICINE"),
+    ("Department of Radiology, Massachusetts General Hospital", "RADIOLOGY_RADONC"),
+    ("Department of Dermatology, Massachusetts General Hospital", "DERMATOLOGY"),
     ("Broad Institute of MIT and Harvard", None),
 ]
 
@@ -76,11 +76,22 @@ PROXIMITY_CASES: list[tuple[str, str, str | None]] = [
      "GENERAL_AND_UNSPECIFIED_SURGERY"),
     # department adjacent to a *different* institution is not
     ("Department of Surgery, Duke University, Durham, NC; and the Department of "
-     "Medicine, Massachusetts General Hospital, Boston, MA.", "MGH", None),
+     "Medicine, Massachusetts General Hospital, Boston, MA.", "MGH", "INTERNAL_MEDICINE"),
     ("Division of Neurosurgery, Brigham and Women's Hospital, Boston, MA.", "BWH",
      "NEUROSURGERY"),
     # institution first, department after, still adjacent
     ("Massachusetts General Hospital, Department of Urology, Boston, MA.", "MGH", "UROLOGY"),
+]
+
+
+SURGICAL_VERDICT = [
+    ("Department of Surgery, Massachusetts General Hospital", True),
+    ("Division of Cardiac Surgery, Brigham and Women's Hospital", True),
+    ("Department of Neurology, Massachusetts General Hospital", False),
+    ("Department of Medicine, Brigham and Women's Hospital", False),
+    ("Department of Pathology, Division of Surgical Pathology, MGH", False),
+    ("Department of Anesthesia, Critical Care and Pain Medicine, MGH", False),
+    ("Department of Radiology, Massachusetts General Hospital", False),
 ]
 
 
@@ -95,12 +106,18 @@ def main() -> int:
         got, matched = classify_near_institution(text, INSTITUTION_PATTERNS[inst], pats)
         if got != expected:
             failures.append((f"[{inst}] {text[:70]}…", expected, got, matched))
+    from rankmgb.mgb_surgery import NARROW
+    for text, expected_surgical in SURGICAL_VERDICT:
+        got, _ = classify_affiliation(text, pats)
+        if (got in NARROW) != expected_surgical:
+            failures.append((text, f"surgical={expected_surgical}", f"surgical={got in NARROW} ({got})", None))
+
     if not is_composite(COMPOSITE):
         failures.append(("composite block detection", "composite", "not composite", None))
 
     for text, expected, got, matched in failures:
         print(f"FAIL  {text!r}\n      expected {expected}, got {got} (pattern {matched!r})")
-    total = len(CASES) + len(PROXIMITY_CASES) + 1
+    total = len(CASES) + len(PROXIMITY_CASES) + len(SURGICAL_VERDICT) + 1
     print(f"\n{total - len(failures)}/{total} pattern cases passed")
     return 1 if failures else 0
 
