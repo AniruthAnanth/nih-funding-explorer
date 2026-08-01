@@ -1,0 +1,4 @@
+rollup_id,rollup_name,member_canonical_org_ids,is_headline,definition_note,version,effective_date
+MGB_CORE,Mass General Brigham (MGH + BWH),MGH|BWH,TRUE,"Section 9 headline roll-up: the combined result of the two hospitals that must also be reported separately.",v1,2026-08-01
+MGB_SYSTEM,Mass General Brigham (full system membership),MGH|BWH|MEEI|MCLEAN|SPAULDING,FALSE,"Sensitivity roll-up built from dated legal system membership in organization_crosswalk_v1.csv. Reported alongside MGB_CORE, never substituted for it.",v1,2026-08-01
+HARVARD_ENTITIES,Harvard University entities,HMS|HARVARD_UNIV|HSPH,FALSE,"Reported for context only. Harvard entities are never merged into MGB and MGB awards are never merged into Harvard.",v1,2026-08-01

@@ -1,0 +1,12 @@
+# Regenerable from NIH by `python3 run_pipeline.py acquire` and `harvest`.
+# The checksums in data/raw/manifest.json are what make the rebuild verifiable,
+# so the manifest is tracked and the payloads are not.
+data/raw/*.zip
+data/interim/
+data/processed/
+
+# Published copies live in docs/; outputs/ is the working directory.
+__pycache__/
+*.pyc
+.DS_Store
+.claude/

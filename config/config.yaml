@@ -1,0 +1,86 @@
+# RankMGB pipeline configuration
+# All analytic choices that could change a published number live here or in
+# reference/*.csv -- never inline in analysis code.
+
+pipeline_version: "1.0.0"
+
+fiscal_years: [2021, 2022, 2023, 2024, 2025]
+
+reporting_periods:
+  FY2025:        [2025]
+  FY2024_FY2025: [2024, 2025]
+  FY2021_FY2025: [2021, 2022, 2023, 2024, 2025]
+
+acquisition:
+  projects_url_template: "https://reporter.nih.gov/exporter/projects/download/{fy}"
+  user_agent: "RankMGB-pipeline/1.0 (research use; contact aniruth@stanford.edu)"
+  timeout_seconds: 600
+  retries: 3
+
+# ---------------------------------------------------------------------------
+# Section 2 -- inclusion / exclusion rules for the primary analysis.
+# Each rule is applied as a named, counted filter so the audit log shows
+# exactly how many award-years each rule removed.
+# ---------------------------------------------------------------------------
+inclusion:
+  # ExPORTER redistributes awards for several HHS operating divisions and the
+  # VA. Only these administering ICs are NIH.
+  nih_administering_ics:
+    [AA, AG, AI, AR, AT, CA, CL, DA, DC, DE, DK, EB, ES, EY, GM, HD, HG, HL,
+     LM, MD, MH, NR, NS, OD, RG, TR, TW]
+  # Grants and cooperative agreements only.
+  excluded_funding_mechanisms:
+    - "INTRAMURAL RESEARCH"
+    - "NON SBIR/STTR CONTRACTS"
+    - "SBIR/STTR CONTRACTS"
+    - "INTERAGENCY AGREEMENTS"
+  # Belt-and-braces: intramural (Z*) and R&D contract (N*) activity codes.
+  excluded_activity_prefixes: ["Z", "N"]
+  countries: ["UNITED STATES"]
+  # Subproject rows carry TOTAL_COST_SUB_PROJECT and are nested inside a parent
+  # P/U/M award that already carries the full TOTAL_COST. Including both double
+  # counts. Subprojects are retained in a separate table, not in the primary sum.
+  exclude_subproject_rows: true
+
+costs:
+  # ExPORTER TOTAL_COST is the FY obligation for the award-year.
+  primary_cost_field: "TOTAL_COST"
+  # Rows with null TOTAL_COST are kept as award-years but contribute $0; the
+  # count of such rows is published alongside every funding figure.
+  null_cost_policy: "count_as_zero_and_report"
+
+# ---------------------------------------------------------------------------
+# Section 4 -- affiliation index date fallback hierarchy (ordered).
+# ---------------------------------------------------------------------------
+index_date:
+  fallback_order: ["BUDGET_START", "PROJECT_START", "FY_MIDPOINT"]
+  fy_midpoint_month_day: "04-01"   # midpoint of Oct 1 - Sep 30
+
+# ---------------------------------------------------------------------------
+# Section 8 -- attribution models.
+# ---------------------------------------------------------------------------
+attribution:
+  fractional_rule: "equal_across_represented_pi_institutions"
+  # Declared before rankings are generated. Alternatives implemented but not
+  # promoted to the headline: equal_across_named_pis.
+  fractional_alternatives: ["equal_across_named_pis"]
+
+# ---------------------------------------------------------------------------
+# Section 12 -- sensitivity analyses.
+# ---------------------------------------------------------------------------
+sensitivity:
+  surgical_definitions: ["narrow", "broad"]
+  confidence_floors: ["all", "high_only"]
+  joint_appointments: ["include", "primary_only"]
+
+reference_tables:
+  mechanism_crosswalk: "reference/mechanism_crosswalk_v1.csv"
+  organization_crosswalk: "reference/organization_crosswalk_v1.csv"
+  surgical_taxonomy: "reference/surgical_taxonomy_v1.csv"
+  nih_dept_crosswalk: "reference/nih_department_crosswalk_v1.csv"
+  overrides: "reference/overrides_v1.csv"
+
+focus_institutions:
+  - "MASSACHUSETTS GENERAL HOSPITAL"
+  - "BRIGHAM AND WOMENS HOSPITAL"
+  - "MASS GENERAL BRIGHAM"

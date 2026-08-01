@@ -1,0 +1,225 @@
+canonical_org_id,display_name,version,effective_date
+MGB_CORE,Mass General Brigham,v1,2026-08-01
+MGB_SYSTEM,Mass General Brigham (full system),v1,2026-08-01
+MGH,Massachusetts General Hospital,v1,2026-08-01
+BWH,Brigham and Women's Hospital,v1,2026-08-01
+HMS,Harvard Medical School,v1,2026-08-01
+HARVARD_UNIV,Harvard University,v1,2026-08-01
+HARVARD_ENTITIES,Harvard University entities,v1,2026-08-01
+HSPH,Harvard Chan School,v1,2026-08-01
+DFCI,Dana-Farber Cancer Institute,v1,2026-08-01
+BIDMC,Beth Israel Deaconess,v1,2026-08-01
+MEEI,Mass Eye and Ear,v1,2026-08-01
+MCLEAN,McLean Hospital,v1,2026-08-01
+SPAULDING,Spaulding Rehabilitation,v1,2026-08-01
+IPF4134401,Johns Hopkins,v1,2026-08-01
+IPF577508,UCSF,v1,2026-08-01
+IPF1506502,Michigan,v1,2026-08-01
+IPF6463801,Penn,v1,2026-08-01
+IPF9083901,WashU St. Louis,v1,2026-08-01
+IPF2059802,Pittsburgh,v1,2026-08-01
+IPF8046501,Stanford,v1,2026-08-01
+IPF9420201,Yale,v1,2026-08-01
+IPF2221101,Duke,v1,2026-08-01
+IPF1833205,Columbia,v1,2026-08-01
+IPF577507,UC San Diego,v1,2026-08-01
+IPF577505,UCLA,v1,2026-08-01
+IPF9087701,University of Washington,v1,2026-08-01
+IPF578206,UNC Chapel Hill,v1,2026-08-01
+IPF5998304,NYU Grossman,v1,2026-08-01
+IPF2384501,Emory,v1,2026-08-01
+IPF3839801,Mount Sinai,v1,2026-08-01
+IPF10040927,Vanderbilt Medical Center,v1,2026-08-01
+IPF578503,Wisconsin–Madison,v1,2026-08-01
+IPF6144650,Northwestern,v1,2026-08-01
+IPF1450402,Minnesota,v1,2026-08-01
+IPF7636101,USC,v1,2026-08-01
+IPF1199905,Colorado Denver,v1,2026-08-01
+IPF481201,Baylor College of Medicine,v1,2026-08-01
+IPF1288803,UAB,v1,2026-08-01
+IPF1514803,Weill Cornell,v1,2026-08-01
+IPF6297007,OHSU,v1,2026-08-01
+IPF10068583,Fred Hutch,v1,2026-08-01
+IPF578404,UT Southwestern,v1,2026-08-01
+IPF6939101,RTI International,v1,2026-08-01
+IPF577503,UC Davis,v1,2026-08-01
+IPF4976101,Mayo Clinic Rochester,v1,2026-08-01
+IPF513806,Florida,v1,2026-08-01
+IPF6218701,Ohio State,v1,2026-08-01
+IPF1413601,University of Chicago,v1,2026-08-01
+IPF514002,University of Utah,v1,2026-08-01
+IPF577806,Indiana Indianapolis,v1,2026-08-01
+IPF1504801,Boston Children's,v1,2026-08-01
+IPF5079202,Memorial Sloan Kettering,v1,2026-08-01
+IPF577504,UC Irvine,v1,2026-08-01
+IPF7375802,Scripps Research,v1,2026-08-01
+IPF820104,Maryland Baltimore,v1,2026-08-01
+IPF1526402,Virginia,v1,2026-08-01
+IPF10053556,Einstein College of Medicine,v1,2026-08-01
+IPF578407,MD Anderson,v1,2026-08-01
+IPF218601,Case Western Reserve,v1,2026-08-01
+IPF850903,UMass Chan Medical School,v1,2026-08-01
+IPF7047101,Rochester,v1,2026-08-01
+IPF490201,University of Arizona,v1,2026-08-01
+IPF894901,BU Medical Campus,v1,2026-08-01
+IPF3972901,University of Iowa,v1,2026-08-01
+IPF5221250,Miami,v1,2026-08-01
+IPF615001,Cincinnati Children's,v1,2026-08-01
+IPF1499101,CHOP,v1,2026-08-01
+IPF10021177,Broad Institute,v1,2026-08-01
+IPF577703,Illinois Chicago,v1,2026-08-01
+IPF2793601,University of Kentucky,v1,2026-08-01
+IPF578417,UTHealth Houston,v1,2026-08-01
+IPF577502,UC Berkeley,v1,2026-08-01
+IPF9021205,Wake Forest,v1,2026-08-01
+IPF1003201,Brown University,v1,2026-08-01
+IPF7575301,MUSC,v1,2026-08-01
+IPF10034168,Rutgers Health (RBHS),v1,2026-08-01
+IPF8721001,Vanderbilt University,v1,2026-08-01
+IPF10000858,Cleveland Clinic,v1,2026-08-01
+IPF578418,UT Health San Antonio,v1,2026-08-01
+IPF4911501,MIT,v1,2026-08-01
+IPF46001,Medical College of Wisconsin,v1,2026-08-01
+IPF578406,UTMB Galveston,v1,2026-08-01
+IPF578403,UT Austin,v1,2026-08-01
+IPF513807,University of South Florida,v1,2026-08-01
+IPF353201,VCU,v1,2026-08-01
+IPF1225501,Cedars-Sinai,v1,2026-08-01
+IPF9611701,Westat,v1,2026-08-01
+IPF1514802,Cornell University,v1,2026-08-01
+IPF8424601,Tulane,v1,2026-08-01
+IPF7893501,St. Jude,v1,2026-08-01
+IPF3497005,Kaiser Permanente Research,v1,2026-08-01
+IPF2021601,Dartmouth,v1,2026-08-01
+IPF578104,Nebraska Medical Center,v1,2026-08-01
+IPF1484303,Kansas Medical Center,v1,2026-08-01
+IPF1531401,Seattle Children's,v1,2026-08-01
+IPF1523902,University of Cincinnati,v1,2026-08-01
+IPF5245901,Michigan State University,v1,2026-08-01
+IPF861001,Fred Hutch (pre-2022),v1,2026-08-01
+IPF1524202,Penn State,v1,2026-08-01
+IPF577704,Illinois Urbana-Champaign,v1,2026-08-01
+IPF2863301,George Washington University,v1,2026-08-01
+IPF5992614,University at Buffalo,v1,2026-08-01
+IPF5998301,New York University,v1,2026-08-01
+IPF3058203,City of Hope,v1,2026-08-01
+IPF1524204,Penn State Hershey,v1,2026-08-01
+IPF6108502,UNT Health Science Center,v1,2026-08-01
+IPF7096501,Jackson Laboratory,v1,2026-08-01
+IPF7056601,Rockefeller University,v1,2026-08-01
+IPF8422704,Tufts (Boston),v1,2026-08-01
+IPF8240301,Temple University,v1,2026-08-01
+IPF578002,University of Missouri,v1,2026-08-01
+IPF5992612,Stony Brook,v1,2026-08-01
+IPF4050801,Thomas Jefferson University,v1,2026-08-01
+IPF9110501,Wayne State University,v1,2026-08-01
+IPF10021612,UNM Health Sciences,v1,2026-08-01
+IPF1073501,Caltech,v1,2026-08-01
+IPF4679701,University of Louisville,v1,2026-08-01
+IPF10001093,BU Charles River,v1,2026-08-01
+IPF6644301,Rush University,v1,2026-08-01
+IPF7210001,Salk Institute,v1,2026-08-01
+IPF1471106,UAMS,v1,2026-08-01
+IPF10012306,Allen Institute,v1,2026-08-01
+IPF488301,Arizona State University,v1,2026-08-01
+IPF1481402,Purdue University,v1,2026-08-01
+IPF1524003,OU Health Sciences Center,v1,2026-08-01
+IPF1506603,UConn Health,v1,2026-08-01
+IPF1524302,University of South Carolina,v1,2026-08-01
+IPF10071295,South Carolina Upstate,v1,2026-08-01
+IPF676602,University of Georgia,v1,2026-08-01
+IPF820102,Maryland College Park,v1,2026-08-01
+IPF1495302,Nationwide Children's,v1,2026-08-01
+IPF676605,Augusta University,v1,2026-08-01
+IPF1196203,Rutgers–New Brunswick,v1,2026-08-01
+IPF2205901,Drexel University,v1,2026-08-01
+IPF1199902,Colorado Boulder,v1,2026-08-01
+IPF6661401,Princeton University,v1,2026-08-01
+IPF4976105,Mayo Clinic Jacksonville,v1,2026-08-01
+IPF8961401,Benaroya Research Institute,v1,2026-08-01
+IPF2869001,Georgetown University,v1,2026-08-01
+IPF1833202,Columbia (Morningside),v1,2026-08-01
+IPF3736101,Moffitt Cancer Center,v1,2026-08-01
+IPF578302,UTHSC Memphis,v1,2026-08-01
+IPF820005,Hawaii at Manoa,v1,2026-08-01
+IPF1180101,Sanford Burnham Prebys,v1,2026-08-01
+IPF8738101,University of Vermont,v1,2026-08-01
+IPF8968001,Virginia Tech,v1,2026-08-01
+IPF1725201,Colorado State University,v1,2026-08-01
+IPF1590919,NYS Psychiatric Institute,v1,2026-08-01
+IPF513804,Florida State University,v1,2026-08-01
+IPF6116101,Northeastern University,v1,2026-08-01
+IPF676603,Georgia Tech,v1,2026-08-01
+IPF577510,UC Santa Cruz,v1,2026-08-01
+IPF6144601,Northwestern (Evanston),v1,2026-08-01
+IPF1618201,Public Health Institute,v1,2026-08-01
+IPF2076701,University of Delaware,v1,2026-08-01
+IPF577805,Indiana Bloomington,v1,2026-08-01
+IPF1567601,Gladstone Institutes,v1,2026-08-01
+IPF513809,Florida International,v1,2026-08-01
+IPF9163701,West Virginia University,v1,2026-08-01
+IPF10005742,Houston Methodist,v1,2026-08-01
+IPF2464601,NCIRE (SF VA),v1,2026-08-01
+IPF513614,San Diego State University,v1,2026-08-01
+IPF2465301,La Jolla Institute,v1,2026-08-01
+IPF8266910,Texas A&M Health,v1,2026-08-01
+IPF578705,Puerto Rico Medical Sciences,v1,2026-08-01
+IPF5390304,Mississippi Medical Center,v1,2026-08-01
+IPF10016499,Texas A&M,v1,2026-08-01
+IPF5730401,NORC,v1,2026-08-01
+IPF829903,"University of Nevada, Reno",v1,2026-08-01
+IPF1484302,Kansas Lawrence,v1,2026-08-01
+IPF577909,Pennington Biomedical,v1,2026-08-01
+IPF7915401,Saint Louis University,v1,2026-08-01
+IPF5992616,SUNY Downstate,v1,2026-08-01
+IPF5992619,SUNY Upstate,v1,2026-08-01
+IPF577902,LSU Health New Orleans,v1,2026-08-01
+IPF1190002,Fox Chase Cancer Center,v1,2026-08-01
+IPF130301,Tufts Medical Center,v1,2026-08-01
+IPF10071230,Henry Ford Health + MSU,v1,2026-08-01
+IPF4976104,Mayo Clinic Arizona,v1,2026-08-01
+IPF4689203,Loyola University Chicago,v1,2026-08-01
+IPF2819805,CPMC Research Institute,v1,2026-08-01
+IPF578103,Nebraska Lincoln,v1,2026-08-01
+IPF10034169,Rutgers NJ Medical School,v1,2026-08-01
+IPF577907,LSU Baton Rouge,v1,2026-08-01
+IPF2370003,Kennedy Krieger Institute,v1,2026-08-01
+IPF3840801,Magee-Womens Research Institute,v1,2026-08-01
+IPF577905,LSU Health Shreveport,v1,2026-08-01
+IPF491702,Arkansas Children's,v1,2026-08-01
+IPF2543101,Lundquist Institute,v1,2026-08-01
+IPF1524002,University of Oklahoma,v1,2026-08-01
+IPF8455007,Albany Medical College,v1,2026-08-01
+IPF229501,Toledo Health Sciences,v1,2026-08-01
+IPF8285902,Texas Tech Health Sciences,v1,2026-08-01
+IPF10034170,Rutgers RWJ Medical School,v1,2026-08-01
+IPF8422701,Tufts (Medford),v1,2026-08-01
+IPF578304,Tennessee Knoxville,v1,2026-08-01
+IPF3499801,Howard University,v1,2026-08-01
+IPF1196204,Rutgers–Newark,v1,2026-08-01
+IPF1529501,Children's Mercy,v1,2026-08-01
+IPF578004,Missouri–Kansas City,v1,2026-08-01
+IPF578209,East Carolina University,v1,2026-08-01
+IPF6898901,Shirley Ryan AbilityLab,v1,2026-08-01
+IPF489501,Charles R. Drew University,v1,2026-08-01
+IPF4562901,Loma Linda University,v1,2026-08-01
+IPF130401,University of South Alabama,v1,2026-08-01
+IPF578504,Wisconsin Milwaukee,v1,2026-08-01
+IPF1164401,NEOMED,v1,2026-08-01
+IPF513617,Cal State Northridge,v1,2026-08-01
+IPF5948901,New York Medical College,v1,2026-08-01
+IPF1274603,East Tennessee State,v1,2026-08-01
+IPF10034160,Rutgers Health (legacy IPF),v1,2026-08-01
+IPF578212,North Carolina A&T,v1,2026-08-01
+IPF8285901,Texas Tech University,v1,2026-08-01
+IPF578420,UT Health Tyler,v1,2026-08-01
+IPF578102,Nebraska Omaha,v1,2026-08-01
+IPF10059523,NYU Long Island,v1,2026-08-01
+IPF471501,Eastern Virginia Medical School,v1,2026-08-01
+IPF688801,Oklahoma State (Tulsa),v1,2026-08-01
+IPF8350501,University of Toledo,v1,2026-08-01
+IPF10054693,Texas Tech HSC El Paso,v1,2026-08-01
+IPF1194504,SIU School of Medicine,v1,2026-08-01
+IPF1196202,Rutgers–Camden,v1,2026-08-01
+IPF1199903,CU Colorado Springs,v1,2026-08-01
+IPF165001,New England Optometry,v1,2026-08-01

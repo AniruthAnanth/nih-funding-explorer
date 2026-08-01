@@ -1,0 +1,24 @@
+priority,pattern,specialty,kind,note,version,effective_date
+10,surgical patholog,PATHOLOGY,exclude,"""Surgical pathology is a pathology unit; the word surgical must not trigger a surgical classification""",v1,2026-08-01
+11,anesthesi,ANESTHESIOLOGY,exclude,Perioperative not surgical,v1,2026-08-01
+12,surgical (intensive care|icu) nursing,OTHER_HEALTH_PROF,exclude,Nursing unit,v1,2026-08-01
+13,oral (and |and-)?maxillofacial,DENTISTRY,exclude,"""Not separable from dentistry under the Section 7 rules""",v1,2026-08-01
+20,neuro(logical )?surg,NEUROSURGERY,include,,v1,2026-08-01
+21,(cardiac|cardiothoracic|cardiovascular|thoracic)[ -]+surg,CARDIAC_CARDIOTHORACIC_SURGERY,include,,v1,2026-08-01
+22,(endo)?vascular[ -]+surg,VASCULAR_SURGERY,include,,v1,2026-08-01
+23,transplant(ation)?[ -]+surg,TRANSPLANT_SURGERY,include,,v1,2026-08-01
+24,abdominal transplant,TRANSPLANT_SURGERY,include,,v1,2026-08-01
+25,surgical oncolog,SURGICAL_ONCOLOGY,include,,v1,2026-08-01
+26,"(acute care surg|surgical critical care|trauma[, ]+(burn[s]?[, ]+)?(and )?(acute care )?surg)",TRAUMA_ACUTE_CARE_SURGERY,include,,v1,2026-08-01
+27,(colorectal|colon and rectal)[ -]+surg,COLORECTAL_SURGERY,include,,v1,2026-08-01
+28,pediatric[ -]+surg,PEDIATRIC_SURGERY,include,,v1,2026-08-01
+29,\borthop(a)?edic,ORTHOPEDIC_SURGERY,include,,v1,2026-08-01
+30,"(plastic|reconstructive)[ a-z]{0,20}surg",PLASTIC_SURGERY,include,,v1,2026-08-01
+31,(otolaryngolog|head and neck surg|otorhinolaryngolog),OTOLARYNGOLOGY_HNS,include,,v1,2026-08-01
+32,\burolog,UROLOGY,include,,v1,2026-08-01
+40,\bophthalmolog,OPHTHALMIC_SURGERY,include,Broad definition only,v1,2026-08-01
+41,(obstetric|gyn(a)?ecolog),OBGYN,include,Broad definition only,v1,2026-08-01
+50,"(department|dept|division|section)[ .a-z]{0,12}of surgery",GENERAL_AND_UNSPECIFIED_SURGERY,include,,v1,2026-08-01
+51,general surgery,GENERAL_AND_UNSPECIFIED_SURGERY,include,,v1,2026-08-01
+52,surgical (service|department|division),GENERAL_AND_UNSPECIFIED_SURGERY,include,,v1,2026-08-01
+60,\bsurg,OTHER_EXPLICIT_SURGERY,include,"""Residual catch for explicitly surgical units not matched above; lowest priority""",v1,2026-08-01

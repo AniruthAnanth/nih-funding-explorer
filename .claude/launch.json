@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "/private/tmp/claude-501/-Users-cunningviper-Documents-yang-RankMGB-UrgentRequest/6d1703ca-626a-4274-928a-dd20c166a3e8/scratchpad/serve_site.py"
+      ],
+      "port": 8812
+    }
+  ]
+}

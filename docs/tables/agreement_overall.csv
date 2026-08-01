@@ -1,0 +1,2 @@
+scope,comparable_award_years,nih_surgical,pub_surgical,both,nih_only,publication_only,neither,sensitivity_pct,precision_pct,raw_agreement_pct,cohens_kappa
+all institutions with an NIH department code,116660,8229,9016,2766,5463,6250,102181,33.6,30.7,90.0,0.267

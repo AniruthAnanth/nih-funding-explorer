@@ -1,0 +1,40 @@
+2026-08-01 05:06:08,607 INFO    bibliometrics          classifying 291,056 distinct institution-affiliation strings
+2026-08-01 05:06:19,714 INFO    bibliometrics            116,745 of them describe a surgical unit
+2026-08-01 05:06:19,969 INFO    bibliometrics          156,975 institution-paper pairs across 129,304 distinct papers
+2026-08-01 05:06:20,012 INFO    bibliometrics          iCite: 0 cached, 129,304 to fetch
+2026-08-01 05:06:20,712 INFO    bibliometrics            0/129,304 fetched
+2026-08-01 05:06:37,284 INFO    bibliometrics            4,000/129,304 fetched
+2026-08-01 05:06:51,970 INFO    bibliometrics            8,000/129,304 fetched
+2026-08-01 05:07:07,171 INFO    bibliometrics            12,000/129,304 fetched
+2026-08-01 05:07:22,603 INFO    bibliometrics            16,000/129,304 fetched
+2026-08-01 05:07:37,370 INFO    bibliometrics            20,000/129,304 fetched
+2026-08-01 05:07:52,877 INFO    bibliometrics            24,000/129,304 fetched
+2026-08-01 05:08:08,026 INFO    bibliometrics            28,000/129,304 fetched
+2026-08-01 05:08:23,044 INFO    bibliometrics            32,000/129,304 fetched
+2026-08-01 05:08:37,824 INFO    bibliometrics            36,000/129,304 fetched
+2026-08-01 05:08:53,277 INFO    bibliometrics            40,000/129,304 fetched
+2026-08-01 05:09:09,028 INFO    bibliometrics            44,000/129,304 fetched
+2026-08-01 05:09:24,160 INFO    bibliometrics            48,000/129,304 fetched
+2026-08-01 05:09:39,951 INFO    bibliometrics            52,000/129,304 fetched
+2026-08-01 05:09:54,494 INFO    bibliometrics            56,000/129,304 fetched
+2026-08-01 05:10:09,969 INFO    bibliometrics            60,000/129,304 fetched
+2026-08-01 05:10:25,855 INFO    bibliometrics            64,000/129,304 fetched
+2026-08-01 05:10:40,315 INFO    bibliometrics            68,000/129,304 fetched
+2026-08-01 05:10:54,584 INFO    bibliometrics            72,000/129,304 fetched
+2026-08-01 05:11:09,416 INFO    bibliometrics            76,000/129,304 fetched
+2026-08-01 05:11:24,848 INFO    bibliometrics            80,000/129,304 fetched
+2026-08-01 05:11:39,836 INFO    bibliometrics            84,000/129,304 fetched
+2026-08-01 05:11:54,909 INFO    bibliometrics            88,000/129,304 fetched
+2026-08-01 05:12:10,078 INFO    bibliometrics            92,000/129,304 fetched
+2026-08-01 05:12:24,993 INFO    bibliometrics            96,000/129,304 fetched
+2026-08-01 05:12:40,795 INFO    bibliometrics            100,000/129,304 fetched
+2026-08-01 05:12:55,797 INFO    bibliometrics            104,000/129,304 fetched
+2026-08-01 05:13:11,796 INFO    bibliometrics            108,000/129,304 fetched
+2026-08-01 05:13:26,529 INFO    bibliometrics            112,000/129,304 fetched
+2026-08-01 05:13:41,598 INFO    bibliometrics            116,000/129,304 fetched
+2026-08-01 05:13:56,584 INFO    bibliometrics            120,000/129,304 fetched
+2026-08-01 05:14:11,676 INFO    bibliometrics            124,000/129,304 fetched
+2026-08-01 05:14:26,162 INFO    bibliometrics            128,000/129,304 fetched
+2026-08-01 05:14:30,619 INFO    bibliometrics          iCite: 127,143 papers with citation metrics
+2026-08-01 05:14:31,018 INFO    bibliometrics          wrote bibliometrics_surgery.csv (96 rows)
+2026-08-01 05:14:31,147 INFO    driver                 done: biblio

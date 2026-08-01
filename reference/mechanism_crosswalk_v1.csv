@@ -1,0 +1,185 @@
+activity_code,mechanism_family,is_r01,notes,version,effective_date
+C06,OTHER,False,Construction Grant,v1,2026-08-01
+D43,OTHER,False,International Research Training Grant,v1,2026-08-01
+D71,OTHER,False,International Research Planning Grant,v1,2026-08-01
+DA0,OTHER,False,Other,v1,2026-08-01
+DP1,OTHER,False,NIH Director Pioneer Award,v1,2026-08-01
+DP2,OTHER,False,NIH Director New Innovator Award,v1,2026-08-01
+DP3,OTHER,False,Type 1 Diabetes Targeted Research Award,v1,2026-08-01
+DP4,OTHER,False,NIH Director Pathfinder Award,v1,2026-08-01
+DP5,OTHER,False,Early Independence Award,v1,2026-08-01
+F05,F,False,International Fellowship,v1,2026-08-01
+F30,F,False,Individual Predoctoral MD/PhD Fellowship,v1,2026-08-01
+F31,F,False,Individual Predoctoral Fellowship,v1,2026-08-01
+F32,F,False,Individual Postdoctoral Fellowship,v1,2026-08-01
+F33,F,False,Individual Senior Fellowship,v1,2026-08-01
+F37,F,False,Individual Fellowship,v1,2026-08-01
+F38,F,False,Individual Fellowship,v1,2026-08-01
+F99,F,False,Predoctoral to Postdoctoral Transition Award,v1,2026-08-01
+FI2,F,False,Intramural Postdoctoral Fellowship,v1,2026-08-01
+FM1,F,False,Multi-year funded fellowship,v1,2026-08-01
+G07,OTHER,False,Resource Improvement Grant,v1,2026-08-01
+G08,OTHER,False,Resource Project Grant,v1,2026-08-01
+G11,OTHER,False,Extramural Associate Development Award,v1,2026-08-01
+G12,OTHER,False,Research Centers in Minority Institutions,v1,2026-08-01
+G13,OTHER,False,Publication Grant,v1,2026-08-01
+G20,OTHER,False,Grants for Repair Renovation and Modernization,v1,2026-08-01
+K00,K,False,NRSA career transition award postdoctoral phase (paired with F99),v1,2026-08-01
+K01,K,False,Research Scientist Development Award,v1,2026-08-01
+K02,K,False,Independent Scientist Award,v1,2026-08-01
+K05,K,False,Established Investigator Award,v1,2026-08-01
+K07,K,False,Academic/Teacher Award,v1,2026-08-01
+K08,K,False,Clinical Investigator Award,v1,2026-08-01
+K12,K,False,Physician Scientist Award Program,v1,2026-08-01
+K18,K,False,Career Enhancement Award,v1,2026-08-01
+K22,K,False,Career Transition Award,v1,2026-08-01
+K23,K,False,Patient-Oriented Research Career Development,v1,2026-08-01
+K24,K,False,Midcareer Investigator Award,v1,2026-08-01
+K25,K,False,Quantitative Research Career Development,v1,2026-08-01
+K26,K,False,Midcareer Investigator Award,v1,2026-08-01
+K30,K,False,Clinical Research Curriculum Award,v1,2026-08-01
+K38,K,False,Stimulating Access to Research in Residency,v1,2026-08-01
+K43,K,False,International Research Career Development,v1,2026-08-01
+K76,K,False,Emerging Leaders Career Development,v1,2026-08-01
+K99,K,False,Career Transition Award mentored phase,v1,2026-08-01
+KL1,K,False,Linked Career Development,v1,2026-08-01
+KL2,K,False,Linked Career Development,v1,2026-08-01
+KM1,K,False,Career Development with Complex Structure,v1,2026-08-01
+M01,M,False,General Clinical Research Center,v1,2026-08-01
+M02,M,False,General Clinical Research Center,v1,2026-08-01
+MO1,M,False,General Clinical Research Center (legacy spelling),v1,2026-08-01
+OT1,OTHER,False,Other Transaction Award,v1,2026-08-01
+OT2,OTHER,False,Other Transaction Award,v1,2026-08-01
+OT3,OTHER,False,Other Transaction Award,v1,2026-08-01
+P01,P,False,Research Program Project,v1,2026-08-01
+P20,P,False,Exploratory Grants,v1,2026-08-01
+P2C,P,False,Resource-Related Research Multi-Component,v1,2026-08-01
+P30,P,False,Center Core Grants,v1,2026-08-01
+P40,P,False,Animal Resource Grants,v1,2026-08-01
+P41,P,False,Biotechnology Resource Grants,v1,2026-08-01
+P42,P,False,Hazardous Substances Basic Research,v1,2026-08-01
+P50,P,False,Specialized Center,v1,2026-08-01
+P51,P,False,Primate Research Center Grants,v1,2026-08-01
+P60,P,False,Comprehensive Center,v1,2026-08-01
+PL1,P,False,Linked Center Core Grant,v1,2026-08-01
+PM1,P,False,Program Project with Complex Structure,v1,2026-08-01
+PN1,P,False,Program Project,v1,2026-08-01
+PN2,P,False,Program Project,v1,2026-08-01
+R00,R_OTHER,False,Career transition award research phase,v1,2026-08-01
+R01,R01,True,Research Project Grant,v1,2026-08-01
+R03,R_OTHER,False,Small Research Grant,v1,2026-08-01
+R13,R_OTHER,False,Conference Grant,v1,2026-08-01
+R15,R_OTHER,False,AREA,v1,2026-08-01
+R16,R_OTHER,False,Research Enhancement Award,v1,2026-08-01
+R18,R_OTHER,False,Research Demonstration and Dissemination,v1,2026-08-01
+R21,R_OTHER,False,Exploratory/Developmental,v1,2026-08-01
+R24,R_OTHER,False,Resource-Related Research Project,v1,2026-08-01
+R25,R_OTHER,False,Education Project,v1,2026-08-01
+R28,R_OTHER,False,Resource-Related Research Program,v1,2026-08-01
+R2A,R_OTHER,False,Research Project,v1,2026-08-01
+R33,R_OTHER,False,Exploratory/Developmental Phase II,v1,2026-08-01
+R34,R_OTHER,False,Clinical Trial Planning Grant,v1,2026-08-01
+R35,R_OTHER,False,Outstanding Investigator Award,v1,2026-08-01
+R36,R_OTHER,False,Dissertation Award,v1,2026-08-01
+R37,R01,True,MERIT Award - competing continuation of an R01; counted as R01,v1,2026-08-01
+R38,R_OTHER,False,Research Education,v1,2026-08-01
+R41,R_OTHER,False,STTR Phase I,v1,2026-08-01
+R42,R_OTHER,False,STTR Phase II,v1,2026-08-01
+R43,R_OTHER,False,SBIR Phase I,v1,2026-08-01
+R44,R_OTHER,False,SBIR Phase II,v1,2026-08-01
+R49,R_OTHER,False,Injury Control Research,v1,2026-08-01
+R50,R_OTHER,False,Research Specialist Award,v1,2026-08-01
+R55,R_OTHER,False,MERIT Award (historical),v1,2026-08-01
+R56,R_OTHER,False,High Priority Short Term Project Award,v1,2026-08-01
+R61,R_OTHER,False,Phased Innovation Award Phase I,v1,2026-08-01
+R90,R_OTHER,False,Interdisciplinary Regular Research Training Award,v1,2026-08-01
+RC1,R_OTHER,False,High Impact Challenge Grant,v1,2026-08-01
+RC2,R_OTHER,False,High Impact Research and Research Infrastructure,v1,2026-08-01
+RC4,R_OTHER,False,High Impact Research Enhancement,v1,2026-08-01
+RF1,R_OTHER,False,Multi-Year Funded Research Project Grant,v1,2026-08-01
+RL1,R_OTHER,False,Linked Research Project Grant,v1,2026-08-01
+RL5,R_OTHER,False,Linked Education Project,v1,2026-08-01
+RL9,R_OTHER,False,Linked Research Training,v1,2026-08-01
+RM1,R_OTHER,False,Research Project with Complex Structure,v1,2026-08-01
+S06,OTHER,False,Minority Biomedical Research Support,v1,2026-08-01
+S10,OTHER,False,Biomedical Research Support Shared Instrumentation,v1,2026-08-01
+S11,OTHER,False,Minority Biomedical Research Support Thematic,v1,2026-08-01
+S15,OTHER,False,Small Instrumentation Grant,v1,2026-08-01
+S21,OTHER,False,Research and Institutional Resources Health Disparities,v1,2026-08-01
+S22,OTHER,False,Minority Health Research Infrastructure,v1,2026-08-01
+SB1,OTHER,False,Small Business Commercialization Readiness,v1,2026-08-01
+SC1,OTHER,False,Research Enhancement Award SCORE,v1,2026-08-01
+SC2,OTHER,False,Pilot Research Project SCORE,v1,2026-08-01
+SC3,OTHER,False,Research Continuance Award SCORE,v1,2026-08-01
+SI2,OTHER,False,Intramural Clinical Scholar,v1,2026-08-01
+T14,T,False,Training Grant,v1,2026-08-01
+T15,T,False,Continuing Education Training Grant,v1,2026-08-01
+T32,T,False,Institutional NRSA,v1,2026-08-01
+T34,T,False,MARC Undergraduate NRSA,v1,2026-08-01
+T35,T,False,Short-Term Institutional NRSA,v1,2026-08-01
+T37,T,False,Minority International Research Training,v1,2026-08-01
+T42,T,False,Educational Resource Center Training,v1,2026-08-01
+T90,T,False,Interdisciplinary Research Training,v1,2026-08-01
+TL1,T,False,Linked Training Grant,v1,2026-08-01
+TL4,T,False,Linked Training Grant,v1,2026-08-01
+TU2,T,False,Training Cooperative Agreement,v1,2026-08-01
+U01,U,False,Research Project Cooperative Agreement,v1,2026-08-01
+U0A,U,False,Cooperative Agreement,v1,2026-08-01
+U10,U,False,Clinical Research Cooperative Agreement,v1,2026-08-01
+U11,U,False,Cooperative Agreement,v1,2026-08-01
+U13,U,False,Conference Cooperative Agreement,v1,2026-08-01
+U18,U,False,Research Demonstration Cooperative Agreement,v1,2026-08-01
+U19,U,False,Research Program Cooperative Agreement,v1,2026-08-01
+U1A,U,False,Cooperative Agreement,v1,2026-08-01
+U1B,U,False,Cooperative Agreement,v1,2026-08-01
+U21,U,False,Cooperative Agreement,v1,2026-08-01
+U22,U,False,Cooperative Agreement,v1,2026-08-01
+U23,U,False,Cooperative Agreement,v1,2026-08-01
+U24,U,False,Resource-Related Cooperative Agreement,v1,2026-08-01
+U2C,U,False,Resource-Related Cooperative Agreement Multi-Component,v1,2026-08-01
+U2G,U,False,Cooperative Agreement,v1,2026-08-01
+U2R,U,False,International Training Cooperative Agreement,v1,2026-08-01
+U32,U,False,Cooperative Agreement,v1,2026-08-01
+U34,U,False,Clinical Trial Planning Cooperative Agreement,v1,2026-08-01
+U38,U,False,Cooperative Agreement,v1,2026-08-01
+U3R,U,False,Cooperative agreement,v1,2026-08-01
+U41,U,False,Biotechnology Resource Cooperative Agreement,v1,2026-08-01
+U42,U,False,Animal Resource Cooperative Agreement,v1,2026-08-01
+U43,U,False,SBIR Cooperative Agreement Phase I,v1,2026-08-01
+U44,U,False,SBIR Cooperative Agreement Phase II,v1,2026-08-01
+U45,U,False,Hazardous Waste Worker Training Cooperative Agreement,v1,2026-08-01
+U48,U,False,Prevention Research Centers Cooperative Agreement,v1,2026-08-01
+U49,U,False,Injury Control Cooperative Agreement,v1,2026-08-01
+U54,U,False,Specialized Center Cooperative Agreement,v1,2026-08-01
+U56,U,False,Exploratory Grants Cooperative Agreement,v1,2026-08-01
+UA5,U,False,Cooperative Agreement,v1,2026-08-01
+UB1,U,False,Cooperative Agreement,v1,2026-08-01
+UC1,U,False,High Impact Cooperative Agreement,v1,2026-08-01
+UC2,U,False,High Impact Cooperative Agreement,v1,2026-08-01
+UC4,U,False,High Impact Cooperative Agreement,v1,2026-08-01
+UC6,U,False,Construction Cooperative Agreement,v1,2026-08-01
+UC7,U,False,Construction Cooperative Agreement,v1,2026-08-01
+UE1,U,False,Cooperative Agreement Education,v1,2026-08-01
+UE2,U,False,Cooperative Agreement Education,v1,2026-08-01
+UE5,U,False,Cooperative Agreement Education,v1,2026-08-01
+UF1,U,False,Multi-Year Funded Cooperative Agreement,v1,2026-08-01
+UG1,U,False,Clinical Research Cooperative Agreement Single Project,v1,2026-08-01
+UG3,U,False,Phased Cooperative Agreement Phase I,v1,2026-08-01
+UG4,U,False,Cooperative Agreement Resource,v1,2026-08-01
+UH1,U,False,Cooperative Agreement,v1,2026-08-01
+UH2,U,False,Exploratory/Developmental Cooperative Agreement Phase I,v1,2026-08-01
+UH3,U,False,Exploratory/Developmental Cooperative Agreement Phase II,v1,2026-08-01
+UH4,U,False,Cooperative Agreement,v1,2026-08-01
+UL1,U,False,Linked Specialized Center Cooperative Agreement (CTSA hub),v1,2026-08-01
+UM1,U,False,Research Project with Complex Structure Cooperative Agreement,v1,2026-08-01
+UM2,U,False,Research Project with Complex Structure Cooperative Agreement,v1,2026-08-01
+UP5,U,False,Cooperative Agreement,v1,2026-08-01
+UR1,U,False,Cooperative Agreement,v1,2026-08-01
+US3,U,False,Cooperative Agreement,v1,2026-08-01
+US4,U,False,Cooperative Agreement,v1,2026-08-01
+UT1,U,False,STTR Cooperative Agreement Phase I,v1,2026-08-01
+UT2,U,False,STTR Cooperative Agreement Phase II,v1,2026-08-01
+X01,OTHER,False,Resource Access Program,v1,2026-08-01
+X02,OTHER,False,Preapplication,v1,2026-08-01
+X98,OTHER,False,Resource Access Program,v1,2026-08-01
+X99,OTHER,False,Resource Access Program,v1,2026-08-01

@@ -1,0 +1,42 @@
+canonical_org_id,short_name,color,color_note,version,effective_date
+MGB_CORE,Mass General Brigham,#00558C,Mass General Brigham institutional blue,v1,2026-08-01
+MGB_SYSTEM,Mass General Brigham (system),#0A7B9E,MGB blue lightened to separate the system roll-up from the core roll-up,v1,2026-08-01
+MGH,Massachusetts General Hospital,#123F6D,MGH deep blue,v1,2026-08-01
+BWH,Brigham and Women's Hospital,#A6192E,Brigham red,v1,2026-08-01
+HMS,Harvard Medical School,#A51C30,Harvard crimson,v1,2026-08-01
+HARVARD_UNIV,Harvard University,#A51C30,Harvard crimson,v1,2026-08-01
+HSPH,Harvard Chan School,#C8102E,Harvard crimson lightened,v1,2026-08-01
+DFCI,Dana-Farber,#00539B,Dana-Farber blue,v1,2026-08-01
+BIDMC,Beth Israel Deaconess,#0067A5,BIDMC blue,v1,2026-08-01
+IPF2221101,Duke,#00539B,Duke blue,v1,2026-08-01
+IPF9083901,WashU,#A51417,WashU red,v1,2026-08-01
+IPF1506502,Michigan,#00274C,Michigan blue,v1,2026-08-01
+IPF6463801,Penn,#011F5B,Penn blue,v1,2026-08-01
+IPF2059802,Pittsburgh,#003594,Pitt blue,v1,2026-08-01
+IPF577508,UCSF,#052049,UCSF navy,v1,2026-08-01
+IPF6218701,Ohio State,#BB0000,Scarlet,v1,2026-08-01
+IPF1450402,Minnesota,#7A0019,Maroon,v1,2026-08-01
+IPF8046501,Stanford,#8C1515,Cardinal red,v1,2026-08-01
+IPF513806,Florida,#0021A5,Florida blue,v1,2026-08-01
+IPF578503,Wisconsin,#C5050C,Badger red,v1,2026-08-01
+IPF6144650,Northwestern,#4E2A84,Northwestern purple — a genuine institutional brand colour not a UI default,v1,2026-08-01
+IPF1833205,Columbia,#1D4F91,Columbia blue darkened for legibility on white,v1,2026-08-01
+IPF5998304,NYU,#57068C,NYU violet — a genuine institutional brand colour not a UI default,v1,2026-08-01
+IPF4134401,Johns Hopkins,#002D72,Hopkins blue,v1,2026-08-01
+IPF578407,MD Anderson,#C10230,MD Anderson red,v1,2026-08-01
+IPF7047101,Rochester,#003B71,Rochester blue,v1,2026-08-01
+IPF577505,UCLA,#2774AE,UCLA blue,v1,2026-08-01
+IPF577507,UC San Diego,#182B49,UCSD navy,v1,2026-08-01
+IPF820104,Maryland Baltimore,#E21833,Maryland red,v1,2026-08-01
+IPF1514803,Weill Cornell,#B31B1B,Cornell carnelian,v1,2026-08-01
+IPF2384501,Emory,#012169,Emory blue,v1,2026-08-01
+IPF5221250,Miami,#005030,Miami green,v1,2026-08-01
+IPF577503,UC Davis,#022851,UC Davis blue,v1,2026-08-01
+IPF1526402,Virginia,#232D4B,UVA navy,v1,2026-08-01
+IPF1288803,UAB,#1E6B52,UAB green,v1,2026-08-01
+IPF481201,Baylor College of Medicine,#154734,Baylor green,v1,2026-08-01
+IPF9420201,Yale,#00356B,Yale blue,v1,2026-08-01
+IPF1199905,Colorado,#CFB87C,CU gold,v1,2026-08-01
+IPF577806,Indiana,#990000,IU crimson,v1,2026-08-01
+IPF1425201,Vanderbilt University Medical Center,#866D4B,Vanderbilt gold,v1,2026-08-01
+IPF3212902,Harvard Medical School,#A51C30,Harvard crimson,v1,2026-08-01

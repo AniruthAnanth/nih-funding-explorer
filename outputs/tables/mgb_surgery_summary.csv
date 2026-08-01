@@ -1,0 +1,55 @@
+period,confidence_floor,scope,entity,total_funding,award_years,distinct_projects,r01_funding,r01_award_years,m_award_years,funded_investigators,high_confidence_share
+FY2025,corroborated,Department of Surgery,MGH,10586645.0,21,21,7663839.0,12,0,14,95.2
+FY2025,corroborated,Department of Surgery,BWH,16375579.0,10,9,3690257.0,6,0,8,70.0
+FY2025,corroborated,Department of Surgery,MGB_CORE,26962224.0,31,30,11354096.0,18,0,22,87.1
+FY2025,corroborated,All surgical departments (narrow),MGH,13712101.0,28,28,10053768.0,16,0,20,82.1
+FY2025,corroborated,All surgical departments (narrow),BWH,22317949.0,23,22,8849394.0,16,0,16,69.6
+FY2025,corroborated,All surgical departments (narrow),MGB_CORE,36030050.0,51,50,18903162.0,32,0,36,76.5
+FY2025,corroborated,All surgical departments (broad),MGH,13712101.0,28,28,10053768.0,16,0,20,82.1
+FY2025,corroborated,All surgical departments (broad),BWH,22473554.0,24,23,8849394.0,16,0,17,66.7
+FY2025,corroborated,All surgical departments (broad),MGB_CORE,36185655.0,52,51,18903162.0,32,0,37,75.0
+FY2025,all_evidence,Department of Surgery,MGH,17619301.0,32,32,12375769.0,16,0,23,62.5
+FY2025,all_evidence,Department of Surgery,BWH,22115987.0,20,19,7756759.0,12,0,17,35.0
+FY2025,all_evidence,Department of Surgery,MGB_CORE,39735288.0,52,51,20132528.0,28,0,40,51.9
+FY2025,all_evidence,All surgical departments (narrow),MGH,29706127.0,53,52,22216835.0,31,0,37,43.4
+FY2025,all_evidence,All surgical departments (narrow),BWH,30774593.0,38,37,15239879.0,25,0,29,42.1
+FY2025,all_evidence,All surgical departments (narrow),MGB_CORE,60480720.0,91,89,37456714.0,56,0,66,42.9
+FY2025,all_evidence,All surgical departments (broad),MGH,29706127.0,53,52,22216835.0,31,0,37,43.4
+FY2025,all_evidence,All surgical departments (broad),BWH,31758563.0,40,39,16068244.0,26,0,31,40.0
+FY2025,all_evidence,All surgical departments (broad),MGB_CORE,61464690.0,93,91,38285079.0,57,0,68,41.9
+FY2024_FY2025,corroborated,Department of Surgery,MGH,19364037.0,40,25,14023664.0,24,0,17,90.0
+FY2024_FY2025,corroborated,Department of Surgery,BWH,30700384.0,21,13,7053991.0,11,0,11,76.2
+FY2024_FY2025,corroborated,Department of Surgery,MGB_CORE,50064421.0,61,38,21077655.0,35,0,28,85.2
+FY2024_FY2025,corroborated,All surgical departments (narrow),MGH,26462168.0,57,38,20280531.0,37,0,26,78.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),BWH,42076523.0,47,26,17036024.0,31,0,19,70.2
+FY2024_FY2025,corroborated,All surgical departments (narrow),MGB_CORE,68538691.0,104,64,37316555.0,68,0,45,75.0
+FY2024_FY2025,corroborated,All surgical departments (broad),MGH,26462168.0,57,38,20280531.0,37,0,26,78.9
+FY2024_FY2025,corroborated,All surgical departments (broad),BWH,42232128.0,48,27,17036024.0,31,0,20,68.8
+FY2024_FY2025,corroborated,All surgical departments (broad),MGB_CORE,68694296.0,105,65,37316555.0,68,0,46,74.3
+FY2024_FY2025,all_evidence,Department of Surgery,MGH,30814762.0,60,37,20944076.0,32,0,27,60.0
+FY2024_FY2025,all_evidence,Department of Surgery,BWH,43737030.0,45,31,15309470.0,23,0,24,35.6
+FY2024_FY2025,all_evidence,Department of Surgery,MGB_CORE,74551792.0,105,68,36253546.0,55,0,51,49.5
+FY2024_FY2025,all_evidence,All surgical departments (narrow),MGH,61149825.0,111,72,43565785.0,69,0,48,40.5
+FY2024_FY2025,all_evidence,All surgical departments (narrow),BWH,61276290.0,83,52,30628104.0,51,0,37,39.8
+FY2024_FY2025,all_evidence,All surgical departments (narrow),MGB_CORE,122426115.0,194,124,74193889.0,120,0,85,40.2
+FY2024_FY2025,all_evidence,All surgical departments (broad),MGH,61149825.0,111,72,43565785.0,69,0,48,40.5
+FY2024_FY2025,all_evidence,All surgical departments (broad),BWH,65542268.0,91,59,34206700.0,56,0,42,36.3
+FY2024_FY2025,all_evidence,All surgical departments (broad),MGB_CORE,126692093.0,202,131,77772485.0,125,0,90,38.6
+FY2021_FY2025,corroborated,Department of Surgery,MGH,43974974.0,106,48,29128680.0,55,0,29,94.3
+FY2021_FY2025,corroborated,Department of Surgery,BWH,81719168.0,77,30,27166984.0,45,0,22,59.7
+FY2021_FY2025,corroborated,Department of Surgery,MGB_CORE,125694142.0,183,78,56295664.0,100,0,51,79.8
+FY2021_FY2025,corroborated,All surgical departments (narrow),MGH,62000036.0,147,67,46312478.0,92,0,41,85.7
+FY2021_FY2025,corroborated,All surgical departments (narrow),BWH,110076374.0,143,55,49355604.0,87,0,35,58.7
+FY2021_FY2025,corroborated,All surgical departments (narrow),MGB_CORE,172076410.0,290,122,95668082.0,179,0,76,72.4
+FY2021_FY2025,corroborated,All surgical departments (broad),MGH,71814793.0,151,70,53566330.0,95,0,42,86.1
+FY2021_FY2025,corroborated,All surgical departments (broad),BWH,115223078.0,150,60,49355604.0,87,0,38,60.0
+FY2021_FY2025,corroborated,All surgical departments (broad),MGB_CORE,187037871.0,301,130,102921934.0,182,0,80,73.1
+FY2021_FY2025,all_evidence,Department of Surgery,MGH,83688011.0,177,80,50279153.0,86,0,48,56.5
+FY2021_FY2025,all_evidence,Department of Surgery,BWH,115025958.0,142,57,46485376.0,71,0,36,32.4
+FY2021_FY2025,all_evidence,Department of Surgery,MGB_CORE,198713969.0,319,137,96764529.0,157,0,84,45.8
+FY2021_FY2025,all_evidence,All surgical departments (narrow),MGH,155316931.0,299,136,100578708.0,174,0,77,42.1
+FY2021_FY2025,all_evidence,All surgical departments (narrow),BWH,167673144.0,250,97,87248785.0,141,0,56,33.6
+FY2021_FY2025,all_evidence,All surgical departments (narrow),MGB_CORE,322990075.0,549,233,187827493.0,315,0,133,38.3
+FY2021_FY2025,all_evidence,All surgical departments (broad),MGH,165131688.0,303,139,107832560.0,177,0,78,42.9
+FY2021_FY2025,all_evidence,All surgical departments (broad),BWH,181670651.0,274,110,94698265.0,152,0,64,32.8
+FY2021_FY2025,all_evidence,All surgical departments (broad),MGB_CORE,346802339.0,577,249,202530825.0,329,0,142,38.1

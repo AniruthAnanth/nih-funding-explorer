@@ -1,0 +1,33 @@
+canonical_org_id,short_name,pubmed_query,affiliation_regex,version,effective_date
+MGH,Massachusetts General Hospital,"""massachusetts general hospital""[Affiliation] OR ""mass general hospital""[Affiliation]","mass(achusetts)?\s+general\s+hospital",v1,2026-08-01
+BWH,Brigham and Women's Hospital,"""brigham and women""[Affiliation]","brigham\s+and\s+women",v1,2026-08-01
+IPF2221101,Duke,"""duke university""[Affiliation] OR ""duke health""[Affiliation]","duke\s+(university|health|medical|clinical)",v1,2026-08-01
+IPF9083901,WashU St. Louis,"""washington university""[Affiliation] AND ""st. louis""[Affiliation]","washington\s+university",v1,2026-08-01
+IPF1506502,Michigan,"""university of michigan""[Affiliation]","university\s+of\s+michigan",v1,2026-08-01
+IPF6463801,Penn,"""university of pennsylvania""[Affiliation] OR ""perelman school""[Affiliation]","(university\s+of\s+pennsylvania|perelman\s+school)",v1,2026-08-01
+IPF2059802,Pittsburgh,"""university of pittsburgh""[Affiliation]","university\s+of\s+pittsburgh",v1,2026-08-01
+IPF577508,UC San Francisco,"""university of california, san francisco""[Affiliation] OR ""ucsf""[Affiliation]","(university\s+of\s+california,?\s+san\s+francisco|\bucsf\b)",v1,2026-08-01
+IPF6218701,Ohio State,"""ohio state university""[Affiliation]","ohio\s+state\s+university",v1,2026-08-01
+IPF1450402,Minnesota,"""university of minnesota""[Affiliation]","university\s+of\s+minnesota",v1,2026-08-01
+IPF8046501,Stanford,"""stanford university""[Affiliation] OR ""stanford medicine""[Affiliation]","stanford\s+(university|medicine|school)",v1,2026-08-01
+IPF513806,Florida,"""university of florida""[Affiliation]","university\s+of\s+florida",v1,2026-08-01
+IPF578503,Wisconsin–Madison,"""university of wisconsin""[Affiliation] AND madison[Affiliation]","university\s+of\s+wisconsin",v1,2026-08-01
+IPF6144650,Northwestern,"""northwestern university""[Affiliation] OR ""feinberg school""[Affiliation]","(northwestern\s+university|feinberg\s+school)",v1,2026-08-01
+IPF1833205,Columbia,"""columbia university""[Affiliation] OR ""vagelos college""[Affiliation]","(columbia\s+university|vagelos\s+college)",v1,2026-08-01
+IPF5998304,NYU,"""new york university""[Affiliation] OR ""nyu langone""[Affiliation] OR ""nyu grossman""[Affiliation]","(new\s+york\s+university|nyu\s+(langone|grossman))",v1,2026-08-01
+IPF4134401,Johns Hopkins,"""johns hopkins""[Affiliation]","johns\s+hopkins",v1,2026-08-01
+IPF578407,MD Anderson,"""md anderson""[Affiliation]","m\.?\s?d\.?\s+anderson",v1,2026-08-01
+IPF7047101,Rochester,"""university of rochester""[Affiliation]","university\s+of\s+rochester",v1,2026-08-01
+IPF577505,UCLA,"""university of california, los angeles""[Affiliation] OR ""ucla""[Affiliation]","(university\s+of\s+california,?\s+los\s+angeles|\bucla\b)",v1,2026-08-01
+IPF577507,UC San Diego,"""university of california, san diego""[Affiliation] OR ""uc san diego""[Affiliation]","(university\s+of\s+california,?\s+san\s+diego|uc\s+san\s+diego)",v1,2026-08-01
+IPF820104,Maryland Baltimore,"""university of maryland""[Affiliation] AND baltimore[Affiliation]","university\s+of\s+maryland",v1,2026-08-01
+IPF1514803,Weill Cornell,"""weill cornell""[Affiliation]","weill\s+cornell",v1,2026-08-01
+IPF2384501,Emory,"""emory university""[Affiliation]","emory\s+university",v1,2026-08-01
+IPF5221250,Miami,"""university of miami""[Affiliation] OR ""miller school""[Affiliation]","(university\s+of\s+miami|miller\s+school)",v1,2026-08-01
+IPF577503,UC Davis,"""university of california, davis""[Affiliation] OR ""uc davis""[Affiliation]","(university\s+of\s+california,?\s+davis|uc\s+davis)",v1,2026-08-01
+IPF1526402,Virginia,"""university of virginia""[Affiliation]","university\s+of\s+virginia",v1,2026-08-01
+IPF1288803,UAB,"""university of alabama at birmingham""[Affiliation]","university\s+of\s+alabama\s+at\s+birmingham",v1,2026-08-01
+IPF481201,Baylor College of Medicine,"""baylor college of medicine""[Affiliation]","baylor\s+college\s+of\s+medicine",v1,2026-08-01
+IPF9420201,Yale,"""yale university""[Affiliation] OR ""yale school of medicine""[Affiliation] OR ""yale new haven""[Affiliation]","yale\s+(university|school|new\s+haven)",v1,2026-08-01
+IPF1199905,Colorado Denver,"""university of colorado""[Affiliation]","university\s+of\s+colorado",v1,2026-08-01
+IPF577806,Indiana Indianapolis,"""indiana university""[Affiliation]","indiana\s+university",v1,2026-08-01

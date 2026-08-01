@@ -1,0 +1,49 @@
+nih_org_dept,specialty,surgical_narrow,surgical_broad,rationale,version,effective_date
+SURGERY,GENERAL_AND_UNSPECIFIED_SURGERY,True,True,Explicitly a department of surgery,v1,2026-08-01
+NEUROSURGERY,NEUROSURGERY,True,True,Explicitly surgical department,v1,2026-08-01
+ORTHOPEDICS,ORTHOPEDIC_SURGERY,True,True,Explicitly surgical department,v1,2026-08-01
+OTOLARYNGOLOGY,OTOLARYNGOLOGY_HNS,True,True,Explicitly surgical department,v1,2026-08-01
+UROLOGY,UROLOGY,True,True,Explicitly surgical department,v1,2026-08-01
+PLASTIC SURGERY,PLASTIC_SURGERY,True,True,Explicitly surgical department,v1,2026-08-01
+OPHTHALMOLOGY,OPHTHALMIC_SURGERY,False,True,Section 7 admits ophthalmology only where institutionally organized as a surgical department; NIH ORG_DEPT cannot establish that so it is broad-only,v1,2026-08-01
+OBSTETRICS & GYNECOLOGY,OBGYN,False,True,Procedural but not enumerated in the Section 7 taxonomy; broad-only borderline,v1,2026-08-01
+ANESTHESIOLOGY,ANESTHESIOLOGY,False,False,Perioperative not surgical; excluded by organizational-appointment rule,v1,2026-08-01
+DENTISTRY,DENTISTRY,False,False,Oral and maxillofacial surgery not separable from general dentistry in NIH coding,v1,2026-08-01
+DERMATOLOGY,DERMATOLOGY,False,False,Procedural but organizationally nonsurgical,v1,2026-08-01
+EMERGENCY MEDICINE,EMERGENCY_MEDICINE,False,False,Nonsurgical,v1,2026-08-01
+INTERNAL MEDICINE/MEDICINE,INTERNAL_MEDICINE,False,False,Nonsurgical,v1,2026-08-01
+PEDIATRICS,PEDIATRICS,False,False,Nonsurgical; pediatric surgery divisions sit under Surgery in NIH coding,v1,2026-08-01
+NEUROLOGY,NEUROLOGY,False,False,Nonsurgical,v1,2026-08-01
+PATHOLOGY,PATHOLOGY,False,False,Nonsurgical,v1,2026-08-01
+PSYCHIATRY,PSYCHIATRY,False,False,Nonsurgical,v1,2026-08-01
+RADIATION-DIAGNOSTIC/ONCOLOGY,RADIOLOGY_RADONC,False,False,Nonsurgical,v1,2026-08-01
+PHYSICAL MEDICINE & REHAB,PMR,False,False,Nonsurgical,v1,2026-08-01
+FAMILY MEDICINE,FAMILY_MEDICINE,False,False,Nonsurgical,v1,2026-08-01
+PUBLIC HEALTH & PREV MEDICINE,PUBLIC_HEALTH,False,False,Nonsurgical,v1,2026-08-01
+NUTRITION,NUTRITION,False,False,Nonsurgical,v1,2026-08-01
+VETERINARY SCIENCES,VETERINARY,False,False,Nonsurgical for human-department purposes,v1,2026-08-01
+OTHER CLINICAL SCIENCES,OTHER_CLINICAL,False,False,Unresolvable clinical department; not creditable as surgical without corroboration,v1,2026-08-01
+OTHER HEALTH PROFESSIONS,OTHER_HEALTH_PROF,False,False,Nonsurgical,v1,2026-08-01
+ANATOMY/CELL BIOLOGY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+BIOCHEMISTRY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+BIOLOGY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+BIOPHYSICS,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+GENETICS,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+MICROBIOLOGY/IMMUN/VIROLOGY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+NEUROSCIENCES,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+PHARMACOLOGY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+PHYSIOLOGY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+ZOOLOGY,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+OTHER BASIC SCIENCES,BASIC_SCIENCE,False,False,Basic science,v1,2026-08-01
+CHEMISTRY,PHYSICAL_SCIENCE,False,False,Physical science,v1,2026-08-01
+PHYSICS,PHYSICAL_SCIENCE,False,False,Physical science,v1,2026-08-01
+BIOMEDICAL ENGINEERING,ENGINEERING,False,False,Engineering,v1,2026-08-01
+ENGINEERING (ALL TYPES),ENGINEERING,False,False,Engineering,v1,2026-08-01
+BIOSTATISTICS & OTHER MATH SCI,QUANTITATIVE,False,False,Quantitative science,v1,2026-08-01
+PSYCHOLOGY,SOCIAL_BEHAVIORAL,False,False,Social and behavioral science,v1,2026-08-01
+SOCIAL SCIENCES,SOCIAL_BEHAVIORAL,False,False,Social and behavioral science,v1,2026-08-01
+ADMINISTRATION,ADMINISTRATION,False,False,Nonclinical,v1,2026-08-01
+MISCELLANEOUS,UNCLASSIFIED,False,False,NIH catch-all; treated as unknown for surgical status,v1,2026-08-01
+NONE,UNCLASSIFIED,False,False,NIH records no department; treated as unknown for surgical status,v1,2026-08-01
+__MISSING__,UNKNOWN,False,False,ORG_DEPT null in source; treated as unknown and reported in coverage statistics,v1,2026-08-01
+NO CODE ASSIGNED,UNCLASSIFIED,False,False,NIH legacy placeholder value; treated as unknown for surgical status,v1,2026-08-01

@@ -1,0 +1,3 @@
+application_id,fiscal_year,budget_start,budget_start_fy,activity_code,application_type,core_project_num,org_name_raw,total_cost,rule,retained
+11169374,2025,2025-04-01,2025,R01,7,R01HL163019,WASHINGTON UNIVERSITY,549049.0,budget_start_fiscal_year,True
+11169374,2024,2025-04-01,2025,R01,7,R01HL163019,WASHINGTON UNIVERSITY,494533.0,latest_published_file,False

@@ -1,0 +1,21 @@
+fiscal_year,rule,rows_before,rows_removed,rows_after,note
+2021,nih_administering_ic,82940,3845,79095,ExPORTER redistributes VA/AHRQ/CDC/FDA/HRSA awards; only NIH ICs are retained
+2021,grants_and_cooperative_agreements,79095,4582,74513,"removes intramural research, R&D contracts, and interagency agreements"
+2021,activity_code_prefix,74513,0,74513,belt-and-braces removal of Z* intramural and N* contract activity codes
+2021,parent_awards_only,74513,11406,63107,subproject rows are nested inside a parent P/U/M award that already carries the full TOTAL_COST; retaining both double counts
+2022,nih_administering_ic,83877,3642,80235,ExPORTER redistributes VA/AHRQ/CDC/FDA/HRSA awards; only NIH ICs are retained
+2022,grants_and_cooperative_agreements,80235,4610,75625,"removes intramural research, R&D contracts, and interagency agreements"
+2022,activity_code_prefix,75625,0,75625,belt-and-braces removal of Z* intramural and N* contract activity codes
+2022,parent_awards_only,75625,11257,64368,subproject rows are nested inside a parent P/U/M award that already carries the full TOTAL_COST; retaining both double counts
+2023,nih_administering_ic,85024,3753,81271,ExPORTER redistributes VA/AHRQ/CDC/FDA/HRSA awards; only NIH ICs are retained
+2023,grants_and_cooperative_agreements,81271,4530,76741,"removes intramural research, R&D contracts, and interagency agreements"
+2023,activity_code_prefix,76741,0,76741,belt-and-braces removal of Z* intramural and N* contract activity codes
+2023,parent_awards_only,76741,11343,65398,subproject rows are nested inside a parent P/U/M award that already carries the full TOTAL_COST; retaining both double counts
+2024,nih_administering_ic,83314,3777,79537,ExPORTER redistributes VA/AHRQ/CDC/FDA/HRSA awards; only NIH ICs are retained
+2024,grants_and_cooperative_agreements,79537,4480,75057,"removes intramural research, R&D contracts, and interagency agreements"
+2024,activity_code_prefix,75057,0,75057,belt-and-braces removal of Z* intramural and N* contract activity codes
+2024,parent_awards_only,75057,10979,64078,subproject rows are nested inside a parent P/U/M award that already carries the full TOTAL_COST; retaining both double counts
+2025,nih_administering_ic,76224,3087,73137,ExPORTER redistributes VA/AHRQ/CDC/FDA/HRSA awards; only NIH ICs are retained
+2025,grants_and_cooperative_agreements,73137,3976,69161,"removes intramural research, R&D contracts, and interagency agreements"
+2025,activity_code_prefix,69161,0,69161,belt-and-braces removal of Z* intramural and N* contract activity codes
+2025,parent_awards_only,69161,10394,58767,subproject rows are nested inside a parent P/U/M award that already carries the full TOTAL_COST; retaining both double counts

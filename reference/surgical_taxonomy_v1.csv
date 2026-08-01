@@ -1,0 +1,42 @@
+specialty,label,surgical_narrow,surgical_broad,inclusion_rule,exclusion_rule,version,effective_date
+GENERAL_AND_UNSPECIFIED_SURGERY,General surgery / Department of Surgery (unspecified division),TRUE,TRUE,Appointment in a department named Surgery with no qualifying division recorded,Do not use when the department string names a nonsurgical division that merely sits administratively under Surgery,v1,2026-08-01
+CARDIAC_CARDIOTHORACIC_SURGERY,Cardiac or cardiothoracic surgery,TRUE,TRUE,Division or department string contains cardiac/cardiothoracic/thoracic surgery,Cardiology and interventional cardiology are excluded,v1,2026-08-01
+VASCULAR_SURGERY,Vascular surgery,TRUE,TRUE,Division or department string contains vascular surgery or endovascular surgery,Vascular medicine and interventional radiology are excluded,v1,2026-08-01
+TRANSPLANT_SURGERY,Transplant surgery,TRUE,TRUE,Division string contains transplant surgery or abdominal transplantation,Transplant nephrology/hepatology are excluded,v1,2026-08-01
+SURGICAL_ONCOLOGY,Surgical oncology,TRUE,TRUE,Division string contains surgical oncology,Medical and radiation oncology are excluded,v1,2026-08-01
+TRAUMA_ACUTE_CARE_SURGERY,Trauma / acute care surgery / surgical critical care,TRUE,TRUE,Division string contains trauma surgery acute care surgery or surgical critical care,Emergency medicine is excluded,v1,2026-08-01
+COLORECTAL_SURGERY,Colorectal surgery,TRUE,TRUE,Division string contains colon and rectal or colorectal surgery,Gastroenterology is excluded,v1,2026-08-01
+PEDIATRIC_SURGERY,Pediatric surgery,TRUE,TRUE,Division string contains pediatric surgery,General pediatrics is excluded,v1,2026-08-01
+NEUROSURGERY,Neurological surgery,TRUE,TRUE,Department or division named neurosurgery or neurological surgery,Neurology and neuroscience are excluded,v1,2026-08-01
+ORTHOPEDIC_SURGERY,Orthopedic surgery,TRUE,TRUE,Department or division named orthopedics or orthopaedic surgery,Rheumatology and physical medicine are excluded,v1,2026-08-01
+PLASTIC_SURGERY,Plastic and reconstructive surgery,TRUE,TRUE,Department or division named plastic surgery,Dermatology is excluded,v1,2026-08-01
+OTOLARYNGOLOGY_HNS,Otolaryngology - head and neck surgery,TRUE,TRUE,Department or division named otolaryngology or head and neck surgery,Audiology and speech pathology alone are excluded,v1,2026-08-01
+UROLOGY,Urology / urologic surgery,TRUE,TRUE,Department or division named urology,Nephrology is excluded,v1,2026-08-01
+OPHTHALMIC_SURGERY,Ophthalmology where organized as a surgical department,FALSE,TRUE,Ophthalmology appointment WITH dated evidence the unit is institutionally organized as a surgical department or a division of surgery,Freestanding departments or institutes of ophthalmology without such evidence stay broad-only,v1,2026-08-01
+OBGYN,Obstetrics and gynecology,FALSE,TRUE,Department named obstetrics and gynecology,Not enumerated in the Section 7 taxonomy; retained as a documented borderline for sensitivity analysis only,v1,2026-08-01
+OTHER_EXPLICIT_SURGERY,Other explicitly surgical department or division,TRUE,TRUE,Unit name contains the word surgery or surgical and is a clinical appointment,Research centers with surgery in the name but no clinical appointment are excluded,v1,2026-08-01
+ANESTHESIOLOGY,Anesthesiology,FALSE,FALSE,n/a,Perioperative not surgical,v1,2026-08-01
+DENTISTRY,Dentistry / oral and maxillofacial,FALSE,FALSE,n/a,Not separable in NIH coding,v1,2026-08-01
+DERMATOLOGY,Dermatology,FALSE,FALSE,n/a,Procedural but organizationally nonsurgical,v1,2026-08-01
+EMERGENCY_MEDICINE,Emergency medicine,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+INTERNAL_MEDICINE,Internal medicine,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+PEDIATRICS,Pediatrics,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+NEUROLOGY,Neurology,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+PATHOLOGY,Pathology,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+PSYCHIATRY,Psychiatry,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+RADIOLOGY_RADONC,Radiology and radiation oncology,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+PMR,Physical medicine and rehabilitation,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+FAMILY_MEDICINE,Family medicine,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+PUBLIC_HEALTH,Public health and preventive medicine,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+NUTRITION,Nutrition,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+VETERINARY,Veterinary sciences,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+OTHER_CLINICAL,Other clinical sciences,FALSE,FALSE,n/a,Unresolvable,v1,2026-08-01
+OTHER_HEALTH_PROF,Other health professions,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+BASIC_SCIENCE,Basic science department,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+PHYSICAL_SCIENCE,Physical science department,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+ENGINEERING,Engineering,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+QUANTITATIVE,Biostatistics and quantitative sciences,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+SOCIAL_BEHAVIORAL,Social and behavioral sciences,FALSE,FALSE,n/a,Nonsurgical,v1,2026-08-01
+ADMINISTRATION,Administration,FALSE,FALSE,n/a,Nonclinical,v1,2026-08-01
+UNCLASSIFIED,Recorded but uninformative department value,FALSE,FALSE,n/a,Treated as unknown for surgical status,v1,2026-08-01
+UNKNOWN,No department evidence,FALSE,FALSE,n/a,Never counted as surgical; published in coverage statistics,v1,2026-08-01

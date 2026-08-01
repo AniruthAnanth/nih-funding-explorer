@@ -1,0 +1,17 @@
+check,passed,value,detail
+application_id_unique,True,0,APPLICATION_ID is the primary observation and must be unique after cross-year resolution
+no_subproject_double_counting,True,0,subproject rows are excluded at load; parent awards carry the full TOTAL_COST
+annual_total_plausible_FY2021,True,33248461679.0,US extramural grant and cooperative-agreement obligations should fall in the $20-50B range
+annual_total_plausible_FY2022,True,34501700314.0,US extramural grant and cooperative-agreement obligations should fall in the $20-50B range
+annual_total_plausible_FY2023,True,35444821518.0,US extramural grant and cooperative-agreement obligations should fall in the $20-50B range
+annual_total_plausible_FY2024,True,34883303091.0,US extramural grant and cooperative-agreement obligations should fall in the $20-50B range
+annual_total_plausible_FY2025,True,35066223177.0,US extramural grant and cooperative-agreement obligations should fall in the $20-50B range
+all_activity_codes_mapped,True,0,every activity code must resolve to exactly one mechanism family
+mgh_bwh_reported_separately,True,,Section 9 requires MGH and BWH to be separate recipient entities
+mgh_bwh_no_shared_awards,True,0,no award-year may be attributed to both MGH and BWH in the recipient model
+harvard_not_merged_into_mgb,True,,Harvard Medical School must remain its own recipient and never absorb MGH/BWH awards
+no_ipf_name_collisions,True,0,each canonical organization id must carry one canonical name
+direct_plus_indirect_equals_total_r01,True,"936 of 148,842 R01 rows off by more than $1",on single-component R01s direct + indirect must reconcile to total
+cost_components_multicomponent_documented,True,"{'F': 0.0, 'K': 1.8, 'OTHER': 6.1, 'P': 20.4, 'R01': 0.6, 'R_OTHER': 12.9, 'T': 43.9, 'U': 30.9}","share of rows per mechanism family where direct + indirect does not reconcile to total; expected on multi-component awards, which is why TOTAL_COST is primary"
+reporter_record_count_cross_check,True,0.771,"RePORTER reports 76,237 FY2025 projects against 58,767 retained award-years; the pipeline excludes intramural, contracts and non-NIH agencies so a ratio below 1 is expected"
+department_coverage_published,True,27.02,"share of funding with no department evidence, averaged across years; published rather than imputed"

@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIH funding by institution and department, FY2021–FY2025</title>
+<meta name="description" content="A reproducible census of NIH extramural grants and cooperative agreements FY2021-FY2025, ranked by institution, by department, and by institution-department pair.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="skip" href="#explorer">Skip to the tables</a>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">NIH ExPORTER FY2021–FY2025 · reproducible census</div>
+    <h1>NIH funding by institution and department</h1>
+    <p class="standfirst">
+      Every NIH extramural grant and cooperative agreement awarded FY2021–FY2025, ranked three
+      ways: by recipient organization, by department, and by institution–department pair.
+      9,683 pairs over the five-year window. Every number here is regenerated from checksummed
+      source files by the code in this repository.
+    </p>
+    <div class="meta">
+      <span>315,717 award-years</span><span>$173B</span><span>5,007 organizations</span><span>16/16 validation checks pass</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap" role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-explorer"    aria-controls="explorer"    aria-selected="true"  tabindex="0"  data-tab="explorer">Explorer</button>
+    <button role="tab" id="tab-surgery"     aria-controls="surgery"     aria-selected="false" tabindex="-1" data-tab="surgery">Departments of surgery</button>
+    <button role="tab" id="tab-specialties" aria-controls="specialties" aria-selected="false" tabindex="-1" data-tab="specialties">All specialties</button>
+    <button role="tab" id="tab-agreement"   aria-controls="agreement"   aria-selected="false" tabindex="-1" data-tab="agreement">Method agreement</button>
+    <button role="tab" id="tab-coverage"    aria-controls="coverage"    aria-selected="false" tabindex="-1" data-tab="coverage">The coverage gap</button>
+    <button role="tab" id="tab-method"      aria-controls="method"      aria-selected="false" tabindex="-1" data-tab="method">Method &amp; data</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="caveat">
+    <h2>Read this before reading any departmental ranking</h2>
+    <p>
+      NIH publishes a department code only for recipients it classifies as schools. Independent
+      hospitals and research institutes get none. In FY2025 that leaves <strong>30.0% of all US
+      NIH dollars with no department attached</strong>, which is $10.5B.
+    </p>
+    <p>
+      A departmental ranking taken straight from NIH data therefore does not rank those
+      recipients low, it <strong>omits them entirely</strong>. Of the 140 US institutions above
+      $50M in FY2025, 27 carry no department code on any of their funding, among them
+      Massachusetts General Hospital, Vanderbilt University Medical Center, Brigham and Women's
+      Hospital, Fred Hutchinson, Mayo, Boston Children's, Memorial Sloan Kettering, Children's
+      Hospital of Philadelphia, Dana-Farber and Cedars-Sinai.
+    </p>
+    <p>
+      Where a department has been reconstructed from dated publication affiliations instead, the
+      row is hatched and tagged <strong>lower bound</strong>. Those figures are not measured the
+      same way as an NIH-coded department and should not be read as if they were. The
+      <a href="#agreement" data-goto="agreement">Method agreement</a> tab quantifies how far the
+      two disagree.
+    </p>
+  </div>
+
+  <!-- ================= EXPLORER ================= -->
+  <section id="explorer" class="active" role="tabpanel" aria-labelledby="tab-explorer" tabindex="-1">
+    <h2 class="head">Explorer</h2>
+    <p class="note">
+      Rank any grain against any metric, filter on department, institution, country, mechanism
+      family or any numeric range, and sort on several columns at once (shift-click a second
+      header). Whatever is on screen exports as CSV or JSON, and the view is encoded in the URL
+      so it can be shared.
+    </p>
+
+    <form class="panel" id="ex-panel" autocomplete="off" onsubmit="return false;">
+      <div class="panel-line">
+        <div class="field">
+          <label for="c-grain">Grain</label>
+          <select id="c-grain">
+            <option value="pairs">Institution × department</option>
+            <option value="inst">Institution</option>
+            <option value="dept">Department (all institutions pooled)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-period">Reporting period</label>
+          <select id="c-period">
+            <option value="FY2025">FY2025</option>
+            <option value="FY2024_FY2025">FY2024–FY2025</option>
+            <option value="FY2021_FY2025" selected>FY2021–FY2025</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="c-metric">Rank by</label>
+          <select id="c-metric"></select>
+        </div>
+        <div class="field" id="f-country">
+          <label for="c-country">Country</label>
+          <select id="c-country">
+            <option value="UNITED STATES" selected>United States</option>
+            <option value="__NONUS">Outside the US</option>
+            <option value="__ALL">All</option>
+          </select>
+        </div>
+        <div class="field" id="f-floor" hidden>
+          <label for="c-floor">Minimum investigators</label>
+          <select id="c-floor">
+            <option value="5" selected>5+</option>
+            <option value="10">10+</option>
+            <option value="20">20+</option>
+            <option value="1">No floor</option>
+          </select>
+        </div>
+        <div class="field grow">
+          <label for="c-search">Free-text search</label>
+          <input type="search" id="c-search" placeholder="institution, department or country">
+        </div>
+        <div class="field">
+          <label for="ex-toggle" class="vis-hidden">More filters</label>
+          <button type="button" class="btn" id="ex-toggle" aria-expanded="false" aria-controls="ex-filters">More filters</button>
+        </div>
+      </div>
+
+      <div class="panel-grid primary" id="ex-primary">
+
+        <div class="fbox" id="fb-dept">
+          <div class="fbox-h">
+            <span class="fbox-t">Specialty / department</span>
+            <span class="fbox-n" id="n-dept"></span>
+          </div>
+          <div class="msel" id="ms-dept"></div>
+          <label class="chkline"><input type="checkbox" id="c-uncoded"> Include rows with no department code</label>
+        </div>
+
+        <div class="fbox" id="fb-inst">
+          <div class="fbox-h">
+            <span class="fbox-t">Institution</span>
+            <span class="fbox-n" id="n-inst"></span>
+          </div>
+          <div class="msel" id="ms-inst"></div>
+        </div>
+      </div>
+
+      <div class="panel-grid" id="ex-filters" hidden>
+
+        <div class="fbox" id="fb-spec">
+          <div class="fbox-h">
+            <span class="fbox-t">Specialty group</span>
+            <span class="fbox-n" id="n-spec"></span>
+          </div>
+          <div class="msel" id="ms-spec"></div>
+          <p class="hint">The normalised taxonomy behind the NIH department string. Use it to take
+            every surgical subspecialty at once.</p>
+        </div>
+
+        <div class="fbox" id="fb-range">
+          <div class="fbox-h"><span class="fbox-t">Numeric range</span></div>
+          <div class="rangeadd">
+            <select id="rg-metric" aria-label="Metric to bound"></select>
+            <input type="text" id="rg-min" placeholder="min" aria-label="Minimum" inputmode="decimal">
+            <input type="text" id="rg-max" placeholder="max" aria-label="Maximum" inputmode="decimal">
+            <button type="button" class="btn" id="rg-add">Add</button>
+          </div>
+          <div class="rangelist" id="rg-list"></div>
+          <p class="hint">Leave one side blank for an open bound. Accepts 250k, 1.5M, 2B, 44.8.</p>
+        </div>
+
+        <div class="fbox" id="fb-mech">
+          <div class="fbox-h"><span class="fbox-t">Mechanism families present</span></div>
+          <div class="chkgrid" id="mech-chks"></div>
+          <div class="radiorow" role="radiogroup" aria-label="Mechanism match mode">
+            <label><input type="radio" name="mechmode" value="any" checked> has any</label>
+            <label><input type="radio" name="mechmode" value="all"> has all</label>
+            <label><input type="radio" name="mechmode" value="none"> has none</label>
+          </div>
+        </div>
+
+        <div class="fbox" id="fb-evid">
+          <div class="fbox-h"><span class="fbox-t">Evidence basis</span></div>
+          <div class="radiocol" role="radiogroup" aria-label="Evidence basis">
+            <label><input type="radio" name="recon" value="all" checked> Everything</label>
+            <label><input type="radio" name="recon" value="measured"> NIH-coded only</label>
+            <label><input type="radio" name="recon" value="recon"> Reconstructed only</label>
+          </div>
+          <p class="hint">
+            Reconstructed rows are rebuilt from dated PubMed affiliations rather than read from an
+            NIH department code. A
+            <strong>lower bound</strong>, hatched and tagged wherever it appears, never
+            like-for-like with an NIH-coded row.
+          </p>
+          <label class="chkline"><input type="checkbox" id="c-rollup"> Hide multi-hospital roll-up rows
+            <span class="hint inline">(hides every publication-derived row)</span></label>
+        </div>
+
+        <div class="fbox span4" id="fb-cols">
+          <div class="fbox-h">
+            <span class="fbox-t">Columns</span>
+            <span class="fbox-n" id="n-cols"></span>
+          </div>
+          <div class="chkgrid tall" id="col-chks"></div>
+        </div>
+
+      </div>
+
+      <div class="chipbar" id="ex-chips"></div>
+    </form>
+
+    <div class="tablebar">
+      <div class="count" id="c-count"></div>
+      <div class="tablebar-r">
+        <span class="pager" id="ex-pager"></span>
+        <label class="inline" for="c-pagesize">Rows</label>
+        <select id="c-pagesize" class="mini">
+          <option value="50">50</option>
+          <option value="100" selected>100</option>
+          <option value="250">250</option>
+          <option value="500">500</option>
+          <option value="0">All</option>
+        </select>
+        <span class="vr"></span>
+        <button type="button" class="btn" data-export="csv">CSV</button>
+        <button type="button" class="btn" data-export="json">JSON</button>
+        <button type="button" class="btn" data-export="copy">Copy</button>
+      </div>
+    </div>
+    <div class="tablewrap"><div id="t-explorer" class="loading">Loading…</div></div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3 id="ex-ch-title">Top of the current view</h3>
+          <p class="csub" id="ex-ch-sub"></p>
+        </div>
+        <div class="chart-tools">
+          <label for="ex-topn">Top</label>
+          <select id="ex-topn" class="mini">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+          <label for="ex-scale">Axis</label>
+          <select id="ex-scale" class="mini">
+            <option value="lin" selected>Linear</option>
+            <option value="log">Log</option>
+          </select>
+          <button type="button" class="btn" data-chart="ex-chart" data-fmt="png" data-name="nih_explorer">PNG</button>
+          <button type="button" class="btn" data-chart="ex-chart" data-fmt="svg" data-name="nih_explorer">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ex-chart"></div>
+    </div>
+  </section>
+
+  <!-- ================= DEPARTMENTS OF SURGERY ================= -->
+  <section id="surgery" role="tabpanel" aria-labelledby="tab-surgery" tabindex="-1">
+    <h2 class="head">Departments of surgery</h2>
+    <p class="note">
+      Recipients NIH does not department-code are absent from an ORG_DEPT ranking altogether.
+      Where a department here was instead reconstructed from dated PubMed author affiliations,
+      the row is shaded and hatched: those figures are <strong>lower bounds</strong> and are not
+      like-for-like with an NIH-coded department.
+    </p>
+
+    <div class="stats" id="focus-stats"></div>
+
+    <div class="controls">
+      <div class="field">
+        <label for="s-period">Reporting period</label>
+        <select id="s-period">
+          <option value="FY2025">FY2025</option>
+          <option value="FY2024_FY2025">FY2024–FY2025</option>
+          <option value="FY2021_FY2025" selected>FY2021–FY2025</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="s-floor">Evidence floor for MGH / BWH</label>
+        <select id="s-floor">
+          <option value="corroborated" selected>Corroborated (2+ dated records)</option>
+          <option value="all_evidence">All evidence (includes single-record matches)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="s-metric">Rank by</label>
+        <select id="s-metric">
+          <option value="total_funding">Total NIH funding</option>
+          <option value="award_years">Award-years</option>
+          <option value="distinct_projects">Distinct projects</option>
+          <option value="r01_funding">R01 funding</option>
+          <option value="r01_award_years">R01 award-years</option>
+          <option value="funded_investigators">Funded investigators</option>
+          <option value="funding_per_investigator">Funding per investigator</option>
+          <option value="mean_award_size">Mean award size</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="s-focus">Pin an institution</label>
+        <select id="s-focus"></select>
+      </div>
+      <div class="count" id="s-count"></div>
+      <div class="field push">
+        <label for="s-export" class="vis-hidden">Export</label>
+        <span class="btnrow" id="s-export">
+          <button type="button" class="btn" data-export="csv" data-table="surgery">CSV</button>
+          <button type="button" class="btn" data-export="json" data-table="surgery">JSON</button>
+        </span>
+      </div>
+    </div>
+    <div class="tablewrap"><div id="t-surgery" class="loading">Loading…</div></div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3 id="ch1-title">Departments of surgery by total NIH funding</h3>
+          <p class="csub" id="ch1-sub"></p>
+        </div>
+        <div class="chart-tools">
+          <label for="s-topn">Top</label>
+          <select id="s-topn" class="mini">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="0">All</option>
+          </select>
+          <label for="s-scale">Axis</label>
+          <select id="s-scale" class="mini">
+            <option value="lin" selected>Linear</option>
+            <option value="log">Log</option>
+          </select>
+          <button type="button" class="btn" data-chart="ch-surgery" data-fmt="png" data-name="surgery_ranking">PNG</button>
+          <button type="button" class="btn" data-chart="ch-surgery" data-fmt="svg" data-name="surgery_ranking">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-surgery"></div>
+    </div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3>Funding composition by activity-code family</h3>
+          <p class="csub" id="ch2-sub"></p>
+        </div>
+        <div class="chart-tools">
+          <button type="button" class="btn" data-chart="ch-mech" data-fmt="png" data-name="surgery_mechanism_mix">PNG</button>
+          <button type="button" class="btn" data-chart="ch-mech" data-fmt="svg" data-name="surgery_mechanism_mix">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-mech"></div>
+      <div class="legend" id="lg-mech"></div>
+    </div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3>The same departments across the three reporting windows</h3>
+          <p class="csub">Hover any bar for the exact figure.</p>
+        </div>
+        <div class="chart-tools">
+          <button type="button" class="btn" data-chart="ch-periods" data-fmt="png" data-name="surgery_by_period">PNG</button>
+          <button type="button" class="btn" data-chart="ch-periods" data-fmt="svg" data-name="surgery_by_period">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-periods"></div>
+      <div class="legend" id="lg-periods"></div>
+    </div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3 id="ch4-title">Change from FY2024 to FY2025</h3>
+          <p class="csub" id="ch4-sub"></p>
+        </div>
+        <div class="chart-tools">
+          <label for="ch4-metric">Measure</label>
+          <select id="ch4-metric" class="mini">
+            <option value="total_funding" selected>Total funding</option>
+            <option value="award_years">Award-years</option>
+            <option value="distinct_projects">Distinct projects</option>
+            <option value="r01_funding">R01 funding</option>
+          </select>
+          <label for="ch4-topn">Top</label>
+          <select id="ch4-topn" class="mini">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20" selected>20</option>
+            <option value="0">All</option>
+          </select>
+          <button type="button" class="btn" data-chart="ch-change" data-fmt="png" data-name="surgery_fy2024_to_fy2025">PNG</button>
+          <button type="button" class="btn" data-chart="ch-change" data-fmt="svg" data-name="surgery_fy2024_to_fy2025">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-change"></div>
+      <p class="chartnote">
+        FY2024 is the FY2024–FY2025 two-year figure minus the FY2025 figure, so a department
+        appearing in only one of the two windows shows its whole total as the movement.
+        Hatched rows are reconstructed lower bounds on both sides of the
+        subtraction, so its change is a lower bound too.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= ALL SPECIALTIES ================= -->
+  <section id="specialties" role="tabpanel" aria-labelledby="tab-specialties" tabindex="-1">
+    <h2 class="head">Surgery against every other specialty</h2>
+    <div class="prose">
+      <p>
+        Pooled across all institutions NIH codes, <strong>surgery is the 21st largest department
+        nationally</strong> over FY2021–FY2025, at $2.56B, or 1.37% of department-coded NIH
+        funding. Internal medicine is roughly an order of magnitude larger.
+      </p>
+      <p>Against every institution–department pair in the country:</p>
+      <ul>
+        <li>The best-funded surgery department in the US ranks <strong>69th overall</strong> over five years (Duke, $221M), and 64th in FY2025.</li>
+        <li><strong>Exactly one surgery department appears in the national top 100.</strong> Thirteen appear in the top 500.</li>
+        <li>NYU's Department of Medicine alone took $1.27B over five years — about <strong>5.7× the entire Duke Department of Surgery</strong>, and roughly <strong>10× the largest reconstructed surgical figure</strong>.</li>
+      </ul>
+      <p>
+        This is a structural feature of how NIH funds research, not a judgment about surgical
+        science. Departments of medicine are far larger and NIH's disease-oriented institutes fund
+        them accordingly. Comparing a surgery department to a medicine department compares a
+        department to something about ten times its size.
+      </p>
+    </div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3>Top institution–department pairs, any specialty</h3>
+          <p class="csub" id="ch3-sub">Surgery departments highlighted. Hover for detail.</p>
+        </div>
+        <div class="chart-tools">
+          <label for="p-topn">Top</label>
+          <select id="p-topn" class="mini">
+            <option value="15">15</option>
+            <option value="25" selected>25</option>
+            <option value="40">40</option>
+            <option value="60">60</option>
+          </select>
+          <button type="button" class="btn" data-chart="ch-pairs" data-fmt="png" data-name="top_pairs">PNG</button>
+          <button type="button" class="btn" data-chart="ch-pairs" data-fmt="svg" data-name="top_pairs">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-pairs"></div>
+    </div>
+
+    <h3 class="sub">Every department, pooled</h3>
+    <div class="controls">
+      <div class="field">
+        <label for="d-period">Reporting period</label>
+        <select id="d-period">
+          <option value="FY2025">FY2025</option>
+          <option value="FY2024_FY2025">FY2024–FY2025</option>
+          <option value="FY2021_FY2025" selected>FY2021–FY2025</option>
+        </select>
+      </div>
+      <div class="field push">
+        <label class="vis-hidden" for="d-export">Export</label>
+        <span class="btnrow" id="d-export">
+          <button type="button" class="btn" data-export="csv" data-table="dept">CSV</button>
+          <button type="button" class="btn" data-export="json" data-table="dept">JSON</button>
+        </span>
+      </div>
+    </div>
+    <div class="tablewrap"><div id="t-dept" class="loading">Loading…</div></div>
+  </section>
+
+  <!-- ================= AGREEMENT ================= -->
+  <section id="agreement" role="tabpanel" aria-labelledby="tab-agreement" tabindex="-1">
+    <h2 class="head">How the two methods compare</h2>
+    <div class="prose">
+      <p>
+        The department behind every ranking on this site is derived from <strong>dated PubMed
+        author affiliations</strong>, applied identically to every institution. That is the
+        primary measurement, and it is primary for a specific reason: NIH's own department field
+        exists only for recipients it classifies as schools, so using it would measure hospitals
+        and universities by different rules and silently drop the hospitals.
+      </p>
+      <p>
+        NIH's <code>ORG_DEPT</code> is kept as an <strong>independent second opinion</strong> on
+        the subset of award-years where NIH supplies one. Below is how far the two agree.
+      </p>
+      <ul>
+        <li><strong>Sensitivity</strong> — of the award-years NIH calls surgical, the share the publication method also calls surgical. This is the number that says how much a publication-derived total undercounts.</li>
+        <li><strong>Precision</strong> — of the award-years the publication method calls surgical, the share NIH agrees with.</li>
+        <li><strong>Cohen's κ</strong> — chance-corrected agreement on the surgical / not-surgical call.</li>
+      </ul>
+      <p>
+        An institution NIH does not department-code contributes no comparison at all. Those are
+        listed separately rather than dropped, because their absence from the NIH column is the
+        finding.
+      </p>
+    </div>
+
+    <h3 class="sub">Overall</h3>
+    <div class="tablewrap"><div id="t-agree-overall" class="loading">Run the surgery stage to populate this.</div></div>
+
+    <h3 class="sub">By institution</h3>
+    <div class="tablewrap"><div id="t-agree-inst" class="loading">Run the surgery stage to populate this.</div></div>
+
+    <h3 class="sub">No NIH department code, so no comparison is possible</h3>
+    <div class="tablewrap"><div id="t-agree-none" class="loading">Run the surgery stage to populate this.</div></div>
+
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3>The two measurements side by side</h3>
+          <p class="csub" id="ch5-sub">Only the institutions where both a publication-derived and an NIH-derived figure exist.</p>
+        </div>
+        <div class="chart-tools">
+          <label for="ch5-sort">Sort by</label>
+          <select id="ch5-sort" class="mini">
+            <option value="nih_surgical" selected>NIH figure</option>
+            <option value="pub_surgical">Publication figure</option>
+            <option value="sensitivity_pct">Sensitivity</option>
+            <option value="cohens_kappa">Cohen's κ</option>
+          </select>
+          <label for="ch5-topn">Top</label>
+          <select id="ch5-topn" class="mini">
+            <option value="15">15</option>
+            <option value="25" selected>25</option>
+            <option value="0">All</option>
+          </select>
+          <button type="button" class="btn" data-chart="ch-method" data-fmt="png" data-name="method_comparison">PNG</button>
+          <button type="button" class="btn" data-chart="ch-method" data-fmt="svg" data-name="method_comparison">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-method"></div>
+      <div class="legend" id="lg-method"></div>
+    </div>
+  </section>
+
+  <!-- ================= COVERAGE ================= -->
+  <section id="coverage" role="tabpanel" aria-labelledby="tab-coverage" tabindex="-1">
+    <h2 class="head">The coverage gap</h2>
+    <p class="note">
+      How much NIH funding can actually be attributed to a department, by fiscal year and
+      evidence tier.
+    </p>
+    <div class="chartbox">
+      <div class="chart-h">
+        <div>
+          <h3>Department evidence by fiscal year</h3>
+          <p class="csub" id="ch6-sub"></p>
+        </div>
+        <div class="chart-tools">
+          <label for="ch6-measure">Measure</label>
+          <select id="ch6-measure" class="mini">
+            <option value="funding" selected>Funding</option>
+            <option value="award_years">Award-years</option>
+          </select>
+          <button type="button" class="btn" data-chart="ch-coverage" data-fmt="png" data-name="department_evidence_coverage">PNG</button>
+          <button type="button" class="btn" data-chart="ch-coverage" data-fmt="svg" data-name="department_evidence_coverage">SVG</button>
+        </div>
+      </div>
+      <div class="chart" id="ch-coverage"></div>
+      <div class="legend" id="lg-coverage"></div>
+      <p class="chartnote">
+        Tier A is NIH's own department code. Tier B carries a dated department code the same PI
+        holds on another award. The red band is funding with no department evidence in NIH data
+        at all — overwhelmingly independent hospitals. That band is the single most important
+        number on this site: it is why several of the largest US recipients do not appear in a conventional
+        NIH departmental ranking at all.
+      </p>
+    </div>
+    <div class="tablewrap"><div id="t-coverage" class="loading">Loading…</div></div>
+
+    <div class="prose">
+      <h3>Largest US recipients NIH does not department-code, FY2025</h3>
+      <table class="plaintable">
+        <thead><tr><th>Recipient</th><th class="num">FY2025 NIH funding</th></tr></thead>
+        <tbody>
+          <tr><td>Massachusetts General Hospital</td><td class="num">$639M</td></tr>
+          <tr><td>Vanderbilt University Medical Center</td><td class="num">$452M</td></tr>
+          <tr><td>Brigham and Women's Hospital</td><td class="num">$411M</td></tr>
+          <tr><td>Fred Hutchinson Cancer Center</td><td class="num">$356M</td></tr>
+          <tr><td>Mayo Clinic Rochester</td><td class="num">$290M</td></tr>
+          <tr><td>Boston Children's Hospital</td><td class="num">$243M</td></tr>
+          <tr><td>Memorial Sloan Kettering</td><td class="num">$239M</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Of the 140 US institutions receiving more than $50M in FY2025, <strong>27 are more than
+        95% uncoded</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= METHOD ================= -->
+  <section id="method" role="tabpanel" aria-labelledby="tab-method" tabindex="-1">
+    <h2 class="head">Method &amp; data</h2>
+
+    <div class="prose">
+      <h3>What this data is</h3>
+      <p>
+        NIH ExPORTER annual project files, FY2021–FY2025, downloaded and checksummed 1 August
+        2026. One row per <code>APPLICATION_ID</code> — an award-year. Both award-years and
+        distinct core projects are reported everywhere, so continuation years are never read as
+        new grants.
+      </p>
+
+      <h3>What is excluded, and why</h3>
+      <ul>
+        <li><strong>Non-NIH agencies.</strong> ExPORTER also carries VA, AHRQ, CDC, FDA and HRSA awards. Only the 27 NIH institutes and centers are retained.</li>
+        <li><strong>Intramural research and contracts.</strong> Grants and cooperative agreements only.</li>
+        <li><strong>Subproject rows.</strong> They sit inside a parent award that already carries the full <code>TOTAL_COST</code>; keeping both would double count.</li>
+      </ul>
+
+      <h3>Three things this data cannot do</h3>
+      <ul>
+        <li><strong>It is not revenue.</strong> NIH obligations only — no philanthropy, industry, foundation, DoD, institutional or clinical revenue. A department's NIH total is usually a minority of its research revenue.</li>
+        <li><strong>It is not a world ranking.</strong> Non-US organizations received <strong>0.69%</strong> of NIH funding over FY2021–FY2025. China has five NIH recipients totalling $5.9M across the period; Japan one at $0.1M; Korea and Singapore none. A department in Shanghai could be the largest in the world and would be invisible here.</li>
+        <li><strong>There are no M awards to count.</strong> M-series activity codes return <strong>zero award-years for every institution</strong> in FY2021–FY2025. NIH retired the M01 General Clinical Research Center mechanism into the CTSA program; the successors are UL1 and UM1, classified here under the U family.</li>
+      </ul>
+
+      <h3>How MGH and BWH surgical figures were reconstructed</h3>
+      <ol>
+        <li>An affiliation string must name <strong>both</strong> the institution and a surgical unit, adjacent to each other within the same segment of the string.</li>
+        <li>Composite “From the …” affiliation blocks, which PubMed attaches wholesale to every author, are rejected — 7,375 of them.</li>
+        <li>The author must match an NIH contact PI on surname plus first initial at the same institution. Any surname/initial covering more than one forename is flagged ambiguous and dropped.</li>
+        <li>Evidence must fall within three years of the award's index date.</li>
+        <li>Everything unmatched stays <strong>unknown</strong>. Nothing is imputed.</li>
+      </ol>
+      <p>
+        Only 7.0% of MGH/BWH contact-PI award-years resolve to a surgical department this way,
+        which is why the result is a lower bound rather than an estimate. Publication-based
+        reconstruction misses anyone who does not publish with a departmental affiliation string.
+      </p>
+    </div>
+
+    <h3 class="sub">Validation</h3>
+    <div class="tablewrap"><div id="t-validation" class="loading">Loading…</div></div>
+
+    <h3 class="sub">Source files</h3>
+    <div class="tablewrap"><div id="t-sources" class="loading">Loading…</div></div>
+
+    <h3 class="sub">Download the tables</h3>
+    <p class="note">Every table behind this site, as CSV.</p>
+    <div class="dl" id="dl-list"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Built from NIH ExPORTER annual project files. Source data is public and in the public domain;
+    the pipeline, crosswalks and taxonomy in this repository are released with it so any figure
+    can be traced to the record behind it.
+    <span id="gen"></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/charts.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
