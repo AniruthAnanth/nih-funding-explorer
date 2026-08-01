@@ -3,6 +3,8 @@ tables in outputs/tables, never from an intermediate in memory, so a figure can
 always be traced to the CSV behind it."""
 from __future__ import annotations
 
+import textwrap
+
 import matplotlib
 
 matplotlib.use("Agg")
@@ -35,7 +37,6 @@ plt.rcParams.update(
 )
 
 BASE = "#9BA7B4"
-MGB_IDS = ("MGB_CORE", "MGH", "BWH", "MGB_SYSTEM")
 
 
 def _load_institution_colors() -> dict[str, str]:
@@ -66,7 +67,10 @@ MECH_COLORS = dict(
 )
 
 
-RECON_NOTE = " · hatched: Mass General Brigham, reconstructed lower bound"
+RECON_NOTE = (
+    " · hatched: NIH codes no department for this recipient; department reconstructed "
+    "from publication affiliations (lower bound)"
+)
 
 
 def _period_label(period: str) -> str:
@@ -74,21 +78,25 @@ def _period_label(period: str) -> str:
         "FY2021_FY2025", "FY2021–FY2025")
 
 
-def _subtitle(ax, text: str) -> None:
+def _subtitle(ax, text: str, width: int = 128) -> None:
     """A quiet line under the title. Keeps the title itself to one short clause.
 
     The subtitle occupies the space immediately above the axes, so the title has
-    to be pushed clear of it or the two render on the same line.
+    to be pushed clear of it or the two render on the same line. A subtitle that
+    has to name an evidence tier and a roll-up convention does not fit on one
+    line at this width, and matplotlib will happily run it off the canvas rather
+    than say so, so it is wrapped here and the title pad grows to match.
     """
-    ax.text(0, 1.012, text, transform=ax.transAxes, fontsize=8.8, color="#5a6672",
-            va="bottom", ha="left")
+    lines = textwrap.wrap(text, width=width) or [""]
+    ax.text(0, 1.012, "\n".join(lines), transform=ax.transAxes, fontsize=8.8,
+            color="#5a6672", va="bottom", ha="left", linespacing=1.35)
     # rcParams put titles on the left, and ax.get_title() defaults to the centre
     # title, which is empty. Asking for the wrong one silently skipped the pad
     # and the subtitle rendered on top of the title.
     for loc in ("left", "center"):
         title = ax.get_title(loc=loc)
         if title:
-            ax.set_title(title, loc=loc, pad=26,
+            ax.set_title(title, loc=loc, pad=14 + 12 * len(lines),
                          fontsize=plt.rcParams["axes.titlesize"])
             break
 
@@ -140,12 +148,14 @@ def _load(grain: str, period: str) -> pd.DataFrame:
 
 
 def _surgery_frame(period: str) -> tuple[pd.DataFrame, bool]:
-    """US surgery departments, with the reconstructed MGH/BWH/MGB rows included.
+    """US surgery departments, including every recipient NIH leaves uncoded.
 
-    NIH codes no department for MGH or BWH, so a table built from ORG_DEPT alone
-    silently omits them. Every surgery figure therefore reads the combined table
-    when it exists, and marks the reconstructed rows so they are never mistaken
-    for like-for-like measurements.
+    NIH codes no department for independent hospitals, so a table built from
+    ORG_DEPT alone silently omits all of them — MGH and BWH, but equally
+    Vanderbilt University Medical Center, Mayo Clinic Rochester, Memorial Sloan
+    Kettering and the children's hospitals. Every surgery figure therefore
+    reads the combined table when it exists, and marks the reconstructed rows
+    so they are never mistaken for like-for-like measurements.
     """
     combined = TABLES / f"surgery_ranking_with_mgb_{period}_corroborated.csv"
     if combined.exists():
@@ -153,13 +163,16 @@ def _surgery_frame(period: str) -> tuple[pd.DataFrame, bool]:
         # MGH and BWH are retained in the underlying CSVs for audit, but every
         # published chart shows the single combined Mass General Brigham entity.
         s = s[~s.canonical_org_id.isin(("MGH", "BWH"))].copy()
-        s["is_reconstructed"] = s.canonical_org_id.isin(MGB_IDS)
+        # Hatch by evidence tier rather than by institution: marking only MGB
+        # would imply its uncoded peers were measured from NIH's own field.
+        s["is_reconstructed"] = s.evidence_basis.fillna("").str.startswith("Reconstructed")
         return s, True
     d = _load("institution_department", period)
     s = d[(d.nih_org_dept == "SURGERY") & (d.org_country == "UNITED STATES")].copy()
     s["is_reconstructed"] = False
     log.warning(
-        "%s: combined table absent, surgery figures will omit MGH/BWH. Run the mgb stage.",
+        "%s: combined table absent, surgery figures will omit every uncoded recipient. "
+        "Run the mgb stage.",
         period,
     )
     return s, False

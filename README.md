@@ -15,11 +15,20 @@ files by the code here. There are no manual spreadsheet edits.
 
 **NIH does not assign a department to independent hospitals.** The `ORG_DEPT`
 field in NIH ExPORTER is populated only for recipients NIH classifies as
-schools. In FY2025 that leaves **30.0% of US NIH dollars, $10.5B, with no
-department code at all**, including the largest and third-largest uncoded
-recipients in the country, MGH ($639M) and BWH ($411M). Also uncoded:
-Vanderbilt University Medical Center, Mayo, Fred Hutch, Boston Children's,
-Memorial Sloan Kettering, CHOP, Dana-Farber and Cedars-Sinai.
+schools. In FY2025 that leaves **30.0% of US NIH dollars, $10.5B, with no usable
+department code**, including the largest and third-largest uncoded recipients in
+the country, MGH ($639M) and BWH ($411M). Also uncoded: Vanderbilt University
+Medical Center, Mayo, Fred Hutch, Boston Children's, Memorial Sloan Kettering,
+CHOP, Cincinnati Children's, Beth Israel Deaconess, Dana-Farber and
+Cedars-Sinai.
+
+That 30.0% is the wide definition: the field is absent (`__MISSING__`) or
+carries one of the three placeholders NIH writes instead of a department,
+`NONE`, `MISCELLANEOUS` or `NO CODE ASSIGNED`. On `__MISSING__` alone the same
+quantity is **25.2%, $8.84B**. The institution counts move with the definition
+too: of the 140 US institutions above $50M in FY2025, 27 are at exactly 100%
+uncoded on the wide definition and 25 on the narrow one. Every figure of this
+kind in this repository means the wide definition unless it says otherwise.
 
 A departmental ranking taken straight from NIH data silently omits all of them.
 That is why **`ORG_DEPT` is not the primary source of PI department in this
@@ -44,17 +53,24 @@ are ordered; each depends on the tables the ones above it wrote.
 | `build` | Validates schema, applies inclusion rules, annotates, writes the analysis-ready tables |
 | `rank` | Ranked tables at three grains (institution, department, institution-department) for three reporting periods |
 | `affiliation` | Investigator identity resolution and dated affiliation spells |
-| `harvest` | Collects PubMed author affiliations for every institution in the registry. Slow, cached, **not part of `all`** |
-| `surgery` | Publication-derived department for every institution, plus the NIH agreement analysis and the like-for-like surgery ranking |
-| `mgb` | The roll-up-specific attribution and context tables |
+| `harvest` | Collects PubMed author affiliations one query per institution, for every institution in the registry. Slow, cached, **not part of `all`** |
+| `surgery` | Publication-derived department for every institution, plus the NIH agreement analysis and the like-for-like surgery ranking. Reads the `harvest` cache |
+| `profile` | One PubMed query pair per contact PI at every recipient NIH leaves uncoded, with no topic filter, giving each investigator a department profile. Writes `data/processed/pi_departments.parquet`. Slow, cached per institution, resumable, **not part of `all`** |
+| `mgb` | Departmental totals for every recipient NIH leaves uncoded — MGH and BWH, and the peer hospitals they are ranked against — from the per-investigator majority rule, plus the per-investigator evidence file and the combined context tables. Consumes what `profile` wrote |
+| `mgb_legacy` | The superseded per-award evidence matcher that `mgb` replaced, kept runnable so the change of method can be reproduced and compared rather than asserted. Reads the `harvest` cache. **Not part of `all`** |
 | `biblio` | Flagship-journal output and citation impact from NIH's iCite |
 | `figures` | Regenerates every figure from the ranked CSVs |
 | `validate` | Reconciliation and quality checks |
 
-`harvest` is excluded from `all` on purpose: it makes thousands of NCBI E-utils
-requests and takes about an hour. Run it once, then `surgery` and `mgb` read the
-cached parquet files under `data/interim/`. Both stages exit with an error
-rather than a partial result if the harvest has not been run.
+`harvest` and `profile` are excluded from `all` on purpose: between them they
+make tens of thousands of NCBI E-utils requests and take hours. Each caches one
+parquet per institution under `data/interim/` and is resumable from that cache.
+Run each once, then `surgery`, `biblio` and `mgb_legacy` read
+`data/processed/pubmed_author_affiliations.parquet` and `mgb` reads
+`data/processed/pi_departments.parquet`. Every one of those stages exits with an
+error rather than a partial result if its input is missing, which means `all` on
+a clean checkout stops at `surgery`
+until `harvest` has run and at `mgb` until `profile` has run.
 
 The static site under `docs/` is built by `site.build()`, which is not yet a
 `run_pipeline.py` stage. Call it directly after `figures`:
@@ -84,7 +100,14 @@ src/rankmgb/                the pipeline
                             precision, Cohen's kappa, and what cannot compare
   surgery_ranking.py        the like-for-like surgery ranking and its figures
   bibliometrics.py          flagship-journal output and citation impact via iCite
-  mgb_surgery.py            the MGH/BWH attribution chain and its patterns
+  pi_department.py          per-investigator department profiles for the
+                            recipients NIH leaves uncoded, and the departmental
+                            totals built from them; the `profile` and `mgb`
+                            stages
+  mgb_surgery.py            the superseded per-award MGH/BWH attribution chain,
+                            plus the affiliation classifier and taxonomy sets
+                            the current rule still imports; the `mgb_legacy`
+                            stage
   mgb_context.py            context tables for the reconstructed roll-ups
   rank.py                   ranked tables
   figures.py                figures
@@ -97,9 +120,14 @@ outputs/tables/             every published table
 outputs/figures/            every published figure
 logs/                       inclusion audit, duplicate resolution, run log,
                             harvest log
-docs/                       report, annotation manual, and the published static
-                            site (index.html, assets/, data/, mirrored tables
-                            and figures)
+docs/                       report, annotation manual, validation write-up, and
+                            the published static site (index.html, assets/,
+                            data/, mirrored tables and figures). The mirror is a
+                            subset: the superseded institution-level ranking
+                            `surgery_ranking_FY*.csv` and the superseded
+                            per-award evidence file
+                            `mgb_surgical_award_years_evidence.csv` stay under
+                            outputs/tables/ only
 tests/test_patterns.py      regression tests for the affiliation classifier
 ```
 
@@ -128,11 +156,27 @@ obligations.
 
 ## How a PI's department is determined
 
-Two independent measurements, never added together and never substituted for
-one another.
+Three measurements, never added together and never substituted for one another.
 
-**Primary: publication-derived** (`surgical_attribution.py`, evidence from
-`pubmed_evidence.py`). For each of the 32 institutions in
+**Shipped for the uncoded recipients: the per-investigator majority rule**
+(`pi_department.py`, stage `profile` then stage `mgb`). One PubMed query pair
+per contact PI, with no topic filter, classifying that author's own affiliation
+strings and taking the department holding a majority of them. This is what
+produces every reconstructed departmental figure published for MGH, BWH and
+their uncoded peers. Validated at **κ 0.916, sensitivity 91.9%, precision
+100.0%** on a 300-PI sample; read `docs/validation/README.md` before quoting any
+of those three, because the sample is 1:1 case-control at 50% surgical
+prevalence against a population rate near 7%, it is drawn only at universities
+and applied at hospitals, and it scores one binary call — surgical or not —
+which says nothing about whether a PI labelled `INTERNAL_MEDICINE` is in a
+department of medicine. `summarise_all_departments`, which writes
+`mgb_departments_all.csv`, additionally selects on `modal_department.notna()`,
+the plurality department rather than the validated majority, and its docstring
+misdescribes this as "the same validated majority rule".
+
+**Comparator across all harvested institutions: publication-derived**
+(`surgical_attribution.py`, evidence from `pubmed_evidence.py`). For each of the
+32 harvested institutions in
 `reference/pubmed_institutions_v1.csv`, dated PubMed author affiliation strings
 are classified against `reference/department_string_patterns_v1.csv`, matched to
 NIH contact PIs, and credited to an award when the evidence falls within three
@@ -141,13 +185,29 @@ is what makes the ranking internally comparable. Guards: institution and
 department must be adjacent in the same segment of one string; composite
 multi-institution affiliation blocks are rejected outright; a surname plus first
 initial covering more than one forename at that institution is dropped as
-ambiguous; anything unmatched stays unknown.
+ambiguous; anything unmatched stays unknown. Scored against NIH's field this
+matcher reaches **Cohen's κ 0.267**, and that is a different number about a
+different rule from the κ 0.916 above. The two are not interchangeable and no
+document should quote one in support of the other.
 
-**Secondary: NIH `ORG_DEPT`** (`agreement.py`). On the subset where NIH supplies
-a department, the two measurements are compared and the result published as
-sensitivity, precision and Cohen's kappa, overall and per institution.
-Institutions NIH does not code appear in `agreement_uncomparable.csv` rather
-than being dropped, because "no comparison is possible here" is the finding.
+**Independent check: NIH `ORG_DEPT`** (`agreement.py`). On the subset where NIH
+supplies a department, the publication matcher and NIH's field are compared and
+the result published as sensitivity, precision and Cohen's kappa, overall and
+per institution. Institutions NIH does not code appear in
+`agreement_uncomparable.csv` rather than being dropped, because "no comparison
+is possible here" is the finding.
+
+One caution on the classifier both publication measurements share. Priority 99
+in `reference/department_string_patterns_v1.csv` is a bare `\bsurg` mapping to
+`OTHER_EXPLICIT_SURGERY`, a specialty inside the Department of Surgery set. It
+is ranked last so a named department always beats it, but it is not carrying a
+small load: `OTHER_EXPLICIT_SURGERY` is **12.6% of the current reconstructed MGB
+Department of Surgery total**, 12 investigators and 60 award-years, and about
+two thirds of the distinct MGH and BWH strings in that bucket were matched by
+the bare catch-all rather than by the named pattern above it. The wider evidence
+base is stronger than that suggests — median 22 classified affiliation strings
+per investigator in the surgical set, and only 2 of the 80 decided on a single
+string.
 
 Anything derived from the publication method is a **lower bound**. Any table or
 figure that publishes such a number has to say so on its face, either in an
@@ -184,6 +244,20 @@ mergers, system membership, effective dates. Roll-ups are defined in
 - Roll-up rows carry `is_rollup = True`. Filter them out before reading the
   `rank_total_funding` column as a rank among real institutions.
 
+**One recipient is knowingly split across two rows.** NIH issued Fred
+Hutchinson a new `ORG_IPF_CODE` when the Fred Hutchinson Cancer Research Center
+merged with the Seattle Cancer Care Alliance in April 2022, so FY2021–FY2025
+contains both `IPF861001` ($430M, awarded under the old code) and
+`IPF10068583` ($1,439M). They are one legal entity and the combined figure is
+$1.87B. They are left separate, and labelled "Fred Hutch" and "Fred Hutch
+(pre-2022)", rather than merged: merging them means changing a
+`canonical_org_id`, which is the key the per-investigator profile cache and
+every ranked table are built on, and the payoff is confined to an institution
+with two surgical investigators in the whole period. A search that scans for
+similar unnormalized pairs above $50M finds no others — Vanderbilt University
+and Vanderbilt University Medical Center are separate legal entities after the
+2016 split, and Harvard Medical School is separate by design.
+
 Display names come from `names.py`. Curated entries in
 `reference/institution_display_names_v1.csv` win; everything else goes through a
 deterministic tidy-up that expands NIH's abbreviations, drops corporate suffixes
@@ -201,7 +275,7 @@ a changed checksum is a hard error and the prior digest is retained as
 `supersedes_sha256`.
 
 The pipeline fails explicitly on schema drift, implausible record counts and
-unmapped activity codes rather than silently accepting them. 16 of 16 checks in
+unmapped activity codes rather than silently accepting them. 17 of 17 checks in
 `outputs/tables/validation_report.csv` currently pass.
 
 `tests/test_patterns.py` pins the two classification bugs an audit found: the
@@ -223,14 +297,31 @@ Run it before changing `reference/department_string_patterns_v1.csv`.
 4. **The affiliation layer is incomplete.** Tiers A, B and F of the evidence
    hierarchy in `docs/annotation_manual.md` are implemented; C, D, E and G are
    not. Every publication-derived departmental figure is a lower bound.
-5. **The publication registry is 32 institutions, not all of them.** They cover
-   every one of the top 20 NIH-coded departments of surgery and 80.4% of coded
-   surgery dollars, but an institution outside the registry has no
-   publication-derived department at all. Adding one means adding a row to
-   `reference/pubmed_institutions_v1.csv` and re-running `harvest`.
-6. **M-series awards do not exist in this period.** M01 GCRC was retired into
+5. **The publication registry is 57 institutions, not all of them.** The 32
+   harvested for `surgical_attribution.py` cover every one of the top 20
+   NIH-coded departments of surgery and 80.6% of coded surgery dollars, $2.06B
+   of $2.56B. The other 25 are the uncoded clinical recipients profiled per
+   investigator by `pi_department.py`; they carry a query and a regex but no
+   `harvest` run, so they have a reconstructed department and no
+   institution-level affiliation evidence. An institution outside the registry
+   has neither. Adding one means adding a row to
+   `reference/pubmed_institutions_v1.csv`, then re-running `harvest` for the
+   agreement tables or the pi-departments profiling for the reconstructed ones.
+6. **The bibliometric comparison set inherits the bias it is meant to
+   correct.** `outputs/tables/bibliometrics_surgery.csv` is 33 rows per period:
+   the 32 harvested institutions plus the MGB_CORE roll-up. Those 32 were picked
+   as the top 20 NIH-coded departments of surgery and their neighbours, which
+   keys the set on NIH's coding. Mayo, Vanderbilt, Memorial Sloan Kettering,
+   Boston Children's, Fred Hutchinson, CHOP, Dana-Farber and Cedars-Sinai are
+   absent because NIH codes no department for them, and so are five of the 30
+   largest US recipients: University of Washington ($2.71B), UNC Chapel Hill
+   ($2.64B), Mount Sinai ($2.22B), USC ($1.70B) and OHSU ($1.44B). No statement
+   from that table is a national ranking. MGB_CORE also leads on total citations
+   only as a merged entity — MGH has 68,561 and BWH 68,131 over five years,
+   while Johns Hopkins leads these 32 at 79,811.
+7. **M-series awards do not exist in this period.** M01 GCRC was retired into
    the CTSA program. `m_award_years` is zero everywhere by design, not by
    omission; the successors UL1 and UM1 sit in the U family.
-7. **`reference/overrides_v1.csv` is referenced by `config.yaml` and the
+8. **`reference/overrides_v1.csv` is referenced by `config.yaml` and the
    annotation manual but has not been created.** No adjudicated override exists
    yet, so nothing currently depends on it.

@@ -16,12 +16,43 @@
 // read from an NIH department code.
 const RECON_IDS = { MGH: 1, BWH: 1, MGB_CORE: 1, MGB_SYSTEM: 1 };
 const NON_DEPT = new Set(['UNKNOWN', 'UNCLASSIFIED']);
-// Reported only as the combined Mass General Brigham entity, never split.
-const SPLIT_OUT = new Set(['MGH', 'BWH', 'MGB_SYSTEM']);
+/* A roll-up and its members are the same dollars counted twice, so exactly one
+   of the two readings is ever on screen. Mass General Brigham is Massachusetts
+   General plus the Brigham; combined is the default because that is the entity
+   people ask about, and split is one control away.
+
+   The members used to be deleted from the payload outright. That left no way
+   to see that the headline department-of-surgery figure is two hospitals'
+   departments added together — and MGB leads on citations only as a merged
+   figure, neither hospital leading alone — so the reading that carries the
+   caveat was also the only reading available. */
+const MGB_ROLLUPS = new Set(['MGB_CORE']);
+const MGB_MEMBERS = new Set(['MGH', 'BWH']);
+// The wider system roll-up is a third entity again, and is not published.
+const NEVER_SHOWN = new Set(['MGB_SYSTEM']);
+const mgbHidden = (r, split) => {
+  const id = r.canonical_org_id;
+  if (NEVER_SHOWN.has(id)) return true;
+  return split ? MGB_ROLLUPS.has(id) : MGB_MEMBERS.has(id);
+};
+const surgSplit = () => {
+  const n = document.getElementById('s-split');
+  return !!n && n.value === 'split';
+};
+// Surgery-tab view: honours that tab's own control.
+const surgView = rows => rows.filter(r => !mgbHidden(r, surgSplit()));
+
+/* One rule ships, so there is one confidence floor. The control that used to
+   switch between two is gone: both settings produced byte-identical files, and
+   the second carried the validation statistics of a rule it did not implement. */
+const SURG_FLOOR = 'corroborated';
 const BAR_DEFAULT = '#9ba7b4';
 const LOWER_BOUND_NOTE =
   'Reconstructed from dated PubMed author affiliations. A lower bound, not '
-  + 'like-for-like with an NIH department-coded row.';
+  + 'like-for-like with an NIH department-coded row. The rule was validated on one '
+  + 'binary call only \u2014 surgical or not, Cohen\u2019s \u03ba 0.916 \u2014 so a '
+  + 'reconstructed row in a non-surgical department rests on an extension of the rule '
+  + 'that has not been measured. Treat surgical rows as validated and the rest as indicative.';
 
 /* A roll-up row is held out of the ordinary rank because it aggregates rows
    already in the table. Where it is drawn at its as-a-single-institution
@@ -81,6 +112,8 @@ const EX = {
   mechMode: 'any',
   recon: 'all',
   hideRollup: false,
+  // 'combined' shows the roll-up, 'split' shows its member hospitals. Never both.
+  mgb: 'combined',
   uncoded: false,
   ranges: [],
   page: 1,
@@ -516,9 +549,9 @@ async function baseRows() {
   if (EX.grain === 'pairs') rows = await loadPairs(EX.period);
   else rows = unpack(state.core[`${EX.grain}_${EX.period}`]);
   AVAILABLE = new Set(rows.length ? Object.keys(rows[0]) : []);
-  // MGH and BWH are reported as the single combined Mass General Brigham
-  // entity. The separate rows remain in the downloadable CSVs for audit.
-  return rows.filter(r => !SPLIT_OUT.has(r.canonical_org_id));
+  // One of the roll-up and its members, never both; the explorer's own control
+  // says which. Both are in the payload and in the downloadable CSVs.
+  return rows.filter(r => !mgbHidden(r, EX.mgb === 'split'));
 }
 
 /* `skip` names one facet to leave un-applied, so that facet's option counts
@@ -667,6 +700,7 @@ function syncControls() {
   set('tr-pool', String(TR.pool));
   set('tr-n', String(TR.n));
   chk('c-rollup', EX.hideRollup);
+  set('c-mgb', EX.mgb);
   chk('c-uncoded', EX.uncoded);
   document.querySelectorAll('input[name="recon"]').forEach(r => { r.checked = r.value === EX.recon; });
   document.querySelectorAll('input[name="mechmode"]').forEach(r => { r.checked = r.value === EX.mechMode; });
@@ -1033,6 +1067,11 @@ function trendIndex(grain) {
   const denom = {};
   rows.forEach(r => {
     if (r.n_ranked != null) denom[r.fiscal_year] = r.n_ranked;
+    // MGH, BWH and the roll-up are all in the payload so a reader can follow
+    // either. The wider MGB_SYSTEM roll-up is a third entity again and is not
+    // published; the trend picker holds no view control, so both readings are
+    // offered here and the user selects whichever lines they want.
+    if (NEVER_SHOWN.has(r.canonical_org_id)) return;
     if (grain === 'pairs' && TREND_NO_DEPT.has(r.nih_org_dept)) return;
     const k = trendKey(r, grain);
     let e = map.get(k);
@@ -1572,6 +1611,7 @@ function hashParams() {
   if (EX.mech.size) { p.set('mech', j(EX.mech)); p.set('mm', EX.mechMode); }
   if (EX.recon !== 'all') p.set('rec', EX.recon);
   if (EX.hideRollup) p.set('noroll', '1');
+  if (EX.mgb !== 'combined') p.set('mgb', EX.mgb);
   if (EX.uncoded) p.set('unc', '1');
   if (EX.floor !== 5) p.set('fl', String(EX.floor));
   if (EX.ranges.length) {
@@ -1596,8 +1636,8 @@ function hashParams() {
   if (ts && ts.length) p.set('tso', ts.map(x => x.key + ':' + x.dir[0]).join('~'));
   const sp = document.getElementById('s-period');
   if (sp && sp.value !== 'FY2021_FY2025') p.set('sp', sp.value);
-  const sf = document.getElementById('s-floor');
-  if (sf && sf.value !== 'corroborated') p.set('sf', sf.value);
+  const ss = document.getElementById('s-split');
+  if (ss && ss.value !== 'combined') p.set('ss', ss.value);
   const sm = document.getElementById('s-metric');
   if (sm && sm.value !== 'total_funding') p.set('sm', sm.value);
   const dp = document.getElementById('d-period');
@@ -1636,6 +1676,7 @@ function readHash() {
   if (p.get('mm')) EX.mechMode = p.get('mm');
   if (p.get('rec')) EX.recon = p.get('rec');
   EX.hideRollup = p.get('noroll') === '1';
+  if (p.get('mgb') === 'split') EX.mgb = 'split';
   EX.uncoded = p.get('unc') === '1';
   if (p.get('fl')) EX.floor = Number(p.get('fl')) || 5;
   if (p.get('pin')) state.focus = p.get('pin');
@@ -1669,15 +1710,19 @@ function readHash() {
     });
   }
   const put = (id, v) => { const e = document.getElementById(id); if (e && v) e.value = v; };
-  put('s-period', p.get('sp')); put('s-floor', p.get('sf'));
+  put('s-period', p.get('sp')); put('s-split', p.get('ss'));
   put('s-metric', p.get('sm')); put('d-period', p.get('dp'));
   return tab;
 }
 
 /* --- departments of surgery --------------------------------------------- */
 
+/* No positional '#' column here. The standing that matters is the one the
+   pipeline assigned, and printing a row counter beside it invited exactly the
+   misreading this table has to avoid: a roll-up sitting in row 1 while the
+   department actually ranked first sits in row 2. */
 const SURGERY_SPEC = [
-  { key: '__rank', label: '#', sortable: false },
+  { key: 'peer_rank', label: 'Rank', fmt: 'rank', asifKey: 'rank_is_as_single' },
   { key: 'display_name', label: 'Institution', fmt: 'name' },
   { key: '__bar', label: '', sortable: false },
   { key: 'total_funding', label: 'Total funding', fmt: 'money' },
@@ -1688,22 +1733,49 @@ const SURGERY_SPEC = [
   { key: 'funded_investigators', label: 'Investigators', fmt: 'int' },
 ];
 
+/* A roll-up is held out of the peer rank on purpose. Rather than leave its
+   Rank cell empty, the position it would hold as a single department is shown
+   there and flagged, so the two readings are never confused for each other. */
+function withPeerRank(r) {
+  const asSingle = r.rank == null && r.is_rollup === 1 && r.rank_if_single_entity != null;
+  return Object.assign({}, r, {
+    peer_rank: r.rank != null ? Number(r.rank)
+      : (asSingle ? Number(r.rank_if_single_entity) : null),
+    rank_is_as_single: asSingle ? 1 : 0,
+  });
+}
+
 function renderSurgery() {
   const period = document.getElementById('s-period').value;
-  const floor = document.getElementById('s-floor').value;
+  const floor = SURG_FLOOR;
   const metric = document.getElementById('s-metric').value;
   const rows = applySort(
-    unpack(state.core[`mgb_${period}_${floor}`]).filter(r => !SPLIT_OUT.has(r.canonical_org_id)),
+    surgView(unpack(state.core[`mgb_${period}_${floor}`])).map(withPeerRank),
     't-surgery', metric);
 
   state.view.surgery = {
     rows, grain: 'surgery', period,
-    keys: ['canonical_org_id', 'display_name', 'total_funding', 'award_years',
+    keys: ['canonical_org_id', 'display_name', 'peer_rank', 'rank_is_as_single',
+      'total_funding', 'award_years',
       'distinct_projects', 'r01_funding', 'r01_award_years', 'funded_investigators',
       'evidence_basis'],
   };
 
-  document.getElementById('s-count').textContent = `${rows.length} departments`;
+  const nRanked = rows.length ? (rows[0].n_ranked != null
+    ? Number(rows[0].n_ranked) : rows.filter(r => r.is_ranked !== 0).length) : 0;
+  const nRoll = rows.filter(r => r.is_rollup === 1).length;
+  // Combined view hides the member hospitals but not their ranks, so the Rank
+  // column has gaps in it. Say why, rather than leave a reader to wonder
+  // whether the numbering is broken.
+  const hidden = nRanked - rows.filter(r => r.is_ranked !== 0).length;
+  document.getElementById('s-count').innerHTML =
+    `<strong>${int(nRanked)}</strong> ranked departments`
+    + (nRoll ? ` · ${int(nRoll)} roll-up row${nRoll > 1 ? 's' : ''} shown at the position `
+      + `${nRoll > 1 ? 'they would hold' : 'it would hold'} as one department `
+      + `<span class="warnink">${AS_SINGLE_MARK}</span>, not ranked` : '')
+    + (hidden > 0 ? ` · ${int(hidden)} member hospital${hidden > 1 ? 's are' : ' is'} inside `
+      + `${nRoll > 1 ? 'those roll-ups' : 'that roll-up'} and hidden here, which is why the rank `
+      + 'column skips numbers — switch to Split to see them' : '');
   const spec = SURGERY_SPEC.map(c => Object.assign({}, c));
   const bar = spec.find(c => c.key === '__bar');
   const mi = spec.findIndex(c => c.key === metric);
@@ -1742,14 +1814,29 @@ function renderFocusStrip(rows, metric) {
   const r = ranked.find(x => x.canonical_org_id === current);
   const strip = document.getElementById('focus-stats');
   if (!r) { strip.innerHTML = ''; return; }
-  const rank = ranked.findIndex(x => x.canonical_org_id === current) + 1;
+
+  /* The standing comes from the pipeline, not from this row's position in the
+     list on screen. Counting positions numbered roll-ups as if they were
+     departments and moved with whatever happened to be filtered out. */
+  const denom = r.n_ranked != null ? Number(r.n_ranked)
+    : ranked.filter(x => x.is_ranked !== 0).length;
+  let standing;
+  if (r.rank != null) {
+    standing = `#${int(r.rank)} of ${int(denom)}`;
+  } else if (r.is_rollup === 1 && r.rank_if_single_entity != null) {
+    standing = `#${int(r.rank_if_single_entity)}${asifMark()} of ${int(denom)}`;
+  } else {
+    standing = '—';
+  }
   const f = fmtFor(metric);
   const show = f === 'money' ? money : f === 'pct' ? pct : f === 'ratio' ? ratio : int;
   const recon = isRecon(r);
+  const note = [recon ? 'lower bound' : '', r.is_rollup === 1 ? 'roll-up, not ranked' : '']
+    .filter(Boolean).join(' · ');
   strip.innerHTML = [
     `<div class="stat ${recon ? 'recon' : ''}">
-       <div class="v">#${rank} of ${ranked.length}</div>
-       <div class="k">${esc(r.display_name)}${recon ? ' · lower bound' : ''}</div>
+       <div class="v">${standing}</div>
+       <div class="k">${esc(r.display_name)}${note ? ' · ' + note : ''}</div>
      </div>`,
     `<div class="stat"><div class="v">${money(r.total_funding)}</div>
        <div class="k">Total NIH funding</div></div>`,
@@ -1795,12 +1882,12 @@ const PERIOD_LABEL = {
 
 function renderSurgeryChart() {
   const period = document.getElementById('s-period').value;
-  const floor = document.getElementById('s-floor').value;
+  const floor = SURG_FLOOR;
   const metric = document.getElementById('s-metric').value;
   const topn = Number(document.getElementById('s-topn').value) || 0;
   const scale = document.getElementById('s-scale').value;
-  let rows = unpack(state.core[`mgb_${period}_${floor}`])
-    .filter(r => !SPLIT_OUT.has(r.canonical_org_id) && r[metric] != null)
+  let rows = surgView(unpack(state.core[`mgb_${period}_${floor}`]))
+    .filter(r => r[metric] != null)
     .sort((a, b) => b[metric] - a[metric]);
   if (topn) rows = rows.slice(0, topn);
 
@@ -1808,9 +1895,20 @@ function renderSurgeryChart() {
 
   document.getElementById('ch1-title').textContent =
     'Departments of surgery by ' + (METRIC_LABEL[metric] || metric).toLowerCase();
+  // Hatching marks the evidence tier, not one institution. Naming only MGB here
+  // was accurate when it was the only reconstructed row and became a false
+  // statement the moment its uncoded peers were reconstructed too.
+  const nRecon = rows.filter(isRecon).length;
+  const nRollShown = rows.filter(r => r.is_rollup === 1).length;
   document.getElementById('ch1-sub').textContent =
-    `${PERIOD_LABEL[period]} · Mass General Brigham is hatched: reconstructed from publication `
-    + `affiliations, a lower bound · hover any bar for detail`;
+    `${PERIOD_LABEL[period]} · ${nRecon} of these ${rows.length} bars are hatched: NIH codes no `
+    + `department for that recipient, so it is reconstructed from publication affiliations and is `
+    + `a lower bound`
+    // This chart carries no rank labels, so the roll-up caveat has to be stated
+    // rather than encoded in a marker the way the table does it.
+    + (nRollShown ? ` · ${nRollShown === 1 ? 'one bar is' : nRollShown + ' bars are'} a roll-up `
+      + `over two or more hospitals, drawn in order of size but holding no rank` : '')
+    + ` · hover any bar for detail`;
 
   RMGBCharts.barChart(document.getElementById('ch-surgery'), rows.map(r => ({
     label: r.display_name || r.canonical_name,
@@ -1831,7 +1929,7 @@ function renderMechChart() {
   const pairs = state.pairs[period];
   const src = pairs
     ? pairs.filter(r => r.nih_org_dept === 'SURGERY' && r.org_country === 'UNITED STATES'
-        && !SPLIT_OUT.has(r.canonical_org_id))
+        && !mgbHidden(r, surgSplit()))
       .sort((a, b) => b.total_funding - a.total_funding).slice(0, 14)
     : rows.filter(r => r.nih_org_dept === 'SURGERY');
   document.getElementById('ch2-sub').textContent =
@@ -1847,16 +1945,15 @@ function renderMechChart() {
 }
 
 function renderPeriodChart() {
-  const floor = document.getElementById('s-floor').value;
+  const floor = SURG_FLOOR;
   const byPeriod = {};
   ['FY2025', 'FY2024_FY2025', 'FY2021_FY2025'].forEach(p => {
     byPeriod[p] = {};
-    unpack(state.core[`mgb_${p}_${floor}`]).filter(r => !SPLIT_OUT.has(r.canonical_org_id)).forEach(r => {
+    surgView(unpack(state.core[`mgb_${p}_${floor}`])).forEach(r => {
       byPeriod[p][r.canonical_org_id] = r;
     });
   });
-  const base = unpack(state.core[`mgb_FY2021_FY2025_${floor}`])
-    .filter(r => !SPLIT_OUT.has(r.canonical_org_id))
+  const base = surgView(unpack(state.core[`mgb_FY2021_FY2025_${floor}`]))
     .sort((a, b) => b.total_funding - a.total_funding).slice(0, 12);
 
   RMGBCharts.groupedChart(document.getElementById('ch-periods'), base.map(r => ({
@@ -1878,15 +1975,15 @@ function renderPeriodChart() {
    FY2024 table, so FY2024 is the two-year figure minus FY2025 — the same
    subtraction the published matplotlib figure does. */
 function renderChangeChart() {
-  const floor = document.getElementById('s-floor').value;
+  const floor = SURG_FLOOR;
   const metric = document.getElementById('ch4-metric').value;
   const topn = Number(document.getElementById('ch4-topn').value) || 0;
 
   const one = {}, two = {};
-  unpack(state.core[`mgb_FY2025_${floor}`])
-    .filter(r => !SPLIT_OUT.has(r.canonical_org_id)).forEach(r => { one[r.canonical_org_id] = r; });
-  unpack(state.core[`mgb_FY2024_FY2025_${floor}`])
-    .filter(r => !SPLIT_OUT.has(r.canonical_org_id)).forEach(r => { two[r.canonical_org_id] = r; });
+  surgView(unpack(state.core[`mgb_FY2025_${floor}`]))
+    .forEach(r => { one[r.canonical_org_id] = r; });
+  surgView(unpack(state.core[`mgb_FY2024_FY2025_${floor}`]))
+    .forEach(r => { two[r.canonical_org_id] = r; });
 
   const ids = Array.from(new Set(Object.keys(one).concat(Object.keys(two))));
   let rows = ids.map(id => {
@@ -2012,7 +2109,7 @@ async function renderPairsChart() {
   const topn = Number(document.getElementById('p-topn').value) || 25;
   const rows = (await loadPairs(period))
     .filter(r => !NON_DEPT.has(r.specialty) && r.org_country === 'UNITED STATES'
-      && !SPLIT_OUT.has(r.canonical_org_id))
+      && !mgbHidden(r, EX.mgb === 'split'))
     .sort((a, b) => b.total_funding - a.total_funding)
     .slice(0, topn);
   document.getElementById('ch3-sub').textContent =
@@ -2098,7 +2195,12 @@ const DOWNLOADS = [
   'rank_institution_department_FY2021_FY2025.csv',
   'surgery_ranking_with_mgb_FY2025_corroborated.csv',
   'surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv',
-  'mgb_surgery_summary.csv', 'mgb_surgical_award_years_evidence.csv',
+  'mgb_surgery_summary.csv', 'mgb_departments_all.csv',
+  // The audit trail for the reconstructed rows, produced by the rule that
+  // ships. The file that used to sit here was the output of a retired
+  // per-award matcher: it covered about a third of the award-years published
+  // and listed two hundred that are not in the total at all.
+  'reconstructed_department_evidence.csv',
   'coverage_department_evidence.csv', 'sensitivity_surgical_definition.csv', 'validation_report.csv',
 ];
 
@@ -2224,6 +2326,12 @@ function initExplorerControls() {
     EX.pageSize = Number(e.target.value); EX.page = 1; renderExplorer();
   });
   document.getElementById('c-rollup').addEventListener('change', e => { EX.hideRollup = e.target.checked; rerender(); });
+  document.getElementById('c-mgb').addEventListener('change', e => {
+    EX.mgb = e.target.value === 'split' ? 'split' : 'combined';
+    // The row set changes, so a page deep into the old one is meaningless.
+    EX.page = 1;
+    rerender();
+  });
   document.getElementById('c-uncoded').addEventListener('change', e => { EX.uncoded = e.target.checked; rerender(); });
   document.querySelectorAll('input[name="recon"]').forEach(r =>
     r.addEventListener('change', () => { if (r.checked) { EX.recon = r.value; rerender(); } }));
@@ -2326,7 +2434,7 @@ async function boot() {
   initGlobalButtons();
   initTabs();
 
-  ['s-period', 's-floor', 's-metric', 's-topn', 's-scale'].forEach(id => {
+  ['s-period', 's-split', 's-metric', 's-topn', 's-scale'].forEach(id => {
     const n = document.getElementById(id);
     if (n) n.addEventListener('change', () => { renderSurgery(); renderSurgeryCharts(); writeHash(); });
   });

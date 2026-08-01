@@ -29,6 +29,19 @@ inclusion:
     [AA, AG, AI, AR, AT, CA, CL, DA, DC, DE, DK, EB, ES, EY, GM, HD, HG, HL,
      LM, MD, MH, NR, NS, OD, RG, TR, TW]
   # Grants and cooperative agreements only.
+  #
+  # One category survives this filter that the heading does not describe:
+  # ExPORTER files OT2 and OT3 awards -- Other Transaction authority, which is
+  # neither a grant nor a cooperative agreement -- under FUNDING_MECHANISM
+  # "OTHERS". They are 1,062 award-years and $5.457B, 3.1% of the census, and
+  # they are kept deliberately: they are competed extramural research awards
+  # made to the same institutions on the same terms, and the RECOVER programme
+  # in particular would otherwise vanish from several institutions' totals.
+  # The largest single one, OT2HL161841, is $109.7M in FY2021 alone and is most
+  # of what a reader will see under BIOSTATISTICS & OTHER MATH SCI at MGB.
+  # Set include_other_transactions to false to exclude them; validate.py
+  # reports the effect either way.
+  include_other_transactions: true
   excluded_funding_mechanisms:
     - "INTRAMURAL RESEARCH"
     - "NON SBIR/STTR CONTRACTS"
@@ -36,7 +49,6 @@ inclusion:
     - "INTERAGENCY AGREEMENTS"
   # Belt-and-braces: intramural (Z*) and R&D contract (N*) activity codes.
   excluded_activity_prefixes: ["Z", "N"]
-  countries: ["UNITED STATES"]
   # Subproject rows carry TOTAL_COST_SUB_PROJECT and are nested inside a parent
   # P/U/M award that already carries the full TOTAL_COST. Including both double
   # counts. Subprojects are retained in a separate table, not in the primary sum.

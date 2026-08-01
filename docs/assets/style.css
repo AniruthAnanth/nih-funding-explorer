@@ -588,6 +588,15 @@ sup.asif {
 .prose ul, .prose ol { max-width: 82ch; padding-left: 20px; }
 .prose li { margin-bottom: 5px; }
 .prose p { max-width: 82ch; }
+/* A correction the reader has to see before the table below it, not a
+   decoration: reserved for "this measures something other than what you are
+   about to assume". */
+.prose p.callout {
+  border-left: 3px solid var(--flag);
+  background: var(--paper);
+  padding: 12px 16px;
+  margin: 0 0 14px;
+}
 .prose code {
   font-family: var(--mono);
   font-size: 12.5px;

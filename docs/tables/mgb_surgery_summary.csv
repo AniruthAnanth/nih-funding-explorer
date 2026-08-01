@@ -1,37 +1,169 @@
 period,confidence_floor,scope,entity,total_funding,award_years,distinct_projects,r01_funding,r01_award_years,m_award_years,funded_investigators,rule,validation_kappa,validation_precision_pct,validation_sensitivity_pct
 FY2025,corroborated,Department of Surgery,MGH,34603957.0,45,43,13391852.0,24,0,32,majority,0.916,100.0,91.9
 FY2025,corroborated,Department of Surgery,BWH,20101698.0,20,17,5781777.0,9,0,14,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF10040927,10858628.0,19,18,7684531.0,10,0,14,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF10068583,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF861001,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF4976101,3244021.0,5,5,2309194.0,4,0,4,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1504801,16371225.0,30,30,13445187.0,20,0,16,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF5079202,21990507.0,11,11,3453037.0,5,0,10,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF615001,1644935.0,3,3,1644935.0,3,0,3,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,DFCI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1499101,9440911.0,7,5,1377192.0,2,0,3,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,BIDMC,5812849.0,10,10,5082913.0,7,0,7,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1225501,759206.0,1,1,759206.0,1,0,1,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF7893501,3545179.0,6,6,2776038.0,4,0,3,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1531401,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF3058203,3438074.0,4,4,3438074.0,4,0,4,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1495302,3389396.0,6,6,2999396.0,5,0,3,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF4976105,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF3736101,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF10005742,8787241.0,14,14,7398143.0,11,0,8,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF6959701,4098767.0,9,8,2085041.0,3,0,6,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1520001,1240262.0,2,2,1240262.0,2,0,2,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1518602,4202090.0,8,8,3779180.0,6,0,7,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF4155008,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF3617301,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,IPF1525701,2369746.0,5,5,1586865.0,3,0,3,majority,0.916,100.0,91.9
+FY2025,corroborated,Department of Surgery,MEEI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
 FY2025,corroborated,Department of Surgery,MGB_CORE,54705655.0,65,60,19173629.0,33,0,46,majority,0.916,100.0,91.9
 FY2024_FY2025,corroborated,Department of Surgery,MGH,65354123.0,90,52,24902369.0,47,0,37,majority,0.916,100.0,91.9
 FY2024_FY2025,corroborated,Department of Surgery,BWH,39222034.0,43,23,13370770.0,23,0,17,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF10040927,17802326.0,33,18,12991478.0,19,0,14,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF10068583,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF861001,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF4976101,6734239.0,10,6,4912711.0,8,0,5,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1504801,32008908.0,57,34,27211185.0,41,0,18,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF5079202,44976210.0,25,15,7670804.0,12,0,13,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF615001,2623291.0,5,3,2623291.0,5,0,3,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,DFCI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1499101,16302616.0,11,6,2742245.0,4,0,3,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,BIDMC,11658826.0,20,12,9166485.0,13,0,9,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1225501,1548555.0,2,2,1548555.0,2,0,2,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF7893501,5540387.0,10,6,4002105.0,6,0,3,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1531401,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF3058203,6885093.0,9,5,6885093.0,9,0,5,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1495302,7853473.0,17,9,6480259.0,14,0,4,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF4976105,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF3736101,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF10005742,15862798.0,27,15,14150700.0,23,0,8,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF6959701,7154532.0,20,10,2887034.0,4,0,7,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1520001,2930329.0,6,4,2538267.0,4,0,4,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1518602,8279897.0,17,11,7783820.0,13,0,9,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF4155008,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF3617301,197968.0,2,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,IPF1525701,5829038.0,13,8,4439633.0,8,0,6,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,Department of Surgery,MEEI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
 FY2024_FY2025,corroborated,Department of Surgery,MGB_CORE,104576157.0,133,75,38273139.0,70,0,54,majority,0.916,100.0,91.9
 FY2021_FY2025,corroborated,Department of Surgery,MGH,160711713.0,255,102,58431979.0,118,0,56,majority,0.916,100.0,91.9
 FY2021_FY2025,corroborated,Department of Surgery,BWH,105321594.0,109,32,33434296.0,61,0,24,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF10040927,36680452.0,79,28,26644743.0,46,0,21,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF10068583,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF861001,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF4976101,13046060.0,19,8,11224532.0,17,0,6,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1504801,75642811.0,127,50,64559512.0,95,0,22,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF5079202,91309391.0,63,23,16850342.0,31,0,16,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF615001,9175748.0,21,6,7953748.0,17,0,5,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,DFCI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1499101,27508983.0,21,9,7532909.0,13,0,3,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,BIDMC,30136591.0,53,23,18196402.0,30,0,11,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1225501,5493250.0,10,7,5326250.0,9,0,6,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF7893501,13270541.0,25,9,8913721.0,14,0,4,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1531401,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF3058203,14312846.0,23,8,13424419.0,19,0,7,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1495302,17378298.0,40,12,13958180.0,32,0,5,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF4976105,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF3736101,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF10005742,27306458.0,50,19,25271360.0,44,0,8,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF6959701,17867914.0,50,18,7369187.0,11,0,9,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1520001,8721566.0,25,9,6866026.0,16,0,6,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1518602,22100589.0,49,20,19768694.0,33,0,12,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF4155008,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF3617301,696928.0,5,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,IPF1525701,13180043.0,31,13,9043545.0,17,0,7,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,Department of Surgery,MEEI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
 FY2021_FY2025,corroborated,Department of Surgery,MGB_CORE,266033307.0,364,134,91866275.0,179,0,80,majority,0.916,100.0,91.9
 FY2025,corroborated,All surgical departments (narrow),MGH,42064600.0,60,58,18840054.0,34,0,43,majority,0.916,100.0,91.9
 FY2025,corroborated,All surgical departments (narrow),BWH,31697320.0,40,36,16494902.0,27,0,25,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF10040927,21349749.0,46,44,13619886.0,22,0,34,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF10068583,1212780.0,3,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF861001,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF4976101,13611613.0,20,20,6480378.0,12,0,16,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1504801,28826937.0,48,47,21373077.0,32,0,26,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF5079202,26858086.0,21,21,6345872.0,10,0,19,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF615001,5001438.0,9,9,4621975.0,8,0,7,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),DFCI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1499101,26069666.0,21,18,4421065.0,8,0,11,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),BIDMC,9213554.0,16,16,6639598.0,10,0,10,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1225501,10205298.0,19,18,8676497.0,17,0,12,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF7893501,3545179.0,6,6,2776038.0,4,0,3,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1531401,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF3058203,4449148.0,6,6,4449148.0,6,0,5,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1495302,4408351.0,9,9,3713716.0,6,0,6,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF4976105,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF3736101,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF10005742,16234028.0,30,29,12561019.0,22,0,18,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF6959701,7724752.0,17,15,5711026.0,11,0,13,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1520001,2403030.0,5,5,2209062.0,4,0,5,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1518602,4356652.0,9,9,3779180.0,6,0,8,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF4155008,638872.0,1,1,638872.0,1,0,1,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF3617301,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),IPF1525701,4866989.0,9,9,2892604.0,5,0,7,majority,0.916,100.0,91.9
+FY2025,corroborated,All surgical departments (narrow),MEEI,18222696.0,31,30,9350221.0,17,0,21,majority,0.916,100.0,91.9
 FY2025,corroborated,All surgical departments (narrow),MGB_CORE,73761920.0,100,94,35334956.0,61,0,68,majority,0.916,100.0,91.9
 FY2024_FY2025,corroborated,All surgical departments (narrow),MGH,82886115.0,125,77,37214090.0,72,0,52,majority,0.916,100.0,91.9
 FY2024_FY2025,corroborated,All surgical departments (narrow),BWH,59836390.0,82,45,31593775.0,55,0,31,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF10040927,42788656.0,91,52,29100656.0,47,0,37,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF10068583,2330536.0,6,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF861001,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF4976101,21772824.0,37,25,11931895.0,22,0,18,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1504801,52959174.0,93,56,41130656.0,64,0,31,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF5079202,54272563.0,45,27,13335274.0,22,0,22,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF615001,10033233.0,18,12,8136928.0,14,0,7,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),DFCI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1499101,49633125.0,42,21,8932633.0,16,0,11,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),BIDMC,19840692.0,34,20,13256463.0,21,0,14,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1225501,21633137.0,41,26,18299360.0,37,0,16,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF7893501,5540387.0,10,6,4002105.0,6,0,3,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1531401,66030.0,1,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF3058203,8466708.0,12,7,8466708.0,12,0,6,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1495302,10277018.0,24,13,8411534.0,18,0,8,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF4976105,402401.0,1,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF3736101,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF10005742,32277232.0,66,36,24462143.0,47,0,20,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF6959701,15384927.0,37,19,10907443.0,20,0,14,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1520001,5297711.0,12,7,4517713.0,8,0,7,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1518602,8589021.0,19,12,7783820.0,13,0,10,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF4155008,994432.0,2,2,994432.0,2,0,1,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF3617301,901084.0,3,2,703116.0,1,0,2,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),IPF1525701,9286997.0,20,13,6347528.0,11,0,11,majority,0.916,100.0,91.9
+FY2024_FY2025,corroborated,All surgical departments (narrow),MEEI,36578099.0,59,35,17007122.0,33,0,24,majority,0.916,100.0,91.9
 FY2024_FY2025,corroborated,All surgical departments (narrow),MGB_CORE,142722505.0,207,122,68807865.0,127,0,83,majority,0.916,100.0,91.9
 FY2021_FY2025,corroborated,All surgical departments (narrow),MGH,207448227.0,343,138,90897432.0,184,0,73,majority,0.916,100.0,91.9
 FY2021_FY2025,corroborated,All surgical departments (narrow),BWH,150000884.0,209,68,69583357.0,127,0,43,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF10040927,88897528.0,202,78,65098664.0,118,0,50,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF10068583,5881324.0,14,3,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF861001,678699.0,3,3,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF4976101,46868955.0,86,34,29867230.0,57,0,21,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1504801,121973882.0,212,83,96901827.0,151,0,38,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF5079202,110820330.0,106,39,27489874.0,49,0,26,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF615001,29841581.0,66,26,22663900.0,46,0,15,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),DFCI,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1499101,107713583.0,99,34,21293408.0,40,0,14,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),BIDMC,46899621.0,87,35,27617258.0,50,0,19,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1225501,51309142.0,98,39,39108873.0,78,0,24,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF7893501,13270541.0,25,9,8913721.0,14,0,4,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1531401,1057597.0,3,2,991567.0,2,0,2,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF3058203,18794681.0,32,13,17818254.0,27,0,9,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1495302,23922564.0,60,19,18912871.0,41,0,9,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF4976105,402401.0,1,1,0.0,0,0,1,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF3736101,0.0,0,0,0.0,0,0,0,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF10005742,56077223.0,120,50,42409701.0,84,0,23,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF6959701,35718396.0,94,37,21455184.0,40,0,18,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1520001,15265695.0,40,15,12642001.0,27,0,10,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1518602,23315437.0,55,23,20164955.0,34,0,14,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF4155008,1432934.0,3,2,1432934.0,3,0,1,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF3617301,3509673.0,9,2,2812745.0,4,0,2,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),IPF1525701,23027882.0,46,18,12252514.0,22,0,12,majority,0.916,100.0,91.9
+FY2021_FY2025,corroborated,All surgical departments (narrow),MEEI,92624873.0,154,44,45795405.0,95,0,26,majority,0.916,100.0,91.9
 FY2021_FY2025,corroborated,All surgical departments (narrow),MGB_CORE,357449111.0,552,206,160480789.0,311,0,116,majority,0.916,100.0,91.9
-FY2025,all_evidence,Department of Surgery,MGH,34603957.0,45,43,13391852.0,24,0,32,any,0.954,96.4,99.3
-FY2025,all_evidence,Department of Surgery,BWH,20101698.0,20,17,5781777.0,9,0,14,any,0.954,96.4,99.3
-FY2025,all_evidence,Department of Surgery,MGB_CORE,54705655.0,65,60,19173629.0,33,0,46,any,0.954,96.4,99.3
-FY2024_FY2025,all_evidence,Department of Surgery,MGH,65354123.0,90,52,24902369.0,47,0,37,any,0.954,96.4,99.3
-FY2024_FY2025,all_evidence,Department of Surgery,BWH,39222034.0,43,23,13370770.0,23,0,17,any,0.954,96.4,99.3
-FY2024_FY2025,all_evidence,Department of Surgery,MGB_CORE,104576157.0,133,75,38273139.0,70,0,54,any,0.954,96.4,99.3
-FY2021_FY2025,all_evidence,Department of Surgery,MGH,160711713.0,255,102,58431979.0,118,0,56,any,0.954,96.4,99.3
-FY2021_FY2025,all_evidence,Department of Surgery,BWH,105321594.0,109,32,33434296.0,61,0,24,any,0.954,96.4,99.3
-FY2021_FY2025,all_evidence,Department of Surgery,MGB_CORE,266033307.0,364,134,91866275.0,179,0,80,any,0.954,96.4,99.3
-FY2025,all_evidence,All surgical departments (narrow),MGH,42064600.0,60,58,18840054.0,34,0,43,any,0.954,96.4,99.3
-FY2025,all_evidence,All surgical departments (narrow),BWH,31697320.0,40,36,16494902.0,27,0,25,any,0.954,96.4,99.3
-FY2025,all_evidence,All surgical departments (narrow),MGB_CORE,73761920.0,100,94,35334956.0,61,0,68,any,0.954,96.4,99.3
-FY2024_FY2025,all_evidence,All surgical departments (narrow),MGH,82886115.0,125,77,37214090.0,72,0,52,any,0.954,96.4,99.3
-FY2024_FY2025,all_evidence,All surgical departments (narrow),BWH,59836390.0,82,45,31593775.0,55,0,31,any,0.954,96.4,99.3
-FY2024_FY2025,all_evidence,All surgical departments (narrow),MGB_CORE,142722505.0,207,122,68807865.0,127,0,83,any,0.954,96.4,99.3
-FY2021_FY2025,all_evidence,All surgical departments (narrow),MGH,207448227.0,343,138,90897432.0,184,0,73,any,0.954,96.4,99.3
-FY2021_FY2025,all_evidence,All surgical departments (narrow),BWH,150000884.0,209,68,69583357.0,127,0,43,any,0.954,96.4,99.3
-FY2021_FY2025,all_evidence,All surgical departments (narrow),MGB_CORE,357449111.0,552,206,160480789.0,311,0,116,any,0.954,96.4,99.3

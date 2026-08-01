@@ -86,6 +86,17 @@ def apply_inclusion_rules(df: pd.DataFrame, cfg: dict, fy: int) -> tuple[pd.Data
         ~df.ACTIVITY.str[0].isin(inc["excluded_activity_prefixes"]),
         "belt-and-braces removal of Z* intramural and N* contract activity codes",
     )
+    # Other Transaction awards (OT2, OT3) are filed under FUNDING_MECHANISM
+    # "OTHERS" and so survive the grants-and-cooperative-agreements filter
+    # despite being neither. They are kept by default and the switch is
+    # counted either way, so the census never silently contains a category its
+    # own filter name excludes.
+    if not inc.get("include_other_transactions", True):
+        step(
+            "other_transaction_authority",
+            ~df.ACTIVITY.astype(str).str.upper().str.startswith("OT"),
+            "OT2/OT3 are Other Transaction authority, not grants or cooperative agreements",
+        )
     if inc.get("exclude_subproject_rows", True):
         step(
             "parent_awards_only",

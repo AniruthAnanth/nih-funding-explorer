@@ -25,7 +25,7 @@
       source files by the code in this repository.
     </p>
     <div class="meta">
-      <span>315,717 award-years</span><span>$173B</span><span>5,007 organizations</span><span>16/16 validation checks pass</span>
+      <span>315,717 award-years</span><span>$174.4B</span><span>5,007 organizations</span><span>17/17 validation checks pass</span>
     </div>
   </div>
 </header>
@@ -49,22 +49,47 @@
     <p>
       NIH publishes a department code only for recipients it classifies as schools. Independent
       hospitals and research institutes get none. In FY2025 that leaves <strong>30.0% of all US
-      NIH dollars with no department attached</strong>, which is $10.5B.
+      NIH dollars with no usable department attached</strong>, which is $10.5B.
+    </p>
+    <p class="hint">
+      Counted the wide way: no <code>ORG_DEPT</code> value at all, plus the placeholder values
+      <code>NONE</code>, <code>MISCELLANEOUS</code> and <code>NO CODE ASSIGNED</code>, none of
+      which name a department. Counting only the entirely absent ones gives 25.2% and $8.84B.
+      Both are published; the wide definition is used here because a placeholder is no more
+      rankable than a blank.
     </p>
     <p>
       A departmental ranking taken straight from NIH data therefore does not rank those
       recipients low, it <strong>omits them entirely</strong>. Of the 140 US institutions above
-      $50M in FY2025, 27 carry no department code on any of their funding, among them
-      Massachusetts General Hospital, Vanderbilt University Medical Center, Brigham and Women's
-      Hospital, Fred Hutchinson, Mayo, Boston Children's, Memorial Sloan Kettering, Children's
-      Hospital of Philadelphia, Dana-Farber and Cedars-Sinai.
+      $50M in FY2025, 27 carry no department code on any of their funding — 25 under the narrow
+      definition — among them Massachusetts General Hospital, Vanderbilt University Medical
+      Center, Brigham and Women's Hospital, Fred Hutchinson, Mayo, Boston Children's, Memorial
+      Sloan Kettering, Children's Hospital of Philadelphia, Dana-Farber and Cedars-Sinai.
     </p>
     <p>
       Where a department has been reconstructed from dated publication affiliations instead, the
       row is hatched and tagged <strong>lower bound</strong>. Those figures are not measured the
-      same way as an NIH-coded department and should not be read as if they were. The
-      <a href="#agreement" data-goto="agreement">Method agreement</a> tab quantifies how far the
-      two disagree.
+      same way as an NIH-coded department and should not be read as if they were. The rule that
+      produces them is scored against NIH's own field in
+      <a href="https://github.com/AniruthAnanth/nih-funding-explorer/tree/main/docs/validation">docs/validation</a>:
+      Cohen's κ 0.916 on a 260-investigator sample. The
+      <a href="#agreement" data-goto="agreement">Method agreement</a> tab scores a
+      <em>different and superseded</em> rule, and reports a much lower κ for that reason.
+    </p>
+    <p class="hint">
+      Two limits on that κ, stated because they are easy to miss. The sample is 1:1
+      case-control — 150 surgical against 150 non-surgical — so its 50% prevalence is not the
+      population's 7%; the reported precision of 100% carries a 95% upper bound on the
+      false-positive rate of about 2.4%, which at a 7% base rate admits a true precision nearer
+      75%. And the sample can only be drawn where NIH publishes a department, meaning at
+      universities, while the rule is applied at hospitals. The transfer from one to the other is
+      the whole point of the method and is the one thing the experiment cannot measure.
+    </p>
+    <p>
+      Reconstruction is applied to <strong>every</strong> uncoded recipient in the comparison set,
+      not to a chosen few. Rebuilding one hospital's departments and leaving its uncoded peers out
+      does not correct NIH's coverage gap; it inverts it, and leaves that hospital ranked against a
+      field with the other hospitals deleted from it.
     </p>
   </div>
 
@@ -192,10 +217,27 @@
             Reconstructed rows are rebuilt from dated PubMed affiliations rather than read from an
             NIH department code. A
             <strong>lower bound</strong>, hatched and tagged wherever it appears, never
-            like-for-like with an NIH-coded row.
+            like-for-like with an NIH-coded row. The rule was validated on one binary call —
+            surgical or not, Cohen's κ 0.916 — so a reconstructed row in a
+            <em>non-surgical</em> department rests on an extension of it that has not been
+            measured. Surgical rows are validated; the rest are indicative.
           </p>
           <label class="chkline"><input type="checkbox" id="c-rollup"> Hide multi-hospital roll-up rows
             <span class="hint inline">(hides every publication-derived row)</span></label>
+          <div class="field tight">
+            <label for="c-mgb">Multi-hospital systems</label>
+            <select id="c-mgb">
+              <option value="combined" selected>Combined roll-up</option>
+              <option value="split">Member hospitals separately</option>
+            </select>
+          </div>
+          <p class="hint">
+            A roll-up and its member hospitals are the same dollars counted twice, so one or the
+            other is shown, never both. Mass General Brigham is Massachusetts General plus the
+            Brigham; split them to see that the two run separate departments with separate chairs.
+            A roll-up is never given a peer rank — where its standing is shown it is marked
+            <span class="warnink">§</span>.
+          </p>
         </div>
 
         <div class="fbox span4" id="fb-cols">
@@ -409,10 +451,10 @@
         </select>
       </div>
       <div class="field">
-        <label for="s-floor">Evidence floor for MGH / BWH</label>
-        <select id="s-floor">
-          <option value="corroborated" selected>Corroborated (2+ dated records)</option>
-          <option value="all_evidence">All evidence (includes single-record matches)</option>
+        <label for="s-split">Multi-hospital systems</label>
+        <select id="s-split">
+          <option value="combined" selected>Combined (Mass General Brigham as one)</option>
+          <option value="split">Split (Mass General and Brigham separately)</option>
         </select>
       </div>
       <div class="field">
@@ -539,15 +581,15 @@
     <h2 class="head">Surgery against every other specialty</h2>
     <div class="prose">
       <p>
-        Pooled across all institutions NIH codes, <strong>surgery is the 21st largest department
+        Pooled across all institutions NIH codes, <strong>surgery is the 19th largest department
         nationally</strong> over FY2021–FY2025, at $2.56B, or 1.37% of department-coded NIH
         funding. Internal medicine is roughly an order of magnitude larger.
       </p>
       <p>Against every institution–department pair in the country:</p>
       <ul>
-        <li>The best-funded surgery department in the US ranks <strong>69th overall</strong> over five years (Duke, $221M), and 64th in FY2025.</li>
+        <li>The best-funded NIH-coded surgery department in the US ranks <strong>67th overall</strong> over five years (Duke, $221M), and 63rd in FY2025.</li>
         <li><strong>Exactly one surgery department appears in the national top 100.</strong> Thirteen appear in the top 500.</li>
-        <li>NYU's Department of Medicine alone took $1.27B over five years — about <strong>5.7× the entire Duke Department of Surgery</strong>, and roughly <strong>10× the largest reconstructed surgical figure</strong>.</li>
+        <li>NYU's Department of Medicine alone took $1.27B over five years — about <strong>5.7× the entire Duke Department of Surgery</strong>, the largest NIH-coded surgery department in the country.</li>
       </ul>
       <p>
         This is a structural feature of how NIH funds research, not a judgment about surgical
@@ -603,16 +645,21 @@
   <section id="agreement" role="tabpanel" aria-labelledby="tab-agreement" tabindex="-1">
     <h2 class="head">How the two methods compare</h2>
     <div class="prose">
-      <p>
-        The department behind every ranking on this site is derived from <strong>dated PubMed
-        author affiliations</strong>, applied identically to every institution. That is the
-        primary measurement, and it is primary for a specific reason: NIH's own department field
-        exists only for recipients it classifies as schools, so using it would measure hospitals
-        and universities by different rules and silently drop the hospitals.
+      <p class="callout">
+        <strong>These tables score a rule this site no longer uses.</strong> They measure a first
+        attempt that matched awards to surgical papers institution by institution, from a PubMed
+        harvest already filtered to surgical topics. Scored against NIH's own field it reached
+        Cohen's κ of about 0.27, and that is why it was replaced. The rule the rankings actually
+        use classifies each <em>investigator</em> from an unfiltered pull of their papers and
+        reaches <strong>κ 0.916</strong> on a 260-investigator sample; its validation is in
+        <code>docs/validation/</code>, not here. Two very different κ values appear on this site
+        and they belong to two different rules.
       </p>
       <p>
-        NIH's <code>ORG_DEPT</code> is kept as an <strong>independent second opinion</strong> on
-        the subset of award-years where NIH supplies one. Below is how far the two agree.
+        The comparison is kept published because the gap is the argument for the change, and
+        because the underlying asymmetry it exposes is real: NIH's <code>ORG_DEPT</code> exists
+        only for recipients it classifies as schools, so any method resting on it measures
+        hospitals and universities by different rules and silently drops the hospitals.
       </p>
       <ul>
         <li><strong>Sensitivity</strong> — of the award-years NIH calls surgical, the share the publication method also calls surgical. This is the number that says how much a publication-derived total undercounts.</li>
@@ -743,7 +790,7 @@
       <h3>Three things this data cannot do</h3>
       <ul>
         <li><strong>It is not revenue.</strong> NIH obligations only — no philanthropy, industry, foundation, DoD, institutional or clinical revenue. A department's NIH total is usually a minority of its research revenue.</li>
-        <li><strong>It is not a world ranking.</strong> Non-US organizations received <strong>0.69%</strong> of NIH funding over FY2021–FY2025. China has five NIH recipients totalling $5.9M across the period; Japan one at $0.1M; Korea and Singapore none. A department in Shanghai could be the largest in the world and would be invisible here.</li>
+        <li><strong>It is not a world ranking.</strong> Non-US organizations received <strong>0.69%</strong> of NIH funding over FY2021–FY2025. China has five NIH recipients totalling $5.9M across the period; Japan one at $0.1M; South Korea one at $54,000; Singapore none. A department in Shanghai could be the largest in the world and would be invisible here.</li>
         <li><strong>There are no M awards to count.</strong> M-series activity codes return <strong>zero award-years for every institution</strong> in FY2021–FY2025. NIH retired the M01 General Clinical Research Center mechanism into the CTSA program; the successors are UL1 and UM1, classified here under the U family.</li>
       </ul>
 

@@ -8,6 +8,7 @@
     python3 run_pipeline.py harvest     collect PubMed affiliation evidence (slow, cached)
     python3 run_pipeline.py surgery     publication-derived department + NIH agreement
     python3 run_pipeline.py biblio      flagship-journal output and citation impact
+    python3 run_pipeline.py profile     per-investigator department profiles (slow, cached)
     python3 run_pipeline.py mgb         departmental totals where NIH codes no department
     python3 run_pipeline.py figures     produce figures
     python3 run_pipeline.py validate    reconciliation and QC checks
@@ -82,14 +83,29 @@ def main(argv: list[str]) -> int:
         surgery_ranking.build_all(cfg)
         steps.append("surgery")
 
+    if stage == "profile":
+        # One PubMed query pair per contact PI at every uncoded recipient. Slow
+        # (hours) and cached per institution under data/interim, so it is not in
+        # `all`; the `mgb` stage below consumes what it leaves behind. Kept as a
+        # named stage because `mgb` used to demand a parquet that no stage in
+        # this file produced, which made the headline figures unreproducible
+        # from a clean checkout.
+        from rankmgb import pi_department
+
+        pi_department.run()
+        steps.append("profile")
+
     if stage in ("mgb", "all"):
         # Departmental totals for recipients NIH does not department-code, from
         # the validated per-investigator majority rule (see pi_department.py).
         from rankmgb import mgb_context, pi_department
 
         if not (PROCESSED / "pi_departments.parquet").exists():
-            raise SystemExit("run the pi-departments profiling before the mgb stage")
+            raise SystemExit(
+                "pi_departments.parquet missing; run `python3 run_pipeline.py profile` first")
         pi_department.summarise_surgery(cfg)
+        pi_department.summarise_all_departments(cfg)
+        pi_department.emit_evidence(cfg)
         mgb_context.build_all(cfg)
         steps.append("mgb")
 

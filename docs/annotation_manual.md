@@ -19,7 +19,9 @@ the final rankings can tell exactly which rule produced any given number.
 
 NIH's `ORG_DEPT` field is populated only for recipients NIH classifies as
 schools. Independent hospitals and research institutes carry no department code
-at all. In FY2025 that covers **30.0% of US NIH dollars**, including the largest
+at all. In FY2025 that covers **30.0% of US NIH dollars** on the wide definition
+of uncoded — the field absent, or set to `NONE`, `MISCELLANEOUS` or `NO CODE
+ASSIGNED` — and 25.2% counting absence alone. That includes the largest
 and third-largest uncoded recipients in the country, Massachusetts General
 Hospital and Brigham and Women's Hospital.
 
@@ -156,11 +158,11 @@ falls in a gap is unresolved and is reported as such.
 | low | A single record |
 | unknown | No qualifying evidence. **Retained as unknown; never forced into a class.** |
 
-Two floors are published for every departmental total. **Corroborated** admits
-high and medium only. **All evidence** additionally admits single-record
-matches, among which spot-checking found real false positives. The two are
-reported side by side; the gap between them is an uncertainty band, not a range
-of equally good estimates.
+One floor is published for every departmental total. **Corroborated** admits
+high and medium only. An `all evidence` floor admitting single-record matches
+was published alongside it and has been withdrawn: it selected the identical set
+of investigators, so the gap presented as an uncertainty band was zero wide.
+`corroborated` remains as a filename token, not as one end of a range.
 
 Tier A and tier B carry their own confidence when they are used as the
 comparator: tier A is deterministic, and tier B is graded by the gap in years

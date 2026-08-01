@@ -31,3 +31,28 @@ IPF481201,Baylor College of Medicine,"""baylor college of medicine""[Affiliation
 IPF9420201,Yale,"""yale university""[Affiliation] OR ""yale school of medicine""[Affiliation] OR ""yale new haven""[Affiliation]","yale\s+(university|school|new\s+haven)",v1,2026-08-01
 IPF1199905,Colorado Denver,"""university of colorado""[Affiliation]","university\s+of\s+colorado",v1,2026-08-01
 IPF577806,Indiana Indianapolis,"""indiana university""[Affiliation]","indiana\s+university",v1,2026-08-01
+IPF10040927,Vanderbilt University Medical Center,"""vanderbilt university medical center""[Affiliation] OR ""vanderbilt university school of medicine""[Affiliation] OR ""vanderbilt health""[Affiliation] OR ""vanderbilt-ingram""[Affiliation]","(vanderbilt\s+(university\s+)?(medical\s+cent|hospital|health)|vanderbilt\s+university\s+(medical\s+)?(school|college)|vanderbilt[\s-]+ingram|\bvumc\b)",v1,2026-08-01
+IPF10068583,Fred Hutchinson Cancer Center,"""fred hutchinson""[Affiliation]","fred\s+hutchinson",v1,2026-08-01
+IPF861001,Fred Hutchinson Cancer Research Center (pre-2022 recipient code),"""fred hutchinson""[Affiliation]","fred\s+hutchinson",v1,2026-08-01
+IPF4976101,Mayo Clinic Rochester,"""mayo clinic""[Affiliation] AND rochester[Affiliation]","mayo\s+clinic(?=[^;]{0,80}rochester)(?![^;]{0,80}(jacksonville|scottsdale|phoenix|arizona))",v1,2026-08-01
+IPF4976105,Mayo Clinic Jacksonville,"""mayo clinic""[Affiliation] AND (jacksonville[Affiliation] OR florida[Affiliation])","(mayo\s+clinic(?=[^;]{0,80}jacksonville)(?![^;]{0,80}rochester)|mayo\s+clinic\s*,?\s+florida)",v1,2026-08-01
+IPF1504801,Boston Children's Hospital,"""boston children's hospital""[Affiliation] OR ""children's hospital boston""[Affiliation]","(boston\s+children(?:'|’)?s|children(?:'|’)?s\s+hospital\s*,?\s+boston)",v1,2026-08-01
+IPF5079202,Memorial Sloan Kettering Cancer Center,"""memorial sloan kettering""[Affiliation] OR ""sloan-kettering""[Affiliation]","sloan[\s-]*kettering",v1,2026-08-01
+IPF615001,Cincinnati Children's Hospital Medical Center,"""cincinnati children's hospital""[Affiliation]","cincinnati\s+children",v1,2026-08-01
+DFCI,Dana-Farber Cancer Institute,"""dana-farber""[Affiliation]","dana[\s-]?farber",v1,2026-08-01
+IPF1499101,Children's Hospital of Philadelphia,"""children's hospital of philadelphia""[Affiliation]","children(?:'|’)?s\s+hospital\s+of\s+philadelphia",v1,2026-08-01
+BIDMC,Beth Israel Deaconess Medical Center,"""beth israel deaconess""[Affiliation]","beth\s+israel\s+deaconess",v1,2026-08-01
+IPF1225501,Cedars-Sinai Medical Center,"""cedars-sinai""[Affiliation]","cedars[\s-]?sinai",v1,2026-08-01
+IPF7893501,St. Jude Children's Research Hospital,"""st. jude children's research hospital""[Affiliation]","(st\.?|saint)\s+jude\s+children",v1,2026-08-01
+IPF1531401,Seattle Children's Hospital,"""seattle children's""[Affiliation]","seattle\s+children",v1,2026-08-01
+IPF3058203,City of Hope / Beckman Research Institute,"""city of hope""[Affiliation] OR ""beckman research institute""[Affiliation]","(city\s+of\s+hope|beckman\s+research\s+institute)",v1,2026-08-01
+IPF1495302,Nationwide Children's Hospital,"""nationwide children's hospital""[Affiliation]","nationwide\s+children",v1,2026-08-01
+IPF3736101,Moffitt Cancer Center,"""moffitt cancer center""[Affiliation] OR ""moffitt""[Affiliation]","moffitt",v1,2026-08-01
+IPF10005742,Houston Methodist,"""houston methodist""[Affiliation] OR (""methodist hospital""[Affiliation] AND houston[Affiliation])","(houston\s+methodist|methodist\s+hospital(?=[^;]{0,60}houston))",v1,2026-08-01
+IPF6959701,Rhode Island Hospital,"""rhode island hospital""[Affiliation] OR ""hasbro children's hospital""[Affiliation]","(rhode\s+island\s+hospital|hasbro\s+children)",v1,2026-08-01
+IPF1520001,Children's Hospital of Los Angeles,"""children's hospital los angeles""[Affiliation]","children(?:'|’)?s\s+hospital\s+(of\s+)?los\s+angeles",v1,2026-08-01
+IPF1518602,Children's National Hospital,"""children's national""[Affiliation] OR (""children's research institute""[Affiliation] AND washington[Affiliation])","children(?:'|’)?s\s+national",v1,2026-08-01
+IPF4155008,Feinstein Institutes for Medical Research,"""feinstein institute""[Affiliation] OR ""feinstein institutes""[Affiliation]","feinstein\s+institutes?\b",v1,2026-08-01
+IPF3617301,Boston Medical Center,"""boston medical center""[Affiliation]","boston\s+medical\s+cent(er|re)",v1,2026-08-01
+IPF1525701,Lurie Children's Hospital of Chicago,"""lurie children's hospital""[Affiliation]","lurie\s+children",v1,2026-08-01
+MEEI,Massachusetts Eye and Ear,"""massachusetts eye and ear""[Affiliation] OR ""mass eye and ear""[Affiliation]","mass(achusetts)?\s+eye\s+(and|&)\s+ear",v1,2026-08-01

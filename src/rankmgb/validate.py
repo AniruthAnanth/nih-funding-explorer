@@ -144,6 +144,22 @@ def run(cfg: dict) -> pd.DataFrame:
               "share of funding with no department evidence, averaged across years; "
               "published rather than imputed", round(float(unresolved), 2))
 
+    # 10. Other Transaction awards are inside a filter named for grants and
+    # cooperative agreements. Whether they are kept is a config switch; either
+    # way the size of the category is published rather than left for a reader
+    # to discover in a departmental total they cannot account for.
+    ot = df[df.activity_code.astype(str).str.upper().str.startswith("OT")]
+    kept = bool(cfg["inclusion"].get("include_other_transactions", True))
+    check("other_transaction_awards_disclosed", True,
+          ("OT2/OT3 are Other Transaction authority, filed by ExPORTER under "
+           f"FUNDING_MECHANISM 'OTHERS' and therefore not removed by the "
+           f"grants-and-cooperative-agreements filter. They are "
+           f"{'included' if kept else 'excluded'} by config."),
+          {"award_years": int(len(ot)),
+           "funding": float(ot.total_cost.sum()),
+           "pct_of_funding": round(float(100 * ot.total_cost.sum() / df.total_cost.sum()), 2),
+           "included": kept})
+
     out = pd.DataFrame(checks)
     out.to_csv(TABLES / "validation_report.csv", index=False)
     failed = out[~out.passed]

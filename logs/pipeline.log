@@ -1985,3 +1985,288 @@
 2026-08-01 09:36:09,239 INFO    site                   copied 33 tables into docs/tables
 2026-08-01 09:36:10,748 INFO    validate               validation: 16 checks, 0 failed
 2026-08-01 09:36:11,377 INFO    driver                 done: validate
+2026-08-01 11:34:10,826 INFO    pi_department          8,446 contact-PI award-years, 7,404 with a resolved department (87.7%)
+2026-08-01 11:34:10,846 INFO    pi_department          wrote mgb_surgery_summary.csv (36 rows) from the validated majority rule
+2026-08-01 11:34:11,456 INFO    pi_department          wrote mgb_departments_all.csv (158 rows, 19 departments)
+2026-08-01 11:34:11,518 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_corroborated.csv (80 rows)
+2026-08-01 11:34:11,701 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_corroborated.png
+2026-08-01 11:34:11,730 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_all_evidence.csv (80 rows)
+2026-08-01 11:34:11,873 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_all_evidence.png
+2026-08-01 11:34:11,908 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_corroborated.csv (85 rows)
+2026-08-01 11:34:12,046 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_corroborated.png
+2026-08-01 11:34:12,080 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_all_evidence.csv (85 rows)
+2026-08-01 11:34:12,220 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_all_evidence.png
+2026-08-01 11:34:12,263 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv (96 rows)
+2026-08-01 11:34:12,405 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.png
+2026-08-01 11:34:12,448 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_all_evidence.csv (96 rows)
+2026-08-01 11:34:12,595 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_all_evidence.png
+2026-08-01 11:34:12,636 INFO    driver                 done: mgb
+2026-08-01 11:34:30,424 INFO    site                   FY2025: appended 18 reconstructed department row(s) across 18 departments
+2026-08-01 11:34:30,463 INFO    site                   wrote docs/data/pairs_FY2025.json (1.6 MB)
+2026-08-01 11:34:30,527 INFO    site                   FY2024_FY2025: appended 18 reconstructed department row(s) across 18 departments
+2026-08-01 11:34:30,573 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (1.9 MB)
+2026-08-01 11:34:30,649 INFO    site                   FY2021_FY2025: appended 19 reconstructed department row(s) across 19 departments
+2026-08-01 11:34:30,708 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.4 MB)
+2026-08-01 11:34:30,863 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-01 11:34:31,117 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-01 11:34:31,147 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-01 11:34:31,170 INFO    site                   copied 58 figures into docs/figures
+2026-08-01 11:34:31,194 INFO    site                   copied 34 tables into docs/tables
+2026-08-01 11:46:11,414 INFO    pi_department          MGH: 1,101 investigators already cached
+2026-08-01 11:46:11,421 INFO    pi_department          MGH: profiling 0 investigators
+2026-08-01 11:46:11,431 INFO    pi_department          MGH: 1,101 investigators, 73 surgical by majority rule
+2026-08-01 11:46:11,445 INFO    pi_department          BWH: 677 investigators already cached
+2026-08-01 11:46:11,448 INFO    pi_department          BWH: profiling 0 investigators
+2026-08-01 11:46:11,450 INFO    pi_department          BWH: 677 investigators, 43 surgical by majority rule
+2026-08-01 11:46:11,462 INFO    pi_department          IPF10040927: profiling 569 investigators
+2026-08-01 11:52:14,308 INFO    pi_department            IPF10040927: 200/569
+2026-08-01 11:53:10,681 INFO    pi_department          31,574 contact-PI award-years, 7,404 with a resolved department (23.4%)
+2026-08-01 11:53:10,817 INFO    pi_department          wrote mgb_surgery_summary.csv (336 rows) from the validated majority rule
+2026-08-01 11:53:11,518 INFO    pi_department          wrote mgb_departments_all.csv (158 rows, 19 departments)
+2026-08-01 11:53:11,578 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_corroborated.csv (105 rows; 26 ranked rows reconstructed, 77 from NIH ORG_DEPT)
+2026-08-01 11:53:11,579 INFO    mgb_context              highest-ranked reconstructed department: Mass General Brigham at rank 1; MGB_CORE at rank 1
+2026-08-01 11:53:11,756 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_corroborated.png
+2026-08-01 11:53:11,786 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_all_evidence.csv (105 rows; 26 ranked rows reconstructed, 77 from NIH ORG_DEPT)
+2026-08-01 11:53:11,787 INFO    mgb_context              highest-ranked reconstructed department: Mass General Brigham at rank 1; MGB_CORE at rank 1
+2026-08-01 11:53:11,931 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_all_evidence.png
+2026-08-01 11:53:11,969 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_corroborated.csv (110 rows; 26 ranked rows reconstructed, 82 from NIH ORG_DEPT)
+2026-08-01 11:53:11,970 INFO    mgb_context              highest-ranked reconstructed department: Mass General Brigham at rank 1; MGB_CORE at rank 1
+2026-08-01 11:53:12,114 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_corroborated.png
+2026-08-01 11:53:12,151 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_all_evidence.csv (110 rows; 26 ranked rows reconstructed, 82 from NIH ORG_DEPT)
+2026-08-01 11:53:12,152 INFO    mgb_context              highest-ranked reconstructed department: Mass General Brigham at rank 1; MGB_CORE at rank 1
+2026-08-01 11:53:12,294 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_all_evidence.png
+2026-08-01 11:53:12,340 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv (121 rows; 26 ranked rows reconstructed, 93 from NIH ORG_DEPT)
+2026-08-01 11:53:12,340 INFO    mgb_context              highest-ranked reconstructed department: Mass General Brigham at rank 1; MGB_CORE at rank 1
+2026-08-01 11:53:12,486 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.png
+2026-08-01 11:53:12,531 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_all_evidence.csv (121 rows; 26 ranked rows reconstructed, 93 from NIH ORG_DEPT)
+2026-08-01 11:53:12,532 INFO    mgb_context              highest-ranked reconstructed department: Mass General Brigham at rank 1; MGB_CORE at rank 1
+2026-08-01 11:53:12,678 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_all_evidence.png
+2026-08-01 11:53:12,716 INFO    driver                 done: mgb
+2026-08-01 11:53:21,408 INFO    site                   FY2025: appended 18 reconstructed department row(s) across 18 departments and 1 recipients
+2026-08-01 11:53:21,452 INFO    site                   wrote docs/data/pairs_FY2025.json (1.6 MB)
+2026-08-01 11:53:21,524 INFO    site                   FY2024_FY2025: appended 18 reconstructed department row(s) across 18 departments and 1 recipients
+2026-08-01 11:53:21,574 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (1.9 MB)
+2026-08-01 11:53:21,660 INFO    site                   FY2021_FY2025: appended 19 reconstructed department row(s) across 19 departments and 1 recipients
+2026-08-01 11:53:21,723 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.4 MB)
+2026-08-01 11:53:21,888 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-01 11:53:22,164 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-01 11:53:22,195 INFO    site                   wrote docs/data/core.json (2.5 MB)
+2026-08-01 11:53:22,211 INFO    site                   copied 58 figures into docs/figures
+2026-08-01 11:53:22,230 INFO    site                   copied 34 tables into docs/tables
+2026-08-01 11:58:15,515 INFO    pi_department            IPF10040927: 400/569
+2026-08-01 12:03:37,852 INFO    pi_department          IPF10040927: 569 investigators, 50 surgical by majority rule
+2026-08-01 12:03:37,874 INFO    pi_department          IPF10068583: profiling 269 investigators
+2026-08-01 12:09:44,348 INFO    pi_department            IPF10068583: 200/269
+2026-08-01 12:11:50,202 INFO    pi_department          IPF10068583: 269 investigators, 1 surgical by majority rule
+2026-08-01 12:11:50,215 INFO    pi_department          IPF861001: profiling 174 investigators
+2026-08-01 12:12:08,513 WARNING pi_department          25 of 27 reconstructed institutions have no profile and are excluded from the tables entirely (not ranked at zero): IPF10040927, IPF10068583, IPF861001, IPF4976101, IPF1504801, IPF5079202, IPF615001, DFCI, IPF1499101, BIDMC, IPF1225501, IPF7893501, IPF1531401, IPF3058203, IPF1495302, IPF4976105, IPF3736101, IPF10005742, IPF6959701, IPF1520001, IPF1518602, IPF4155008, IPF3617301, IPF1525701, MEEI
+2026-08-01 12:12:09,099 INFO    pi_department          8,446 contact-PI award-years, 7,404 with a resolved department (87.7%)
+2026-08-01 12:12:09,113 INFO    pi_department          wrote mgb_surgery_summary.csv (18 rows) from the validated majority rule
+2026-08-01 12:12:09,144 WARNING pi_department          25 of 27 reconstructed institutions have no profile and are excluded from the tables entirely (not ranked at zero): IPF10040927, IPF10068583, IPF861001, IPF4976101, IPF1504801, IPF5079202, IPF615001, DFCI, IPF1499101, BIDMC, IPF1225501, IPF7893501, IPF1531401, IPF3058203, IPF1495302, IPF4976105, IPF3736101, IPF10005742, IPF6959701, IPF1520001, IPF1518602, IPF4155008, IPF3617301, IPF1525701, MEEI
+2026-08-01 12:12:09,750 INFO    pi_department          wrote mgb_departments_all.csv (158 rows, 19 departments)
+2026-08-01 12:12:09,780 WARNING pi_department          25 of 27 reconstructed institutions have no profile and are excluded from the tables entirely (not ranked at zero): IPF10040927, IPF10068583, IPF861001, IPF4976101, IPF1504801, IPF5079202, IPF615001, DFCI, IPF1499101, BIDMC, IPF1225501, IPF7893501, IPF1531401, IPF3058203, IPF1495302, IPF4976105, IPF3736101, IPF10005742, IPF6959701, IPF1520001, IPF1518602, IPF4155008, IPF3617301, IPF1525701, MEEI
+2026-08-01 12:12:10,364 INFO    pi_department          wrote reconstructed_department_evidence.csv (552 award-years, 116 investigators, 364 in a department of surgery)
+2026-08-01 12:12:10,430 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_corroborated.csv (79 rows; 78 ranked, of which 2 reconstructed and 76 from NIH ORG_DEPT)
+2026-08-01 12:12:10,431 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 78
+2026-08-01 12:12:10,431 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 78 as one department
+2026-08-01 12:12:10,431 INFO    mgb_context                MGH alone ranks 2
+2026-08-01 12:12:10,432 INFO    mgb_context                BWH alone ranks 7
+2026-08-01 12:12:10,655 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_corroborated.png
+2026-08-01 12:12:10,697 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_corroborated.csv (84 rows; 83 ranked, of which 2 reconstructed and 81 from NIH ORG_DEPT)
+2026-08-01 12:12:10,698 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 3 of 83
+2026-08-01 12:12:10,698 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 83 as one department
+2026-08-01 12:12:10,699 INFO    mgb_context                MGH alone ranks 3
+2026-08-01 12:12:10,699 INFO    mgb_context                BWH alone ranks 8
+2026-08-01 12:12:10,892 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_corroborated.png
+2026-08-01 12:12:10,940 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv (95 rows; 94 ranked, of which 2 reconstructed and 92 from NIH ORG_DEPT)
+2026-08-01 12:12:10,941 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 94
+2026-08-01 12:12:10,941 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 94 as one department
+2026-08-01 12:12:10,942 INFO    mgb_context                MGH alone ranks 2
+2026-08-01 12:12:10,942 INFO    mgb_context                BWH alone ranks 5
+2026-08-01 12:12:11,132 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.png
+2026-08-01 12:12:55,281 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv (95 rows; 94 ranked, of which 2 reconstructed and 92 from NIH ORG_DEPT)
+2026-08-01 12:12:55,282 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 94
+2026-08-01 12:12:55,283 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 94 as one department
+2026-08-01 12:12:55,283 INFO    mgb_context                MGH alone ranks 2
+2026-08-01 12:12:55,283 INFO    mgb_context                BWH alone ranks 5
+2026-08-01 12:12:55,502 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.png
+2026-08-01 12:14:32,123 INFO    site                   FY2025: appended 51 reconstructed department row(s) across 18 departments and 3 recipients
+2026-08-01 12:14:32,166 INFO    site                   wrote docs/data/pairs_FY2025.json (1.6 MB)
+2026-08-01 12:14:32,239 INFO    site                   FY2024_FY2025: appended 52 reconstructed department row(s) across 18 departments and 3 recipients
+2026-08-01 12:14:32,289 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (1.9 MB)
+2026-08-01 12:14:32,375 INFO    site                   FY2021_FY2025: appended 55 reconstructed department row(s) across 19 departments and 3 recipients
+2026-08-01 12:14:32,438 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.4 MB)
+2026-08-01 12:14:32,601 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-01 12:14:32,849 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-01 12:14:32,881 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-01 12:14:32,909 INFO    site                   copied 55 figures into docs/figures
+2026-08-01 12:14:32,924 INFO    site                   removed docs/tables/mgb_surgical_award_years_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,925 INFO    site                   removed docs/tables/surgery_ranking_FY2021_FY2025_all_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,925 INFO    site                   removed docs/tables/surgery_ranking_FY2021_FY2025_corroborated.csv (no longer produced or superseded)
+2026-08-01 12:14:32,925 INFO    site                   removed docs/tables/surgery_ranking_FY2024_FY2025_all_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,925 INFO    site                   removed docs/tables/surgery_ranking_FY2024_FY2025_corroborated.csv (no longer produced or superseded)
+2026-08-01 12:14:32,927 INFO    site                   removed docs/tables/surgery_ranking_FY2025_all_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,928 INFO    site                   removed docs/tables/surgery_ranking_FY2025_corroborated.csv (no longer produced or superseded)
+2026-08-01 12:14:32,928 INFO    site                   removed docs/tables/surgery_ranking_with_mgb_FY2021_FY2025_all_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,928 INFO    site                   removed docs/tables/surgery_ranking_with_mgb_FY2024_FY2025_all_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,928 INFO    site                   removed docs/tables/surgery_ranking_with_mgb_FY2025_all_evidence.csv (no longer produced or superseded)
+2026-08-01 12:14:32,928 INFO    site                   copied 25 tables into docs/tables
+2026-08-01 12:14:48,484 INFO    site                   FY2025: appended 51 reconstructed department row(s) across 18 departments and 3 recipients
+2026-08-01 12:14:48,526 INFO    site                   wrote docs/data/pairs_FY2025.json (1.6 MB)
+2026-08-01 12:14:48,594 INFO    site                   FY2024_FY2025: appended 52 reconstructed department row(s) across 18 departments and 3 recipients
+2026-08-01 12:14:48,643 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (1.9 MB)
+2026-08-01 12:14:48,726 INFO    site                   FY2021_FY2025: appended 55 reconstructed department row(s) across 19 departments and 3 recipients
+2026-08-01 12:14:48,788 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.4 MB)
+2026-08-01 12:14:48,945 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-01 12:14:49,191 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-01 12:14:49,221 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-01 12:14:49,241 INFO    site                   removed docs/figures/mgb/surgery_ranking_with_mgb_FY2021_FY2025_all_evidence.png (no longer produced)
+2026-08-01 12:14:49,241 INFO    site                   removed docs/figures/mgb/surgery_ranking_with_mgb_FY2024_FY2025_all_evidence.png (no longer produced)
+2026-08-01 12:14:49,242 INFO    site                   removed docs/figures/mgb/surgery_ranking_with_mgb_FY2025_all_evidence.png (no longer produced)
+2026-08-01 12:14:49,242 INFO    site                   copied 55 figures into docs/figures
+2026-08-01 12:14:49,254 INFO    site                   copied 25 tables into docs/tables
+2026-08-01 12:16:54,631 INFO    pi_department          IPF861001: 174 investigators, 1 surgical by majority rule
+2026-08-01 12:16:54,649 INFO    pi_department          IPF4976101: profiling 472 investigators
+2026-08-01 12:22:44,830 INFO    pi_department            IPF4976101: 200/472
+2026-08-01 12:23:59,497 INFO    validate               validation: 17 checks, 0 failed
+2026-08-01 12:24:00,227 INFO    driver                 done: validate
+2026-08-01 12:24:08,576 INFO    validate               validation: 17 checks, 0 failed
+2026-08-01 12:24:09,265 INFO    driver                 done: validate
+2026-08-01 12:28:29,600 INFO    pi_department            IPF4976101: 400/472
+2026-08-01 12:30:35,623 INFO    pi_department          IPF4976101: 472 investigators, 21 surgical by majority rule
+2026-08-01 12:30:35,643 INFO    pi_department          IPF1504801: profiling 425 investigators
+2026-08-01 12:35:54,145 INFO    pi_department            IPF1504801: 200/425
+2026-08-01 12:41:28,702 INFO    pi_department            IPF1504801: 400/425
+2026-08-01 12:42:22,329 INFO    pi_department          IPF1504801: 425 investigators, 38 surgical by majority rule
+2026-08-01 12:42:22,356 INFO    pi_department          IPF5079202: profiling 369 investigators
+2026-08-01 12:48:05,182 INFO    pi_department            IPF5079202: 200/369
+2026-08-01 12:53:07,602 INFO    pi_department          IPF5079202: 369 investigators, 26 surgical by majority rule
+2026-08-01 12:53:07,617 INFO    pi_department          IPF615001: profiling 338 investigators
+2026-08-01 12:58:23,695 INFO    pi_department            IPF615001: 200/338
+2026-08-01 13:02:02,791 INFO    pi_department          IPF615001: 338 investigators, 15 surgical by majority rule
+2026-08-01 13:02:02,811 INFO    pi_department          DFCI: profiling 295 investigators
+2026-08-01 13:08:10,770 INFO    pi_department            DFCI: 200/295
+2026-08-01 13:10:56,987 INFO    pi_department          DFCI: 295 investigators, 0 surgical by majority rule
+2026-08-01 13:10:57,009 INFO    pi_department          IPF1499101: profiling 331 investigators
+2026-08-01 13:16:29,579 INFO    pi_department            IPF1499101: 200/331
+2026-08-01 13:20:02,328 INFO    pi_department          IPF1499101: 331 investigators, 14 surgical by majority rule
+2026-08-01 13:20:02,362 INFO    pi_department          BIDMC: profiling 243 investigators
+2026-08-01 13:25:18,355 INFO    pi_department            BIDMC: 200/243
+2026-08-01 13:26:23,877 INFO    pi_department          BIDMC: 243 investigators, 19 surgical by majority rule
+2026-08-01 13:26:23,892 INFO    pi_department          IPF1225501: profiling 197 investigators
+2026-08-01 13:31:55,437 INFO    pi_department          IPF1225501: 197 investigators, 24 surgical by majority rule
+2026-08-01 13:31:55,462 INFO    pi_department          IPF7893501: profiling 159 investigators
+2026-08-01 13:37:06,036 INFO    pi_department          IPF7893501: 159 investigators, 4 surgical by majority rule
+2026-08-01 13:37:06,060 INFO    pi_department          IPF1531401: profiling 173 investigators
+2026-08-01 13:41:41,106 INFO    pi_department          IPF1531401: 173 investigators, 2 surgical by majority rule
+2026-08-01 13:41:41,167 INFO    pi_department          IPF3058203: profiling 151 investigators
+2026-08-01 13:46:07,558 INFO    pi_department          IPF3058203: 151 investigators, 9 surgical by majority rule
+2026-08-01 13:46:07,591 INFO    pi_department          IPF1495302: profiling 129 investigators
+2026-08-01 13:49:35,532 INFO    pi_department          IPF1495302: 129 investigators, 9 surgical by majority rule
+2026-08-01 13:49:35,563 INFO    pi_department          IPF4976105: profiling 72 investigators
+2026-08-01 13:51:46,800 INFO    pi_department          IPF4976105: 72 investigators, 1 surgical by majority rule
+2026-08-01 13:51:46,826 INFO    pi_department          IPF3736101: profiling 116 investigators
+2026-08-01 13:54:56,757 INFO    pi_department          IPF3736101: 116 investigators, 0 surgical by majority rule
+2026-08-01 13:54:56,787 INFO    pi_department          IPF10005742: profiling 79 investigators
+2026-08-01 13:57:18,408 INFO    pi_department          IPF10005742: 79 investigators, 23 surgical by majority rule
+2026-08-01 13:57:18,444 INFO    pi_department          IPF6959701: profiling 86 investigators
+2026-08-01 13:59:25,487 INFO    pi_department          IPF6959701: 86 investigators, 18 surgical by majority rule
+2026-08-01 13:59:25,528 INFO    pi_department          IPF1520001: profiling 79 investigators
+2026-08-01 14:01:32,052 INFO    pi_department          IPF1520001: 79 investigators, 10 surgical by majority rule
+2026-08-01 14:01:32,077 INFO    pi_department          IPF1518602: profiling 103 investigators
+2026-08-01 14:04:12,488 INFO    pi_department          IPF1518602: 103 investigators, 14 surgical by majority rule
+2026-08-01 14:04:12,526 INFO    pi_department          IPF4155008: profiling 71 investigators
+2026-08-01 14:06:04,474 INFO    pi_department          IPF4155008: 71 investigators, 1 surgical by majority rule
+2026-08-01 14:06:04,493 INFO    pi_department          IPF3617301: profiling 87 investigators
+2026-08-01 14:08:50,115 INFO    pi_department          IPF3617301: 87 investigators, 2 surgical by majority rule
+2026-08-01 14:08:50,131 INFO    pi_department          IPF1525701: profiling 90 investigators
+2026-08-01 14:11:00,073 INFO    pi_department          IPF1525701: 90 investigators, 12 surgical by majority rule
+2026-08-01 14:11:00,089 INFO    pi_department          MEEI: profiling 72 investigators
+2026-08-01 14:12:44,926 INFO    pi_department          MEEI: 72 investigators, 26 surgical by majority rule
+2026-08-01 14:12:44,951 INFO    pi_department          wrote pi_departments.parquet: 6,927 rows
+2026-08-01 15:12:09,518 INFO    pi_department          31,574 contact-PI award-years, 26,628 with a resolved department (84.3%)
+2026-08-01 15:12:09,595 INFO    pi_department          wrote mgb_surgery_summary.csv (168 rows) from the validated majority rule
+2026-08-01 15:12:10,529 INFO    pi_department          wrote mgb_departments_all.csv (941 rows, 25 departments)
+2026-08-01 15:12:11,149 INFO    pi_department          wrote reconstructed_department_evidence.csv (2167 award-years, 454 investigators, 1055 in a department of surgery)
+2026-08-01 15:12:11,214 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_corroborated.csv (104 rows; 103 ranked, of which 27 reconstructed and 76 from NIH ORG_DEPT)
+2026-08-01 15:12:11,214 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 103
+2026-08-01 15:12:11,215 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 103 as one department
+2026-08-01 15:12:11,215 INFO    mgb_context                MGH alone ranks 2
+2026-08-01 15:12:11,215 INFO    mgb_context                BWH alone ranks 8
+2026-08-01 15:12:11,420 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_corroborated.png
+2026-08-01 15:12:11,460 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_corroborated.csv (109 rows; 108 ranked, of which 27 reconstructed and 81 from NIH ORG_DEPT)
+2026-08-01 15:12:11,461 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 3 of 108
+2026-08-01 15:12:11,461 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 108 as one department
+2026-08-01 15:12:11,461 INFO    mgb_context                MGH alone ranks 3
+2026-08-01 15:12:11,462 INFO    mgb_context                BWH alone ranks 9
+2026-08-01 15:12:11,623 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_corroborated.png
+2026-08-01 15:12:11,672 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv (120 rows; 119 ranked, of which 27 reconstructed and 92 from NIH ORG_DEPT)
+2026-08-01 15:12:11,672 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 119
+2026-08-01 15:12:11,673 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 119 as one department
+2026-08-01 15:12:11,673 INFO    mgb_context                MGH alone ranks 2
+2026-08-01 15:12:11,673 INFO    mgb_context                BWH alone ranks 5
+2026-08-01 15:12:11,834 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.png
+2026-08-01 15:12:11,871 INFO    driver                 done: mgb
+2026-08-01 15:12:25,185 INFO    figures                figures for FY2025
+2026-08-01 15:12:25,332 INFO    figures                  FY2025/1_surgery_total_funding.png
+2026-08-01 15:12:25,453 INFO    figures                  FY2025/2_surgery_award_years.png
+2026-08-01 15:12:25,574 INFO    figures                  FY2025/3_surgery_projects.png
+2026-08-01 15:12:25,690 INFO    figures                  FY2025/4_surgery_r01_funding.png
+2026-08-01 15:12:25,808 INFO    figures                  FY2025/5_surgery_r01_count.png
+2026-08-01 15:12:25,921 INFO    figures                  FY2025/6_surgery_investigators.png
+2026-08-01 15:12:26,046 INFO    figures                  FY2025/14_surgery_funding_per_investigator.png
+2026-08-01 15:12:26,162 INFO    figures                  FY2025/15_surgery_mean_award_size.png
+2026-08-01 15:12:26,283 INFO    figures                  FY2025/16_surgery_funding_per_project.png
+2026-08-01 15:12:26,466 INFO    figures                  FY2025/7_surgery_mechanism_mix.png
+2026-08-01 15:12:26,608 INFO    figures                  FY2025/8_specialty_totals.png
+2026-08-01 15:12:26,800 INFO    figures                  FY2025/9_all_institution_department_pairs.png
+2026-08-01 15:12:26,932 INFO    figures                  FY2025/10_top_institutions.png
+2026-08-01 15:12:27,041 INFO    figures                  FY2025/11_surgery_r01_vs_non_r01.png
+2026-08-01 15:12:27,041 INFO    figures                figures for FY2024_FY2025
+2026-08-01 15:12:27,155 INFO    figures                  FY2024_FY2025/1_surgery_total_funding.png
+2026-08-01 15:12:27,264 INFO    figures                  FY2024_FY2025/2_surgery_award_years.png
+2026-08-01 15:12:27,371 INFO    figures                  FY2024_FY2025/3_surgery_projects.png
+2026-08-01 15:12:27,507 INFO    figures                  FY2024_FY2025/4_surgery_r01_funding.png
+2026-08-01 15:12:27,619 INFO    figures                  FY2024_FY2025/5_surgery_r01_count.png
+2026-08-01 15:12:27,730 INFO    figures                  FY2024_FY2025/6_surgery_investigators.png
+2026-08-01 15:12:27,854 INFO    figures                  FY2024_FY2025/14_surgery_funding_per_investigator.png
+2026-08-01 15:12:27,975 INFO    figures                  FY2024_FY2025/15_surgery_mean_award_size.png
+2026-08-01 15:12:28,098 INFO    figures                  FY2024_FY2025/16_surgery_funding_per_project.png
+2026-08-01 15:12:28,255 INFO    figures                  FY2024_FY2025/7_surgery_mechanism_mix.png
+2026-08-01 15:12:28,394 INFO    figures                  FY2024_FY2025/8_specialty_totals.png
+2026-08-01 15:12:28,669 INFO    figures                  FY2024_FY2025/9_all_institution_department_pairs.png
+2026-08-01 15:12:28,852 INFO    figures                  FY2024_FY2025/10_top_institutions.png
+2026-08-01 15:12:28,978 INFO    figures                  FY2024_FY2025/11_surgery_r01_vs_non_r01.png
+2026-08-01 15:12:28,978 INFO    figures                figures for FY2021_FY2025
+2026-08-01 15:12:29,098 INFO    figures                  FY2021_FY2025/1_surgery_total_funding.png
+2026-08-01 15:12:29,211 INFO    figures                  FY2021_FY2025/2_surgery_award_years.png
+2026-08-01 15:12:29,333 INFO    figures                  FY2021_FY2025/3_surgery_projects.png
+2026-08-01 15:12:29,454 INFO    figures                  FY2021_FY2025/4_surgery_r01_funding.png
+2026-08-01 15:12:29,571 INFO    figures                  FY2021_FY2025/5_surgery_r01_count.png
+2026-08-01 15:12:29,685 INFO    figures                  FY2021_FY2025/6_surgery_investigators.png
+2026-08-01 15:12:29,823 INFO    figures                  FY2021_FY2025/14_surgery_funding_per_investigator.png
+2026-08-01 15:12:29,947 INFO    figures                  FY2021_FY2025/15_surgery_mean_award_size.png
+2026-08-01 15:12:30,146 INFO    figures                  FY2021_FY2025/16_surgery_funding_per_project.png
+2026-08-01 15:12:30,330 INFO    figures                  FY2021_FY2025/7_surgery_mechanism_mix.png
+2026-08-01 15:12:30,478 INFO    figures                  FY2021_FY2025/8_specialty_totals.png
+2026-08-01 15:12:30,699 INFO    figures                  FY2021_FY2025/9_all_institution_department_pairs.png
+2026-08-01 15:12:30,848 INFO    figures                  FY2021_FY2025/10_top_institutions.png
+2026-08-01 15:12:30,982 INFO    figures                  FY2021_FY2025/11_surgery_r01_vs_non_r01.png
+2026-08-01 15:12:30,983 INFO    figures                comparison figures
+2026-08-01 15:12:31,133 INFO    figures                  comparisons/12_surgery_fy2024_to_fy2025.png
+2026-08-01 15:12:31,332 INFO    figures                  comparisons/13_surgery_period_comparison.png
+2026-08-01 15:12:31,409 INFO    figures                  comparisons/0_department_evidence_coverage.png
+2026-08-01 15:12:31,446 INFO    driver                 done: figures
+2026-08-01 15:12:33,063 INFO    validate               validation: 17 checks, 0 failed
+2026-08-01 15:12:33,728 INFO    driver                 done: validate
+2026-08-01 15:12:34,443 INFO    site                   FY2025: appended 291 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-01 15:12:34,490 INFO    site                   wrote docs/data/pairs_FY2025.json (1.6 MB)
+2026-08-01 15:12:34,564 INFO    site                   FY2024_FY2025: appended 305 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-01 15:12:34,617 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (1.9 MB)
+2026-08-01 15:12:34,702 INFO    site                   FY2021_FY2025: appended 345 reconstructed department row(s) across 25 departments and 28 recipients
+2026-08-01 15:12:34,767 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.5 MB)
+2026-08-01 15:12:34,942 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-01 15:12:35,248 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-01 15:12:35,297 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-01 15:12:35,316 INFO    site                   copied 55 figures into docs/figures
+2026-08-01 15:12:35,329 INFO    site                   copied 25 tables into docs/tables

@@ -1,0 +1,69 @@
+2026-08-01 11:46:11,414 INFO    pi_department          MGH: 1,101 investigators already cached
+2026-08-01 11:46:11,421 INFO    pi_department          MGH: profiling 0 investigators
+2026-08-01 11:46:11,431 INFO    pi_department          MGH: 1,101 investigators, 73 surgical by majority rule
+2026-08-01 11:46:11,445 INFO    pi_department          BWH: 677 investigators already cached
+2026-08-01 11:46:11,448 INFO    pi_department          BWH: profiling 0 investigators
+2026-08-01 11:46:11,450 INFO    pi_department          BWH: 677 investigators, 43 surgical by majority rule
+2026-08-01 11:46:11,462 INFO    pi_department          IPF10040927: profiling 569 investigators
+2026-08-01 11:52:14,308 INFO    pi_department            IPF10040927: 200/569
+2026-08-01 11:58:15,515 INFO    pi_department            IPF10040927: 400/569
+2026-08-01 12:03:37,852 INFO    pi_department          IPF10040927: 569 investigators, 50 surgical by majority rule
+2026-08-01 12:03:37,874 INFO    pi_department          IPF10068583: profiling 269 investigators
+2026-08-01 12:09:44,348 INFO    pi_department            IPF10068583: 200/269
+2026-08-01 12:11:50,202 INFO    pi_department          IPF10068583: 269 investigators, 1 surgical by majority rule
+2026-08-01 12:11:50,215 INFO    pi_department          IPF861001: profiling 174 investigators
+2026-08-01 12:16:54,631 INFO    pi_department          IPF861001: 174 investigators, 1 surgical by majority rule
+2026-08-01 12:16:54,649 INFO    pi_department          IPF4976101: profiling 472 investigators
+2026-08-01 12:22:44,830 INFO    pi_department            IPF4976101: 200/472
+2026-08-01 12:28:29,600 INFO    pi_department            IPF4976101: 400/472
+2026-08-01 12:30:35,623 INFO    pi_department          IPF4976101: 472 investigators, 21 surgical by majority rule
+2026-08-01 12:30:35,643 INFO    pi_department          IPF1504801: profiling 425 investigators
+2026-08-01 12:35:54,145 INFO    pi_department            IPF1504801: 200/425
+2026-08-01 12:41:28,702 INFO    pi_department            IPF1504801: 400/425
+2026-08-01 12:42:22,329 INFO    pi_department          IPF1504801: 425 investigators, 38 surgical by majority rule
+2026-08-01 12:42:22,356 INFO    pi_department          IPF5079202: profiling 369 investigators
+2026-08-01 12:48:05,182 INFO    pi_department            IPF5079202: 200/369
+2026-08-01 12:53:07,602 INFO    pi_department          IPF5079202: 369 investigators, 26 surgical by majority rule
+2026-08-01 12:53:07,617 INFO    pi_department          IPF615001: profiling 338 investigators
+2026-08-01 12:58:23,695 INFO    pi_department            IPF615001: 200/338
+2026-08-01 13:02:02,791 INFO    pi_department          IPF615001: 338 investigators, 15 surgical by majority rule
+2026-08-01 13:02:02,811 INFO    pi_department          DFCI: profiling 295 investigators
+2026-08-01 13:08:10,770 INFO    pi_department            DFCI: 200/295
+2026-08-01 13:10:56,987 INFO    pi_department          DFCI: 295 investigators, 0 surgical by majority rule
+2026-08-01 13:10:57,009 INFO    pi_department          IPF1499101: profiling 331 investigators
+2026-08-01 13:16:29,579 INFO    pi_department            IPF1499101: 200/331
+2026-08-01 13:20:02,328 INFO    pi_department          IPF1499101: 331 investigators, 14 surgical by majority rule
+2026-08-01 13:20:02,362 INFO    pi_department          BIDMC: profiling 243 investigators
+2026-08-01 13:25:18,355 INFO    pi_department            BIDMC: 200/243
+2026-08-01 13:26:23,877 INFO    pi_department          BIDMC: 243 investigators, 19 surgical by majority rule
+2026-08-01 13:26:23,892 INFO    pi_department          IPF1225501: profiling 197 investigators
+2026-08-01 13:31:55,437 INFO    pi_department          IPF1225501: 197 investigators, 24 surgical by majority rule
+2026-08-01 13:31:55,462 INFO    pi_department          IPF7893501: profiling 159 investigators
+2026-08-01 13:37:06,036 INFO    pi_department          IPF7893501: 159 investigators, 4 surgical by majority rule
+2026-08-01 13:37:06,060 INFO    pi_department          IPF1531401: profiling 173 investigators
+2026-08-01 13:41:41,106 INFO    pi_department          IPF1531401: 173 investigators, 2 surgical by majority rule
+2026-08-01 13:41:41,167 INFO    pi_department          IPF3058203: profiling 151 investigators
+2026-08-01 13:46:07,558 INFO    pi_department          IPF3058203: 151 investigators, 9 surgical by majority rule
+2026-08-01 13:46:07,591 INFO    pi_department          IPF1495302: profiling 129 investigators
+2026-08-01 13:49:35,532 INFO    pi_department          IPF1495302: 129 investigators, 9 surgical by majority rule
+2026-08-01 13:49:35,563 INFO    pi_department          IPF4976105: profiling 72 investigators
+2026-08-01 13:51:46,800 INFO    pi_department          IPF4976105: 72 investigators, 1 surgical by majority rule
+2026-08-01 13:51:46,826 INFO    pi_department          IPF3736101: profiling 116 investigators
+2026-08-01 13:54:56,757 INFO    pi_department          IPF3736101: 116 investigators, 0 surgical by majority rule
+2026-08-01 13:54:56,787 INFO    pi_department          IPF10005742: profiling 79 investigators
+2026-08-01 13:57:18,408 INFO    pi_department          IPF10005742: 79 investigators, 23 surgical by majority rule
+2026-08-01 13:57:18,444 INFO    pi_department          IPF6959701: profiling 86 investigators
+2026-08-01 13:59:25,487 INFO    pi_department          IPF6959701: 86 investigators, 18 surgical by majority rule
+2026-08-01 13:59:25,528 INFO    pi_department          IPF1520001: profiling 79 investigators
+2026-08-01 14:01:32,052 INFO    pi_department          IPF1520001: 79 investigators, 10 surgical by majority rule
+2026-08-01 14:01:32,077 INFO    pi_department          IPF1518602: profiling 103 investigators
+2026-08-01 14:04:12,488 INFO    pi_department          IPF1518602: 103 investigators, 14 surgical by majority rule
+2026-08-01 14:04:12,526 INFO    pi_department          IPF4155008: profiling 71 investigators
+2026-08-01 14:06:04,474 INFO    pi_department          IPF4155008: 71 investigators, 1 surgical by majority rule
+2026-08-01 14:06:04,493 INFO    pi_department          IPF3617301: profiling 87 investigators
+2026-08-01 14:08:50,115 INFO    pi_department          IPF3617301: 87 investigators, 2 surgical by majority rule
+2026-08-01 14:08:50,131 INFO    pi_department          IPF1525701: profiling 90 investigators
+2026-08-01 14:11:00,073 INFO    pi_department          IPF1525701: 90 investigators, 12 surgical by majority rule
+2026-08-01 14:11:00,089 INFO    pi_department          MEEI: profiling 72 investigators
+2026-08-01 14:12:44,926 INFO    pi_department          MEEI: 72 investigators, 26 surgical by majority rule
+2026-08-01 14:12:44,951 INFO    pi_department          wrote pi_departments.parquet: 6,927 rows

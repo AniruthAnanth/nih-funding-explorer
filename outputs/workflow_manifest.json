@@ -1,6 +1,6 @@
 {
   "pipeline_version": "1.0.0",
-  "run_at": "2026-08-01T13:36:11+00:00",
+  "run_at": "2026-08-01T19:12:33+00:00",
   "stages_run": [
     "validate"
   ],
@@ -65,6 +65,7 @@
         "TR",
         "TW"
       ],
+      "include_other_transactions": true,
       "excluded_funding_mechanisms": [
         "INTRAMURAL RESEARCH",
         "NON SBIR/STTR CONTRACTS",
@@ -74,9 +75,6 @@
       "excluded_activity_prefixes": [
         "Z",
         "N"
-      ],
-      "countries": [
-        "UNITED STATES"
       ],
       "exclude_subproject_rows": true
     },
@@ -131,8 +129,8 @@
     "pandas": "2.3.3",
     "numpy": "2.0.2",
     "matplotlib": "3.9.4",
-    "git_commit": "a7cc5468d79f84294447b1eaa3f0514c12cf6418",
-    "stamped_at": "2026-08-01T13:36:11+00:00"
+    "git_commit": "279fab1e68162094cdd7891296401bc0a1c99393",
+    "stamped_at": "2026-08-01T19:12:33+00:00"
   },
   "source_manifest": {
     "files": {
