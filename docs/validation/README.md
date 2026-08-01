@@ -23,11 +23,17 @@ that would form the denominator.
 
 | Rule | n | Sensitivity | Precision | Cohen's κ |
 |---|---|---|---|---|
-| Any surgical paper | 230 | 93.5% | 92.0% | 0.843 |
-| Modal department surgical | 230 | 87.0% | 97.3% | 0.835 |
-| **Majority (>50%) — adopted** | 230 | 85.4% | **98.1%** | 0.827 |
-| Share > 70% | 230 | 77.2% | 99.0% | 0.751 |
-| Share > 50% and ≥3 records | 230 | 63.4% | 98.7% | 0.609 |
+| Any surgical affiliation | 260 | 99.3% | 96.4% | 0.954 |
+| Modal department surgical | 260 | 92.6% | 100.0% | 0.923 |
+| **Majority (>50%) — shipped** | 260 | 91.9% | **100.0%** | **0.916** |
+| Share > 70% | 260 | 78.7% | 100.0% | 0.779 |
+
+260 of 300 sampled investigators resolve to a department (87%). The rest are
+published as unknown rather than guessed.
+
+Modal and majority are within noise of each other on this sample and share the
+same precision. Majority is adopted as the more conservative claim: a plurality
+is weaker evidence of an appointment than an outright majority.
 
 The majority rule is adopted for the published figures. Precision matters more
 than recall here because an entire award is credited to a department on the
@@ -46,17 +52,33 @@ because each one alone would have sunk the method:
    exactly 1.0. κ was 0.21.
 2. After 25 non-surgical patterns were added, the generic `\bsurg` catch-all was
    still ranked above every one of them, so any string mentioning surgery
-   incidentally beat a named department. Spot-checking the top MGB attributions
-   caught a radiation oncologist and a psychiatrist being counted as surgical
-   faculty. A named department now always beats a bare keyword.
+   incidentally beat a named department. A named department now always beats a
+   bare keyword.
+3. Authors were matched on surname plus first initial, which pools distinct
+   people. The key "Jain R" at Massachusetts General collects Rohil Jain in the
+   Department of Surgery and Radhika Jain in Internal Medicine, and handed one
+   of those departments to Rakesh Jain, who is in Radiation Oncology. The match
+   now requires the whole first name wherever NIH supplies one, and refuses the
+   match outright when NIH supplies only an initial and more than one forename
+   answers to it. That refusal costs coverage — 215 of 300 sampled PIs resolve
+   rather than 230 — and it is the right trade: an unresolved investigator is
+   published as unknown, a mismatched one silently moves money between
+   departments.
 
-κ moved 0.21 → 0.825 → 0.827, and precision 90.0% → 95.6% → 98.1%.
+κ moved 0.21 → 0.825 → 0.827 → 0.906 → 0.916, and precision 90.0% → 95.6% →
+98.1% → 99.1% → 100.0%. Each step came from a defect found by checking the output rather than
+from tuning a threshold.
 
 ## Reproducing
 
 ```bash
 python3 docs/validation/validate_department_rule.py
 ```
+
+The harness calls `rankmgb.pi_department.profile_one` directly rather than
+reimplementing the matcher, so what is scored is what ships. An earlier version
+kept its own copy of the matching logic and drifted from it, which is exactly
+the failure a validation harness exists to prevent.
 
 Roughly 10 minutes against NCBI E-utilities. The sample is seeded (`random.seed(7)`)
 so the draw is reproducible.

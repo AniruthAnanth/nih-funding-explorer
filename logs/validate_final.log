@@ -1,0 +1,16 @@
+sample: 300 PI-institution pairs (150 NIH-surgical, 150 not)
+  40/300
+  80/300
+  120/300
+  160/300
+  200/300
+  240/300
+  280/300
+
+resolved 260 of 300 sampled PIs (87%)
+
+rule                                   n   sens%   prec%   kappa
+any surgical affiliation             260    99.3    96.4   0.954
+modal department surgical            260    92.6   100.0   0.923
+majority (>50%) — shipped            260    91.9   100.0   0.916
+share > 70%                          260    78.7   100.0   0.779

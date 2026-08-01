@@ -1,6 +1,0 @@
-rule                                   n   sens%   prec%   kappa
-ANY surgical paper                   230    93.5    92.0   0.843
-modal dept is surgical               230    87.0    97.3   0.835
-surgical share > 50%                 230    85.4    98.1   0.827
-surgical share > 70%                 230    77.2    99.0   0.751
-share>50% and >=3 records            230    63.4    98.7   0.609

@@ -4,12 +4,13 @@ The institution-level harvest in pubmed_evidence.py filters PubMed to records
 mentioning surgery, which is right for finding surgical papers and wrong for
 deciding a person's department: it never collects the non-surgery papers that
 would form the denominator. Measured against NIH's own department field on a
-231-PI sample, a rule built on that biased harvest reached Cohen's kappa 0.21.
+260-PI sample, a rule built on that biased harvest reached Cohen's kappa 0.21. Matching authors on surname plus initial alone
+cost another 0.08: the key "Jain R" at MGH pools three different people.
 
 This module instead pulls every paper for a given author at a given institution
 with no topic filter, classifies each of that author's own affiliation strings,
 and takes the department holding a majority of them. On the same sample that
-rule reaches **kappa 0.825, sensitivity 87.1%, precision 95.6%**, which is what
+rule reaches **kappa 0.916, sensitivity 91.9%, precision 100.0%**, which is what
 licenses using it where NIH supplies no department at all.
 
 One query pair per investigator, cached per institution, resumable.
@@ -44,9 +45,105 @@ def _req(endpoint: str, params: dict, retries: int = 4) -> bytes | None:
         try:
             with urllib.request.urlopen(url, timeout=120) as resp:
                 return resp.read()
-        except Exception:  # noqa: BLE001 - transient; retried
-            time.sleep(1.5 * (attempt + 1))
+        except Exception as exc:  # noqa: BLE001 - transient; retried
+            # NCBI returns 429 when the 3-per-second ceiling is crossed; back off
+            # harder for that than for an ordinary network blip.
+            hard = "429" in str(exc)
+            time.sleep((6 if hard else 1.5) * (attempt + 1))
     return None
+
+
+def profile_one(name: str, org_id: str, inst_q: str, rx, pats,
+                y0: int = 2020, y1: int = 2026) -> dict:
+    """Department profile for one investigator at one institution.
+
+    Split out so docs/validation/validate_department_rule.py scores the
+    code that actually ships instead of a reimplementation of it.
+    """
+    last = str(name).split(",")[0].strip()
+    fore = str(name).split(",")[1].strip() if "," in str(name) else ""
+    # NIH gives "SURNAME, FORENAME M".
+    #
+    # Two failure modes have to be avoided at once. Matching on the initial
+    # alone pools distinct people: the key "Jain R" at Massachusetts General
+    # collects Rohil Jain in the Department of Surgery and Radhika Jain in
+    # Internal Medicine. But *querying* PubMed for the full forename loses
+    # people outright, because the author index cannot match "Madsen Joren"
+    # against records filed as "Madsen JC" -- that search returns nothing
+    # while "Madsen JC" returns 51.
+    #
+    # So: query broadly on the surname, then decide identity from the
+    # ForeName carried on each record.
+    first = fore.split()[0].strip(".") if fore else ""
+    ini = first[:1]
+    rec = {"pi_name_raw": name, "institution_id": org_id, "n_affiliations": 0,
+           "surgical_share": None, "modal_department": None, "is_surgical": False,
+           "name_match": "none", "n_forenames_seen": 0}
+    if last and ini:
+        # A single-token author must go unquoted: "Madsen"[Author] returns
+        # nothing where Madsen[Author] returns 107. Multi-word surnames
+        # still need the quotes.
+        author_term = f'"{last}"[Author]' if (" " in last or "-" in last) else f"{last}[Author]"
+        term = f"({author_term}) AND ({inst_q}) AND {y0}:{y1}[dp]"
+        js = _req("esearch", {"db": "pubmed", "term": term,
+                              "retmax": str(MAX_PAPERS_PER_PI), "retmode": "json"})
+        ids = json.loads(js)["esearchresult"].get("idlist", []) if js else []
+        # (forename_first_token, is_initials_only, affiliation_strings)
+        hits: list[tuple[str, bool, list[str]]] = []
+        if ids:
+            xb = _req("efetch", {"db": "pubmed", "id": ",".join(ids), "retmode": "xml"})
+            if xb:
+                try:
+                    root = ET.fromstring(xb)
+                except ET.ParseError:
+                    root = None
+                if root is not None:
+                    for art in root.iter("PubmedArticle"):
+                        for au in art.iter("Author"):
+                            if (au.findtext("LastName") or "").upper() != last.upper():
+                                continue
+                            fn = (au.findtext("ForeName") or "").strip().upper()
+                            inits = (au.findtext("Initials") or "").strip().upper()
+                            tok = fn.split()[0].strip(".") if fn else ""
+                            initials_only = len(tok) < 2
+                            key = tok if not initials_only else (inits[:1] or "")
+                            if not key.startswith(ini.upper()):
+                                continue
+                            affs = [(a.text or "").strip() for a in au.iter("Affiliation")]
+                            hits.append((key, initials_only, [a for a in affs if a and rx.search(a)]))
+
+        named = {k for k, io, _ in hits if not io}
+        rival = {k for k in named if k != first.upper()}
+        # Initials-only records are only safe when nobody else with this
+        # initial publishes here under a full name.
+        accept_initials = not rival
+        specs: list[str] = []
+        for key, initials_only, affs in hits:
+            if initials_only:
+                if not accept_initials:
+                    continue
+            elif key != first.upper():
+                continue
+            for t in affs:
+                sp = classify_near_institution(t, rx, pats)[0]
+                if sp:
+                    specs.append(sp)
+
+        rec["n_forenames_seen"] = len(named)
+        if first.upper() in named:
+            rec["name_match"] = "full_forename"
+        elif accept_initials and hits:
+            rec["name_match"] = "initials_only_unambiguous"
+        elif rival:
+            rec["name_match"] = "ambiguous_surname"
+        if specs and rec["name_match"] in ("full_forename", "initials_only_unambiguous"):
+            sp_series = pd.Series(specs)
+            share = float(sp_series.isin(NARROW).mean())
+            rec.update(n_affiliations=len(specs), surgical_share=round(share, 4),
+                       modal_department=sp_series.value_counts().index[0],
+                       is_surgical=share > MAJORITY)
+        time.sleep(0.4)
+    return rec
 
 
 def profile_institution(org_id: str, pi_names: list[str], y0: int = 2020, y1: int = 2026) -> pd.DataFrame:
@@ -65,45 +162,7 @@ def profile_institution(org_id: str, pi_names: list[str], y0: int = 2020, y1: in
     todo = [n for n in pi_names if n not in done]
     log.info("%s: profiling %s investigators", org_id, f"{len(todo):,}")
     for i, name in enumerate(todo, 1):
-        last = str(name).split(",")[0].strip()
-        fore = str(name).split(",")[1].strip() if "," in str(name) else ""
-        ini = fore[:1] if fore else ""
-        rec = {"pi_name_raw": name, "institution_id": org_id, "n_affiliations": 0,
-               "surgical_share": None, "modal_department": None, "is_surgical": False}
-        if last and ini:
-            term = f'("{last} {ini}"[Author]) AND ({inst_q}) AND {y0}:{y1}[dp]'
-            js = _req("esearch", {"db": "pubmed", "term": term,
-                                  "retmax": str(MAX_PAPERS_PER_PI), "retmode": "json"})
-            ids = json.loads(js)["esearchresult"].get("idlist", []) if js else []
-            specs: list[str] = []
-            if ids:
-                xb = _req("efetch", {"db": "pubmed", "id": ",".join(ids), "retmode": "xml"})
-                if xb:
-                    try:
-                        root = ET.fromstring(xb)
-                    except ET.ParseError:
-                        root = None
-                    if root is not None:
-                        for art in root.iter("PubmedArticle"):
-                            for au in art.iter("Author"):
-                                ln = (au.findtext("LastName") or "").upper()
-                                fn = (au.findtext("ForeName") or "").upper()
-                                if ln != last.upper() or (ini and not fn.startswith(ini.upper())):
-                                    continue
-                                for aff in au.iter("Affiliation"):
-                                    t = (aff.text or "").strip()
-                                    if not t or not rx.search(t):
-                                        continue
-                                    sp = classify_near_institution(t, rx, pats)[0]
-                                    if sp:
-                                        specs.append(sp)
-            if specs:
-                s = pd.Series(specs)
-                share = float(s.isin(NARROW).mean())
-                rec.update(n_affiliations=len(specs), surgical_share=round(share, 4),
-                           modal_department=s.value_counts().index[0],
-                           is_surgical=share > MAJORITY)
-            time.sleep(0.34)
+        rec = profile_one(name, org_id, inst_q, rx, pats, y0, y1)
         rows.append(rec)
         if i % 200 == 0:
             pd.DataFrame(rows).to_parquet(cache, index=False)
@@ -138,9 +197,9 @@ def run(org_ids: list[str]) -> pd.DataFrame:
 # sample says what each costs. Figures quoted in prose use `corroborated`.
 FLOORS = {
     # majority of the investigator's affiliations are surgical
-    "corroborated": dict(rule="majority", sens=85.4, prec=98.1, kappa=0.827),
+    "corroborated": dict(rule="majority", sens=91.9, prec=100.0, kappa=0.916),
     # any surgical affiliation at all: higher recall, lower precision
-    "all_evidence": dict(rule="any", sens=93.5, prec=92.0, kappa=0.843),
+    "all_evidence": dict(rule="any", sens=99.3, prec=96.4, kappa=0.954),
 }
 
 

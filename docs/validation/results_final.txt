@@ -1,0 +1,5 @@
+rule                                   n   sens%   prec%   kappa
+any surgical affiliation             260    99.3    96.4   0.954
+modal department surgical            260    92.6   100.0   0.923
+majority (>50%) — shipped            260    91.9   100.0   0.916
+share > 70%                          260    78.7   100.0   0.779

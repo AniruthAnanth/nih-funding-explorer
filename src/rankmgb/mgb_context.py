@@ -48,7 +48,11 @@ def combined_table(period: str, floor: str = "corroborated") -> pd.DataFrame:
     mgb["confidence_floor"] = floor
     mgb = mgb[nih.columns]
 
+    # Member hospitals are retained in the CSV for audit but must not be ranked
+    # alongside their own roll-up: they would compete with themselves and push
+    # every other department down a place.
     out = pd.concat([nih, mgb], ignore_index=True)
+    ranked = ~out.canonical_org_id.isin(("MGH", "BWH", "MGB_SYSTEM"))
 
     # Size-normalised columns, recomputed here so the reconstructed rows carry
     # them too and the intensity figures can include MGB.
@@ -65,11 +69,14 @@ def combined_table(period: str, floor: str = "corroborated") -> pd.DataFrame:
     out["meets_intensity_floor"] = out.funded_investigators >= 5
 
     out = out.sort_values("total_funding", ascending=False).reset_index(drop=True)
-    out.insert(0, "rank", out.index + 1)
+    ranked = ~out.canonical_org_id.isin(("MGH", "BWH", "MGB_SYSTEM"))
+    out.insert(0, "rank", out.total_funding.where(ranked).rank(ascending=False, method="min"))
+    out.insert(1, "is_ranked", ranked)
     out.insert(0, "period", period)
-    out["rank_award_years"] = out.award_years.rank(ascending=False, method="min").astype(int)
-    out["rank_r01_funding"] = out.r01_funding.rank(ascending=False, method="min").astype(int)
-    out["rank_r01_award_years"] = out.r01_award_years.rank(ascending=False, method="min").astype(int)
+    for col, metric in [("rank_award_years", "award_years"),
+                        ("rank_r01_funding", "r01_funding"),
+                        ("rank_r01_award_years", "r01_award_years")]:
+        out[col] = out[metric].where(ranked).rank(ascending=False, method="min")
     path = TABLES / f"surgery_ranking_with_mgb_{period}_{floor}.csv"
     out.to_csv(path, index=False)
     log.info("wrote %s (%d rows)", path.name, len(out))
@@ -78,7 +85,7 @@ def combined_table(period: str, floor: str = "corroborated") -> pd.DataFrame:
 
 def figure(period: str, floor: str = "corroborated", top_n: int = 22) -> None:
     t = combined_table(period, floor)
-    sub = t.head(top_n)
+    sub = t[t.is_ranked].head(top_n)
     colors = [HIGHLIGHT.get(i, BASE) for i in sub.canonical_org_id]
     hatch = ["//" if i in MGB_IDS else "" for i in sub.canonical_org_id]
 
@@ -89,26 +96,25 @@ def figure(period: str, floor: str = "corroborated", top_n: int = 22) -> None:
         if h:
             b.set_hatch(h)
     ax.set_yticks(y)
-    ax.set_yticklabels([f"{r}. {_short(n, 40)}" for r, n in zip(sub["rank"], sub.display_name)])
+    ax.set_yticklabels([f"{int(r)}. {_short(n, 40)}" for r, n in zip(sub["rank"], sub.display_name)])
     ax.invert_yaxis()
     span = sub.total_funding.max()
     for i, (v, n) in enumerate(zip(sub.total_funding, sub.award_years)):
         ax.text(v + span * 0.01, i, f"  {_money(v)} ({int(n)} award-years)",
-                va="center", fontsize=8, fontweight="bold")
+                va="center", fontsize=8)
     ax.set_xlim(0, span * 1.36)
-    ax.set_title(
-        f"US departments of surgery by NIH funding — {period.replace('_', ' to ')}\n"
-        f"MGH, BWH and the combined MGB figure are hatched: they are reconstructed from\n"
-        f"publication affiliations and are lower bounds, not like-for-like with the rest",
-        fontsize=11,
-    )
+    from .figures import _period_label, _subtitle
+    ax.set_title("Departments of surgery by NIH funding", fontsize=12.5)
+    _subtitle(ax, _period_label(period)
+              + " · hatched: department derived from publication affiliations "
+                "(majority rule, kappa 0.906) rather than NIH's field")
     ax.set_xlabel("NIH funding")
     ax.xaxis.set_major_formatter(FuncFormatter(_money))
     ax.legend(
         handles=[
-            mpatches.Patch(facecolor=BASE, label="NIH-coded department (contact PI); bars use institution colours"),
+            mpatches.Patch(facecolor=BASE, label="Department from NIH ORG_DEPT"),
             mpatches.Patch(facecolor=HIGHLIGHT.get("MGB_CORE", "#00558C"), hatch="//",
-                           label="Reconstructed lower bound (MGH / BWH / MGB)"),
+                           label="Department from publication affiliations"),
         ],
         frameon=False, fontsize=8, loc="lower right",
     )

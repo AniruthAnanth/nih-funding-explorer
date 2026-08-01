@@ -75,9 +75,22 @@ def _period_label(period: str) -> str:
 
 
 def _subtitle(ax, text: str) -> None:
-    """A quiet line under the title. Keeps the title itself to one short clause."""
+    """A quiet line under the title. Keeps the title itself to one short clause.
+
+    The subtitle occupies the space immediately above the axes, so the title has
+    to be pushed clear of it or the two render on the same line.
+    """
     ax.text(0, 1.012, text, transform=ax.transAxes, fontsize=8.8, color="#5a6672",
             va="bottom", ha="left")
+    # rcParams put titles on the left, and ax.get_title() defaults to the centre
+    # title, which is empty. Asking for the wrong one silently skipped the pad
+    # and the subtitle rendered on top of the title.
+    for loc in ("left", "center"):
+        title = ax.get_title(loc=loc)
+        if title:
+            ax.set_title(title, loc=loc, pad=26,
+                         fontsize=plt.rcParams["axes.titlesize"])
+            break
 
 
 def _money(x, _pos=None) -> str:

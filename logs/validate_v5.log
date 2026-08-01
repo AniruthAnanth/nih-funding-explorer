@@ -1,0 +1,5 @@
+sample: 300 PI-institution pairs (150 NIH-surgical, 150 not)
+Traceback (most recent call last):
+  File "/Users/cunningviper/Documents/yang/RankMGB-UrgentRequest/docs/validation/validate_department_rule.py", line 76, in <module>
+    pending.append(au)
+NameError: name 'pending' is not defined
