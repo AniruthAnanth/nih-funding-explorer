@@ -2385,3 +2385,22 @@
 2026-08-05 00:20:51,147 INFO    site                   wrote docs/data/core.json (2.4 MB)
 2026-08-05 00:20:51,173 INFO    site                   copied 55 figures into docs/figures
 2026-08-05 00:20:51,189 INFO    site                   copied 26 tables into docs/tables
+2026-08-05 00:34:36,951 INFO    external               project-continuity attribution moved 245 award-year(s)
+2026-08-05 00:34:37,630 INFO    external               BRIMR FY2025 surgery: 74 institutions matched; exact to the dollar 55 as-awarded, 57 BRIMR-aligned; residual $23,503,656 -> $10,223,863
+2026-08-05 00:34:37,662 INFO    validate               validation: 18 checks, 0 failed
+2026-08-05 00:34:38,300 INFO    driver                 done: validate
+2026-08-05 00:35:22,867 INFO    external               project-continuity attribution moved 245 award-year(s)
+2026-08-05 00:35:23,516 INFO    external               BRIMR FY2025 surgery: 74 institutions matched; exact to the dollar 55 as-awarded, 57 BRIMR-aligned; residual $23,503,656 -> $10,223,863
+2026-08-05 00:35:23,547 INFO    validate               validation: 18 checks, 0 failed
+2026-08-05 00:35:24,168 INFO    driver                 done: validate
+2026-08-05 00:35:55,167 INFO    site                   FY2025: appended 291 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:35:55,208 INFO    site                   wrote docs/data/pairs_FY2025.json (1.7 MB)
+2026-08-05 00:35:55,276 INFO    site                   FY2024_FY2025: appended 305 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:35:55,323 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (2.0 MB)
+2026-08-05 00:35:55,403 INFO    site                   FY2021_FY2025: appended 345 reconstructed department row(s) across 25 departments and 28 recipients
+2026-08-05 00:35:55,464 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.5 MB)
+2026-08-05 00:35:55,616 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-05 00:35:55,871 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-05 00:35:55,901 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-05 00:35:55,925 INFO    site                   copied 55 figures into docs/figures
+2026-08-05 00:35:55,942 INFO    site                   copied 26 tables into docs/tables
