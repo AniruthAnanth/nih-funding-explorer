@@ -180,6 +180,20 @@ def run(cfg: dict) -> pd.DataFrame:
               {"matched": n, "exact_as_awarded": ex_aw, "exact_brimr_aligned": ex_al,
                "residual_as_awarded": round(res_aw), "residual_aligned": round(res_al)})
 
+    # 12. Departments that publish their own numbers. The only test of how much
+    # of a hospital department's money the reconstruction actually recovers.
+    sr = external.self_reported(cfg)
+    if sr is not None and len(sr):
+        worst = float(sr.recovery_pct.min())
+        best = float(sr.recovery_pct.max())
+        check("self_reported_department_recovery", 0.5 <= worst / 100 <= 1.05,
+              "reconstruction against departments' own published NIH figures. Recovery below "
+              "100% is expected and is the reason these figures are labelled lower bounds; "
+              "above 100% would mean the rule is over-attributing. "
+              + "; ".join(f"{r.canonical_org_id} {r.department} FY{r.fiscal_year} "
+                          f"{r.recovery_pct}%" for _, r in sr.iterrows()),
+              {"min_recovery_pct": worst, "max_recovery_pct": best, "n": len(sr)})
+
     out = pd.DataFrame(checks)
     out.to_csv(TABLES / "validation_report.csv", index=False)
     failed = out[~out.passed]

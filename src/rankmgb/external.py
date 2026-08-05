@@ -32,6 +32,18 @@ compiled figure is the behaviour that description predicts.
 **Scope.** BRIMR's departmental tables cover medical schools. MD Anderson holds
 $14.1M of NIH-coded surgery here and appears nowhere in their surgery table,
 because it is a cancer centre rather than a medical school.
+
+A second, independent calibration comes from departments that publish their own
+figures. MGH's Department of Surgery reports $35M of NIH expenditures for 2024
+against $74M of total research expenditures; the reconstruction here gives
+$30.75M of NIH awards for FY2024, or 87.9%. Vanderbilt via BRIMR gave 77.7%.
+Two hospitals, two unrelated sources, both in the high seventies to high
+eighties, both short -- which is the whole claim being made for these figures.
+
+The $74M is worth carrying separately. NIH is 47% of that department's research
+expenditures, so an NIH-derived ranking is measuring roughly half of what a
+department actually spends, and none of the DOD, foundation, industry or
+philanthropic support that makes up the rest.
 """
 from __future__ import annotations
 
@@ -46,6 +58,7 @@ log = get_logger("external")
 
 BENCHMARK = REFERENCE / "external" / "brimr_surgery_2025.csv"
 BENCHMARK_FY = 2025
+SELF_REPORTED = REFERENCE / "external" / "self_reported_departments_v1.csv"
 
 # BRIMR writes recipient names its own way, and in one case combines two NIH
 # recipients onto one line (the CWRU / Cleveland Clinic Lerner joint college).
@@ -214,4 +227,63 @@ def compare(cfg: dict) -> pd.DataFrame | None:
              BENCHMARK_FY, len(out), ex_a, ex_b,
              f"{out.as_awarded_usd.sub(out.brimr_usd).abs().sum():,.0f}",
              f"{out.residual_usd.abs().sum():,.0f}")
+    return out
+
+
+def self_reported(cfg: dict) -> pd.DataFrame | None:
+    """Compare the reconstruction against departments' own published figures.
+
+    The reconstruction is described everywhere in this project as a lower
+    bound. That claim was, until these two checks, untested from outside: the
+    kappa 0.916 validation is drawn at universities where NIH publishes a
+    department, and says nothing about how much of a hospital department's
+    money the rule actually recovers.
+
+    A department publishing its own annual figure is the cleanest test there
+    is. Note the units differ: a department reports *expenditures* drawn down
+    during a year, while this pipeline sums *awards obligated* in that fiscal
+    year. In steady state the two track each other; in a year of unusual growth
+    or wind-down they need not.
+    """
+    if not SELF_REPORTED.exists():
+        return None
+    from .mgb_surgery import DOS
+
+    ref = pd.read_csv(SELF_REPORTED)
+    ref = ref[ref.metric == "nih_expenditures"]
+    if ref.empty:
+        return None
+    prof_path = PROCESSED / "pi_departments.parquet"
+    if not prof_path.exists():
+        return None
+    prof = pd.read_parquet(prof_path)
+    df = pd.read_parquet(PROCESSED / "award_years_annotated.parquet")
+    pis = pd.read_parquet(PROCESSED / "pi_links.parquet")
+    pis = pis[pis.is_contact_pi][["application_id", "pi_name_raw"]]
+    a = pis.merge(df[["application_id", "canonical_org_id", "fiscal_year", "total_cost"]],
+                  on="application_id")
+    m = a.merge(prof[["institution_id", "pi_name_raw", "is_surgical", "modal_department"]],
+                left_on=["canonical_org_id", "pi_name_raw"],
+                right_on=["institution_id", "pi_name_raw"], how="left")
+
+    rows = []
+    for _, r in ref.iterrows():
+        sel = m[(m.canonical_org_id == r.canonical_org_id)
+                & m.is_surgical.fillna(False).astype(bool)
+                & m.modal_department.isin(DOS)
+                & (m.fiscal_year == int(r.fiscal_year))]
+        ours = float(sel.total_cost.sum())
+        rows.append({
+            "canonical_org_id": r.canonical_org_id, "department": r.department,
+            "fiscal_year": int(r.fiscal_year), "self_reported_usd": float(r.value_usd),
+            "reconstructed_usd": round(ours),
+            "recovery_pct": round(100 * ours / float(r.value_usd), 1) if r.value_usd else None,
+            "source": r.source,
+        })
+    out = pd.DataFrame(rows)
+    out.to_csv(TABLES / "external_benchmark_self_reported.csv", index=False)
+    for _, r in out.iterrows():
+        log.info("%s %s FY%d: department reports $%s, reconstruction gives $%s (%.1f%%)",
+                 r.canonical_org_id, r.department, r.fiscal_year,
+                 f"{r.self_reported_usd:,.0f}", f"{r.reconstructed_usd:,.0f}", r.recovery_pct)
     return out

@@ -1,0 +1,4 @@
+canonical_org_id,department,fiscal_year,source,source_url,retrieved,metric,value_usd,note
+MGH,SURGERY,2024,"MGH Department of Surgery, ""Our research program in 2024""",https://www.massgeneral.org/surgery/research,2026-08-05,nih_expenditures,35000000,"Expenditures drawn down in the year, not awards obligated in it; the two differ in timing but track each other in steady state"
+MGH,SURGERY,2024,"MGH Department of Surgery, ""Our research program in 2024""",https://www.massgeneral.org/surgery/research,2026-08-05,total_research_expenditures,74000000,"All sources. NIH is 47% of it; DOD and other federal add $10M, royalties $6M"
+MGH,SURGERY,2024,"MGH Department of Surgery, ""Our research program in 2024""",https://www.massgeneral.org/surgery/research,2026-08-05,dod_and_other_federal_expenditures,10000000,"Out of scope for this pipeline, which counts NIH only"
