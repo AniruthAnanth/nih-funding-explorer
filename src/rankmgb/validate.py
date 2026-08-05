@@ -12,7 +12,7 @@ import urllib.request
 
 import pandas as pd
 
-from .paths import PROCESSED, TABLES
+from .paths import PROCESSED, REFERENCE, TABLES
 from .util import get_logger
 
 log = get_logger("validate")
@@ -159,6 +159,27 @@ def run(cfg: dict) -> pd.DataFrame:
            "funding": float(ot.total_cost.sum()),
            "pct_of_funding": round(float(100 * ot.total_cost.sum() / df.total_cost.sum()), 2),
            "included": kept})
+
+    # 11. External benchmark. The Blue Ridge Institute for Medical Research
+    # publishes the reference NIH departmental rankings from the same year-end
+    # RePORT data, independently compiled. Agreeing with BRIMR on FY2025
+    # departments of surgery is the strongest available check that the row set,
+    # the department field and the cost field are all being read correctly --
+    # and, since BRIMR's own surgery table contains no hospitals, it is also
+    # direct confirmation that the coverage gap this project exists to close is
+    # real rather than an artefact of how these files were parsed.
+    ext = REFERENCE / "external" / "brimr_surgery_2025.csv"
+    if ext.exists():
+        b = pd.read_csv(ext)
+        mine = df[(df.nih_org_dept == "SURGERY") & (df.org_country == "UNITED STATES")
+                  & (df.fiscal_year == 2025)]
+        ours, theirs = float(mine.total_cost.sum()), float(b.surgery_usd.sum())
+        gap = abs(ours - theirs) / theirs
+        check("brimr_surgery_2025_agreement", gap < 0.01,
+              f"FY2025 US departments of surgery: this pipeline ${ours:,.0f} across "
+              f"{mine.canonical_org_id.nunique()} institutions against BRIMR's ${theirs:,.0f} "
+              f"across {len(b)}. BRIMR lists no hospital in this table, which is the coverage "
+              f"gap, not a discrepancy.", round(gap, 5))
 
     out = pd.DataFrame(checks)
     out.to_csv(TABLES / "validation_report.csv", index=False)

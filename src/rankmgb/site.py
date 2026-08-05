@@ -37,7 +37,8 @@ PAIR_COLS = [
     "rank_total_funding", "rank_total_funding_if_single_entity", "n_ranked",
     "canonical_org_id", "canonical_name", "display_name", "org_country", "nih_org_dept", "specialty",
     "total_funding", "award_years", "distinct_projects", "r01_funding", "r01_award_years",
-    "m_award_years", "funded_investigators", "funding_R01", "funding_R_OTHER", "funding_U",
+    "r01_distinct_projects", "m_award_years", "funded_investigators",
+    "funding_R01", "funding_R_OTHER", "funding_U",
     "funding_P", "funding_K", "funding_T", "funding_F", "funding_OTHER", "is_rollup",
     "funding_per_investigator", "funding_per_project", "mean_award_size",
     "r01_funding_per_investigator", "projects_per_investigator", "r01_share_of_funding",
@@ -76,6 +77,7 @@ def _pack(df: pd.DataFrame, cols: list[str]) -> dict:
         "funded_investigators", "mean_award_size", "funding_per_project",
         "funding_per_investigator", "r01_funding_per_investigator",
         "r01_award_years", "m_award_years", "comparable_award_years",
+        "r01_distinct_projects", "m_distinct_projects",
         "nih_surgical", "pub_surgical", "both", "nih_only", "publication_only",
     }
     for c in sub.columns:
@@ -189,7 +191,18 @@ def build() -> None:
                  "is_rollup", "is_ranked", "n_ranked",
                  "rank_if_single_entity", "rank_award_years_if_single_entity",
                  "rank_r01_funding_if_single_entity",
-                 "rank_r01_award_years_if_single_entity"],
+                 "rank_r01_award_years_if_single_entity",
+                 # A grant counted once, and a grant counted once per funded
+                 # fiscal year, are different numbers answering different
+                 # questions, and they rank institutions differently: Michigan
+                 # holds more distinct R01s than any other department while MGB
+                 # has more R01 award-years than any other. Both ship, both are
+                 # rankable, and the interface names which one is on screen.
+                 "r01_distinct_projects", "m_distinct_projects", "award_years_per_project",
+                 "rank_distinct_projects", "rank_r01_distinct_projects",
+                 "rank_award_years", "rank_r01_award_years",
+                 "rank_distinct_projects_if_single_entity",
+                 "rank_r01_distinct_projects_if_single_entity"],
             )
 
     cov = pd.read_csv(TABLES / "coverage_department_evidence.csv")

@@ -2270,3 +2270,100 @@
 2026-08-01 15:12:35,297 INFO    site                   wrote docs/data/core.json (2.4 MB)
 2026-08-01 15:12:35,316 INFO    site                   copied 55 figures into docs/figures
 2026-08-01 15:12:35,329 INFO    site                   copied 25 tables into docs/tables
+2026-08-05 00:08:52,290 INFO    pi_department          31,574 contact-PI award-years, 26,628 with a resolved department (84.3%)
+2026-08-05 00:08:52,405 INFO    pi_department          wrote mgb_surgery_summary.csv (168 rows) from the validated majority rule
+2026-08-05 00:08:53,541 INFO    pi_department          wrote mgb_departments_all.csv (941 rows, 25 departments)
+2026-08-05 00:08:54,201 INFO    pi_department          wrote reconstructed_department_evidence.csv (2167 award-years, 454 investigators, 1055 in a department of surgery)
+2026-08-05 00:08:54,273 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2025_corroborated.csv (104 rows; 103 ranked, of which 27 reconstructed and 76 from NIH ORG_DEPT)
+2026-08-05 00:08:54,274 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 103
+2026-08-05 00:08:54,274 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 103 as one department
+2026-08-05 00:08:54,275 INFO    mgb_context                MGH alone ranks 2
+2026-08-05 00:08:54,275 INFO    mgb_context                BWH alone ranks 8
+2026-08-05 00:08:54,486 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2025_corroborated.png
+2026-08-05 00:08:54,529 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2024_FY2025_corroborated.csv (109 rows; 108 ranked, of which 27 reconstructed and 81 from NIH ORG_DEPT)
+2026-08-05 00:08:54,529 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 3 of 108
+2026-08-05 00:08:54,530 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 108 as one department
+2026-08-05 00:08:54,530 INFO    mgb_context                MGH alone ranks 3
+2026-08-05 00:08:54,530 INFO    mgb_context                BWH alone ranks 9
+2026-08-05 00:08:54,691 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2024_FY2025_corroborated.png
+2026-08-05 00:08:54,742 INFO    mgb_context            wrote surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv (120 rows; 119 ranked, of which 27 reconstructed and 92 from NIH ORG_DEPT)
+2026-08-05 00:08:54,742 INFO    mgb_context              highest-ranked reconstructed department: Massachusetts General Hospital at rank 2 of 119
+2026-08-05 00:08:54,743 INFO    mgb_context              MGB_CORE is a roll-up: not ranked; would be 1 of 119 as one department
+2026-08-05 00:08:54,743 INFO    mgb_context                MGH alone ranks 2
+2026-08-05 00:08:54,743 INFO    mgb_context                BWH alone ranks 5
+2026-08-05 00:08:54,906 INFO    mgb_context              mgb/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.png
+2026-08-05 00:08:54,946 INFO    driver                 done: mgb
+2026-08-05 00:10:49,765 INFO    site                   FY2025: appended 291 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:10:49,809 INFO    site                   wrote docs/data/pairs_FY2025.json (1.7 MB)
+2026-08-05 00:10:49,883 INFO    site                   FY2024_FY2025: appended 305 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:10:49,934 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (2.0 MB)
+2026-08-05 00:10:50,021 INFO    site                   FY2021_FY2025: appended 345 reconstructed department row(s) across 25 departments and 28 recipients
+2026-08-05 00:10:50,087 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.5 MB)
+2026-08-05 00:10:50,251 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-05 00:10:50,516 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-05 00:10:50,551 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-05 00:10:50,575 INFO    site                   copied 55 figures into docs/figures
+2026-08-05 00:10:50,588 INFO    site                   copied 25 tables into docs/tables
+2026-08-05 00:12:41,303 INFO    validate               validation: 18 checks, 0 failed
+2026-08-05 00:12:42,068 INFO    driver                 done: validate
+2026-08-05 00:14:28,007 INFO    figures                figures for FY2025
+2026-08-05 00:14:28,160 INFO    figures                  FY2025/1_surgery_total_funding.png
+2026-08-05 00:14:28,279 INFO    figures                  FY2025/2_surgery_award_years.png
+2026-08-05 00:14:28,396 INFO    figures                  FY2025/3_surgery_projects.png
+2026-08-05 00:14:28,515 INFO    figures                  FY2025/4_surgery_r01_funding.png
+2026-08-05 00:14:28,634 INFO    figures                  FY2025/5_surgery_r01_count.png
+2026-08-05 00:14:28,749 INFO    figures                  FY2025/6_surgery_investigators.png
+2026-08-05 00:14:28,876 INFO    figures                  FY2025/14_surgery_funding_per_investigator.png
+2026-08-05 00:14:28,998 INFO    figures                  FY2025/15_surgery_mean_award_size.png
+2026-08-05 00:14:29,121 INFO    figures                  FY2025/16_surgery_funding_per_project.png
+2026-08-05 00:14:29,307 INFO    figures                  FY2025/7_surgery_mechanism_mix.png
+2026-08-05 00:14:29,453 INFO    figures                  FY2025/8_specialty_totals.png
+2026-08-05 00:14:29,652 INFO    figures                  FY2025/9_all_institution_department_pairs.png
+2026-08-05 00:14:29,791 INFO    figures                  FY2025/10_top_institutions.png
+2026-08-05 00:14:29,905 INFO    figures                  FY2025/11_surgery_r01_vs_non_r01.png
+2026-08-05 00:14:29,905 INFO    figures                figures for FY2024_FY2025
+2026-08-05 00:14:30,024 INFO    figures                  FY2024_FY2025/1_surgery_total_funding.png
+2026-08-05 00:14:30,138 INFO    figures                  FY2024_FY2025/2_surgery_award_years.png
+2026-08-05 00:14:30,251 INFO    figures                  FY2024_FY2025/3_surgery_projects.png
+2026-08-05 00:14:30,394 INFO    figures                  FY2024_FY2025/4_surgery_r01_funding.png
+2026-08-05 00:14:30,508 INFO    figures                  FY2024_FY2025/5_surgery_r01_count.png
+2026-08-05 00:14:30,624 INFO    figures                  FY2024_FY2025/6_surgery_investigators.png
+2026-08-05 00:14:30,755 INFO    figures                  FY2024_FY2025/14_surgery_funding_per_investigator.png
+2026-08-05 00:14:30,875 INFO    figures                  FY2024_FY2025/15_surgery_mean_award_size.png
+2026-08-05 00:14:30,998 INFO    figures                  FY2024_FY2025/16_surgery_funding_per_project.png
+2026-08-05 00:14:31,160 INFO    figures                  FY2024_FY2025/7_surgery_mechanism_mix.png
+2026-08-05 00:14:31,306 INFO    figures                  FY2024_FY2025/8_specialty_totals.png
+2026-08-05 00:14:31,508 INFO    figures                  FY2024_FY2025/9_all_institution_department_pairs.png
+2026-08-05 00:14:31,684 INFO    figures                  FY2024_FY2025/10_top_institutions.png
+2026-08-05 00:14:31,806 INFO    figures                  FY2024_FY2025/11_surgery_r01_vs_non_r01.png
+2026-08-05 00:14:31,806 INFO    figures                figures for FY2021_FY2025
+2026-08-05 00:14:31,923 INFO    figures                  FY2021_FY2025/1_surgery_total_funding.png
+2026-08-05 00:14:32,033 INFO    figures                  FY2021_FY2025/2_surgery_award_years.png
+2026-08-05 00:14:32,150 INFO    figures                  FY2021_FY2025/3_surgery_projects.png
+2026-08-05 00:14:32,264 INFO    figures                  FY2021_FY2025/4_surgery_r01_funding.png
+2026-08-05 00:14:32,374 INFO    figures                  FY2021_FY2025/5_surgery_r01_count.png
+2026-08-05 00:14:32,483 INFO    figures                  FY2021_FY2025/6_surgery_investigators.png
+2026-08-05 00:14:32,617 INFO    figures                  FY2021_FY2025/14_surgery_funding_per_investigator.png
+2026-08-05 00:14:32,742 INFO    figures                  FY2021_FY2025/15_surgery_mean_award_size.png
+2026-08-05 00:14:32,893 INFO    figures                  FY2021_FY2025/16_surgery_funding_per_project.png
+2026-08-05 00:14:33,067 INFO    figures                  FY2021_FY2025/7_surgery_mechanism_mix.png
+2026-08-05 00:14:33,211 INFO    figures                  FY2021_FY2025/8_specialty_totals.png
+2026-08-05 00:14:33,421 INFO    figures                  FY2021_FY2025/9_all_institution_department_pairs.png
+2026-08-05 00:14:33,566 INFO    figures                  FY2021_FY2025/10_top_institutions.png
+2026-08-05 00:14:33,695 INFO    figures                  FY2021_FY2025/11_surgery_r01_vs_non_r01.png
+2026-08-05 00:14:33,695 INFO    figures                comparison figures
+2026-08-05 00:14:33,844 INFO    figures                  comparisons/12_surgery_fy2024_to_fy2025.png
+2026-08-05 00:14:34,033 INFO    figures                  comparisons/13_surgery_period_comparison.png
+2026-08-05 00:14:34,109 INFO    figures                  comparisons/0_department_evidence_coverage.png
+2026-08-05 00:14:34,143 INFO    driver                 done: figures
+2026-08-05 00:14:34,867 INFO    site                   FY2025: appended 291 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:14:34,912 INFO    site                   wrote docs/data/pairs_FY2025.json (1.7 MB)
+2026-08-05 00:14:34,985 INFO    site                   FY2024_FY2025: appended 305 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:14:35,037 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (2.0 MB)
+2026-08-05 00:14:35,121 INFO    site                   FY2021_FY2025: appended 345 reconstructed department row(s) across 25 departments and 28 recipients
+2026-08-05 00:14:35,187 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.5 MB)
+2026-08-05 00:14:35,349 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-05 00:14:35,622 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-05 00:14:35,654 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-05 00:14:35,672 INFO    site                   copied 55 figures into docs/figures
+2026-08-05 00:14:35,691 INFO    site                   copied 25 tables into docs/tables

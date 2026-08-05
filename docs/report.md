@@ -318,11 +318,29 @@ therefore tilted against MGB, and MGB's figure specifically is a lower bound.
 
 **MGB Department of Surgery, one roll-up over two hospitals:**
 
-| Period | Would rank | Funding | Award-years | Projects | R01 funding | R01 award-years | Investigators |
-|---|---|---|---|---|---|---|---|
-| FY2025 | **1st of 103** | $54.7M | 65 | 60 | $19.2M | 33 | 46 |
-| FY2024–FY2025 | **1st of 108** | $104.6M | 133 | 75 | $38.3M | 70 | 54 |
-| FY2021–FY2025 | **1st of 119** | $266.0M | 364 | 134 | $91.9M | 179 | 80 |
+| Period | Funding | Grants | Award-years | R01 grants | R01 award-years | Investigators |
+|---|---|---|---|---|---|---|
+| FY2025 | $54.7M | 60 | 65 | 32 | 33 | 46 |
+| FY2024–FY2025 | $104.6M | 75 | 133 | 37 | 70 | 54 |
+| FY2021–FY2025 | $266.0M | 134 | 364 | 56 | 179 | 80 |
+
+**Where that would place it, as a single department:**
+
+| Period | Funding | Grants | Award-years | R01 grants | R01 award-years |
+|---|---|---|---|---|---|
+| FY2021–FY2025 | **1st of 119** | **1st** | **1st** | **2nd** | **1st** |
+
+**A grant and an award-year are different counts and they rank differently.** A
+grant is one project counted once. An award-year is that grant counted once for
+each fiscal year it was funded, so a five-year grant contributes five;
+nationally there are 2.65 award-years per grant, and 315,717 award-years cover
+119,080 distinct grants. Every count in this report says which it is.
+
+The distinction is not cosmetic. On R01 award-years MGB leads the country with
+179 to Michigan's 165. On distinct R01 grants **Michigan leads with 59 to MGB's
+56**, because MGB's R01s run longer. Both orderings are published, both are
+rankable on the site, and quoting "179 R01s" — which the award-year figure
+invites — overstates the count by a factor of 3.2.
 
 Read that column as what it is. MGB_CORE is MGH plus BWH, which are two
 departments with two chairs, so it holds no place in the peer set and the figure

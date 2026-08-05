@@ -83,7 +83,7 @@ const INTENSITY = new Set([
   'r01_share_of_funding',
 ]);
 const PCT_METRICS = new Set(['r01_share_of_funding']);
-const RATIO_METRICS = new Set(['projects_per_investigator']);
+const RATIO_METRICS = new Set(['projects_per_investigator', 'award_years_per_project']);
 
 const MECH_KEYS = [
   ['funding_R01', 'R01'], ['funding_R_OTHER', 'Other R'], ['funding_U', 'U'],
@@ -420,8 +420,9 @@ function renderTable(mountId, rows, spec, opts) {
 
 const METRIC_LABEL = {
   total_funding: 'Total funding', award_years: 'Award-years',
-  distinct_projects: 'Projects', r01_funding: 'R01 funding',
-  r01_award_years: 'R01 award-years', funded_investigators: 'Investigators',
+  distinct_projects: 'Grants (distinct)', r01_funding: 'R01 funding',
+  r01_award_years: 'R01 award-years', r01_distinct_projects: 'R01s (distinct)',
+  award_years_per_project: 'Years per grant', funded_investigators: 'Investigators',
   funding_R01: 'R01 (incl. R37)', funding_R_OTHER: 'Other R',
   funding_U: 'U funding', funding_P: 'P funding', funding_K: 'K funding',
   funding_T: 'T funding', funding_F: 'F funding', funding_OTHER: 'Other mechanisms',
@@ -436,8 +437,9 @@ const METRIC_LABEL = {
 
 /* Order matters: this is the column order in the table and in the export. */
 const NUMERIC_ORDER = [
-  'total_funding', 'award_years', 'distinct_projects', 'r01_funding',
-  'r01_award_years', 'funded_investigators',
+  'total_funding', 'distinct_projects', 'award_years', 'r01_funding',
+  'r01_distinct_projects', 'r01_award_years', 'award_years_per_project',
+  'funded_investigators',
   'funding_R01', 'funding_R_OTHER', 'funding_U', 'funding_P', 'funding_K',
   'funding_T', 'funding_F', 'funding_OTHER',
   'funding_per_investigator', 'r01_funding_per_investigator',
@@ -1726,21 +1728,40 @@ const SURGERY_SPEC = [
   { key: 'display_name', label: 'Institution', fmt: 'name' },
   { key: '__bar', label: '', sortable: false },
   { key: 'total_funding', label: 'Total funding', fmt: 'money' },
+  // Grants and award-years are both shown, always adjacent, because the two
+  // differ by a factor of about 2.7 and the difference is the whole reason a
+  // reader can arrive at "179 R01s" when the department holds 56.
+  { key: 'distinct_projects', label: 'Grants', fmt: 'int' },
   { key: 'award_years', label: 'Award-years', fmt: 'int' },
-  { key: 'distinct_projects', label: 'Projects', fmt: 'int' },
   { key: 'r01_funding', label: 'R01 funding', fmt: 'money' },
+  { key: 'r01_distinct_projects', label: 'R01s', fmt: 'int' },
   { key: 'r01_award_years', label: 'R01 award-years', fmt: 'int' },
   { key: 'funded_investigators', label: 'Investigators', fmt: 'int' },
 ];
 
+/* The rank column follows whichever metric is selected, because the orderings
+   genuinely differ: on R01 award-years MGB leads, on distinct R01 grants
+   Michigan does. A single fixed rank column would have quietly implied the
+   funding order applies to every metric on screen. */
+const SURG_RANK_COL = {
+  total_funding: 'rank',
+  award_years: 'rank_award_years',
+  distinct_projects: 'rank_distinct_projects',
+  r01_funding: 'rank_r01_funding',
+  r01_award_years: 'rank_r01_award_years',
+  r01_distinct_projects: 'rank_r01_distinct_projects',
+};
+
 /* A roll-up is held out of the peer rank on purpose. Rather than leave its
    Rank cell empty, the position it would hold as a single department is shown
    there and flagged, so the two readings are never confused for each other. */
-function withPeerRank(r) {
-  const asSingle = r.rank == null && r.is_rollup === 1 && r.rank_if_single_entity != null;
+function withPeerRank(r, metric) {
+  const col = SURG_RANK_COL[metric] || 'rank';
+  const peer = r[col];
+  const solo = r[col + '_if_single_entity'];
+  const asSingle = peer == null && r.is_rollup === 1 && solo != null;
   return Object.assign({}, r, {
-    peer_rank: r.rank != null ? Number(r.rank)
-      : (asSingle ? Number(r.rank_if_single_entity) : null),
+    peer_rank: peer != null ? Number(peer) : (asSingle ? Number(solo) : null),
     rank_is_as_single: asSingle ? 1 : 0,
   });
 }
@@ -1750,15 +1771,15 @@ function renderSurgery() {
   const floor = SURG_FLOOR;
   const metric = document.getElementById('s-metric').value;
   const rows = applySort(
-    surgView(unpack(state.core[`mgb_${period}_${floor}`])).map(withPeerRank),
+    surgView(unpack(state.core[`mgb_${period}_${floor}`])).map(r => withPeerRank(r, metric)),
     't-surgery', metric);
 
   state.view.surgery = {
     rows, grain: 'surgery', period,
     keys: ['canonical_org_id', 'display_name', 'peer_rank', 'rank_is_as_single',
-      'total_funding', 'award_years',
-      'distinct_projects', 'r01_funding', 'r01_award_years', 'funded_investigators',
-      'evidence_basis'],
+      'total_funding', 'distinct_projects', 'award_years',
+      'r01_funding', 'r01_distinct_projects', 'r01_award_years',
+      'funded_investigators', 'evidence_basis'],
   };
 
   const nRanked = rows.length ? (rows[0].n_ranked != null

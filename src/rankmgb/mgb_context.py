@@ -47,11 +47,21 @@ ROLLUPS = ("MGB_CORE", "MGB_SYSTEM", "HARVARD_ENTITIES")
 RECONSTRUCTED_BASIS = "Reconstructed from publication affiliations (lower bound)"
 NIH_BASIS = "NIH ORG_DEPT (contact PI)"
 
+# Both countings of a grant are ranked, because they answer different questions
+# and disagree. An award-year is one grant counted once per fiscal year it was
+# funded, so a five-year grant contributes five; nationally there are 2.65
+# award-years per distinct grant. Ranking on award-years rewards a department
+# whose grants run longer, which is a real fact about it but is not "how many
+# grants does it hold". On R01s the two orderings genuinely differ: Michigan
+# holds 59 distinct R01s to MGB's 56, while MGB has 179 R01 award-years to
+# Michigan's 165.
 RANKED_METRICS = {
     "rank": "total_funding",
     "rank_award_years": "award_years",
+    "rank_distinct_projects": "distinct_projects",
     "rank_r01_funding": "r01_funding",
     "rank_r01_award_years": "r01_award_years",
+    "rank_r01_distinct_projects": "r01_distinct_projects",
 }
 
 
@@ -78,8 +88,8 @@ def combined_table(period: str, floor: str = "corroborated") -> pd.DataFrame:
     if "is_rollup" in nih.columns:
         nih = nih[~nih.is_rollup.astype(bool)]
     nih = nih[["canonical_org_id", "canonical_name", "display_name", "total_funding", "award_years",
-               "distinct_projects", "r01_funding", "r01_award_years", "m_award_years",
-               "funded_investigators"]]
+               "distinct_projects", "r01_funding", "r01_award_years", "r01_distinct_projects",
+               "m_award_years", "m_distinct_projects", "funded_investigators"]]
     nih["evidence_basis"] = NIH_BASIS
     nih["confidence_floor"] = "n/a"
 
@@ -116,6 +126,10 @@ def combined_table(period: str, floor: str = "corroborated") -> pd.DataFrame:
     out["r01_funding_per_investigator"] = per("r01_funding", "funded_investigators")
     out["funding_per_project"] = per("total_funding", "distinct_projects")
     out["mean_award_size"] = per("total_funding", "award_years")
+    # How long the department's grants run, which is what separates the two
+    # ways of counting them.
+    out["award_years_per_project"] = (
+        out.award_years / out.distinct_projects.replace(0, np.nan)).round(2)
     out["r01_share_of_funding"] = (
         out.r01_funding / out.total_funding.replace(0, np.nan) * 100
     ).round(1)

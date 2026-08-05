@@ -355,7 +355,15 @@ def summarise_surgery(cfg: dict, org_ids: tuple[str, ...] = RECONSTRUCTED_ORGS) 
                         "distinct_projects": s.core_project_num.nunique(),
                         "r01_funding": s.loc[s.is_r01, "total_cost"].sum(),
                         "r01_award_years": int(s.is_r01.sum()),
+                        # An award-year is one grant counted once per fiscal year
+                        # it was funded, so a five-year grant contributes five.
+                        # "How many R01s does the department hold" is a
+                        # different question with an answer 3x smaller, and it
+                        # is the one people actually ask. Both are published.
+                        "r01_distinct_projects": s.loc[s.is_r01, "core_project_num"].nunique(),
                         "m_award_years": int((s.mechanism_family == "M").sum()),
+                        "m_distinct_projects": s.loc[s.mechanism_family == "M",
+                                                     "core_project_num"].nunique(),
                         "funded_investigators": s.pi_name_raw.nunique(),
                         "rule": meta["rule"],
                         "validation_kappa": meta["kappa"],
@@ -500,7 +508,10 @@ def summarise_all_departments(cfg: dict, org_ids: tuple[str, ...] = RECONSTRUCTE
                     "distinct_projects": g.core_project_num.nunique(),
                     "r01_funding": g.loc[g.is_r01, "total_cost"].sum(),
                     "r01_award_years": int(g.is_r01.sum()),
+                    "r01_distinct_projects": g.loc[g.is_r01, "core_project_num"].nunique(),
                     "m_award_years": int((g.mechanism_family == "M").sum()),
+                    "m_distinct_projects": g.loc[g.mechanism_family == "M",
+                                                 "core_project_num"].nunique(),
                     "funded_investigators": g.pi_name_raw.nunique(),
                 })
     out = pd.DataFrame(rows)

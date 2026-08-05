@@ -23,9 +23,14 @@
       ways: by recipient organization, by department, and by institution–department pair.
       9,683 pairs over the five-year window. Every number here is regenerated from checksummed
       source files by the code in this repository.
+      <br><strong>Counts come in two kinds and this site publishes both.</strong> A
+      <em>grant</em> is one project counted once. An <em>award-year</em> is that grant counted
+      once for each fiscal year it was funded, so a five-year grant contributes five — nationally
+      there are 2.65 award-years per grant. They rank institutions differently, and the column
+      headers always say which one you are reading.
     </p>
     <div class="meta">
-      <span>315,717 award-years</span><span>$174.4B</span><span>5,007 organizations</span><span>17/17 validation checks pass</span>
+      <span>119,080 grants</span><span>315,717 award-years</span><span>$174.4B</span><span>5,007 organizations</span><span>18/18 validation checks pass</span>
     </div>
   </div>
 </header>
@@ -84,6 +89,15 @@
       75%. And the sample can only be drawn where NIH publishes a department, meaning at
       universities, while the rule is applied at hospitals. The transfer from one to the other is
       the whole point of the method and is the one thing the experiment cannot measure.
+    </p>
+    <p>
+      <strong>The NIH-coded side of this site agrees with the published benchmark.</strong> The
+      Blue Ridge Institute for Medical Research compiles the reference NIH departmental rankings
+      from the same year-end data. For FY2025 departments of surgery this pipeline gives
+      $561,696,786 against BRIMR's $561,011,370, a difference of 0.12%, with WashU, UCSF,
+      Stanford, Minnesota, Johns Hopkins and Columbia matching to the dollar. BRIMR's surgery
+      table lists 75 institutions and <em>not one of them is a hospital</em> — which is the
+      coverage gap on this page, confirmed from the outside.
     </p>
     <p>
       Reconstruction is applied to <strong>every</strong> uncoded recipient in the comparison set,
@@ -324,7 +338,7 @@
           <select id="tr-metric">
             <option value="total_funding" selected>Total funding</option>
             <option value="award_years">Award-years</option>
-            <option value="distinct_projects">Distinct projects</option>
+            <option value="distinct_projects">Grants (distinct)</option>
             <option value="r01_funding">R01 funding</option>
             <option value="r01_award_years">R01 award-years</option>
           </select>
@@ -462,9 +476,11 @@
         <select id="s-metric">
           <option value="total_funding">Total NIH funding</option>
           <option value="award_years">Award-years</option>
-          <option value="distinct_projects">Distinct projects</option>
+          <option value="distinct_projects">Grants (distinct)</option>
           <option value="r01_funding">R01 funding</option>
+          <option value="r01_distinct_projects">R01s (distinct grants)</option>
           <option value="r01_award_years">R01 award-years</option>
+          <option value="award_years_per_project">Years per grant</option>
           <option value="funded_investigators">Funded investigators</option>
           <option value="funding_per_investigator">Funding per investigator</option>
           <option value="mean_award_size">Mean award size</option>
@@ -552,7 +568,7 @@
           <select id="ch4-metric" class="mini">
             <option value="total_funding" selected>Total funding</option>
             <option value="award_years">Award-years</option>
-            <option value="distinct_projects">Distinct projects</option>
+            <option value="distinct_projects">Grants (distinct)</option>
             <option value="r01_funding">R01 funding</option>
           </select>
           <label for="ch4-topn">Top</label>
