@@ -7,6 +7,7 @@ output; it is published.
 from __future__ import annotations
 
 import json
+import re
 import urllib.parse
 import urllib.request
 
@@ -18,6 +19,42 @@ from .util import get_logger
 log = get_logger("validate")
 
 REPORTER_API = "https://api.reporter.nih.gov/v2/projects/search"
+
+# BRIMR writes recipient names its own way, and in one case combines two NIH
+# recipients onto one line (the CWRU / Cleveland Clinic Lerner joint college).
+# Spelled out rather than fuzzy-matched, so a near-miss can never be scored as
+# agreement.
+_BRIMR_ALIAS = {
+    "WASHINGTON UNIVERSITY ST LOUIS": ["WASHINGTON UNIVERSITY"],
+    "UNIVERSITY OF PITTSBURGH": ["UNIVERSITY OF PITTSBURGH AT PITTSBURGH"],
+    "CORNELL UNIVERSITY WEILL MEDICAL COLLEGE": ["WEILL MEDICAL COLL OF CORNELL UNIV"],
+    "UNIVERSITY OF NORTH CAROLINA CHAPEL HILL": ["UNIV OF NORTH CAROLINA CHAPEL HILL"],
+    "RUTGERS, THE STATE UNIVERSITY OF NEW JERSEY": ["RUTGERS BIOMEDICAL AND HEALTH SCIENCES"],
+    "INDIANA UNIVERSITY": ["INDIANA UNIVERSITY INDIANAPOLIS"],
+    "UNIVERSITY OF TEXAS SOUTHWESTERN DALLAS": ["UT SOUTHWESTERN MEDICAL CENTER"],
+    "WAKE FOREST UNIVERSITY HLTH SCIS": ["WAKE FOREST UNIVERSITY HEALTH SCIENCES"],
+    "UNIVERSITY OF OKLAHOMA HLTH SCIS CTR": ["UNIVERSITY OF OKLAHOMA HLTH SCIENCES CTR"],
+    "UNIVERSITY OF TENNESSEE HLTH SCI CTR": ["UNIVERSITY OF TENNESSEE HEALTH SCI CTR"],
+    "PENNSYLVANIA STATE UNIV MED CTR HERSHEY": ["PENNSYLVANIA STATE UNIV HERSHEY MED CTR"],
+    "UNIVERSITY OF WASHINGTON SEATTLE": ["UNIVERSITY OF WASHINGTON"],
+    "UNIVERSITY OF VERMONT": ["UNIVERSITY OF VERMONT & ST AGRIC COLLEGE"],
+    "CASE WESTERN RESERVE U & CLEVELAND CLINIC LERNER COM":
+        ["CASE WESTERN RESERVE UNIVERSITY", "CLEVELAND CLINIC LERNER COM-CWRU"],
+    "MOUNT SINAI ICAHN SCHOOL OF MEDICINE": ["ICAHN SCHOOL OF MEDICINE AT MOUNT SINAI"],
+    "TEXAS TECH UNIVERSITY HSC LUBBOCK": ["TEXAS TECH UNIVERSITY HEALTH SCIS CENTER"],
+    "UNIVERSITY OF MASSACHUSETTS MED SCH WORCESTER": ["UNIV OF MASSACHUSETTS MED SCH WORCESTER"],
+    "TULANE UNIVERSITY": ["TULANE UNIVERSITY OF LOUISIANA"],
+}
+
+_BRIMR_DROP = ("UNIVERSITY", "THE", "OF", "AT", "SCHOOL", "MEDICINE", "MEDICAL",
+               "COLLEGE", "HEALTH SCIENCES", "CENTER", "CTR", "HLTH", "SCI")
+
+
+def _brimr_norm(s: str) -> str:
+    out = re.sub(r"[^A-Z ]", " ", str(s).upper())
+    for w in _BRIMR_DROP:
+        out = out.replace(w, " ")
+    return " ".join(out.split())
 
 
 def _reporter_total(fy: int, ipf: str | None = None, org_name: str | None = None) -> dict | None:
@@ -160,26 +197,62 @@ def run(cfg: dict) -> pd.DataFrame:
            "pct_of_funding": round(float(100 * ot.total_cost.sum() / df.total_cost.sum()), 2),
            "included": kept})
 
-    # 11. External benchmark. The Blue Ridge Institute for Medical Research
-    # publishes the reference NIH departmental rankings from the same year-end
-    # RePORT data, independently compiled. Agreeing with BRIMR on FY2025
-    # departments of surgery is the strongest available check that the row set,
-    # the department field and the cost field are all being read correctly --
-    # and, since BRIMR's own surgery table contains no hospitals, it is also
-    # direct confirmation that the coverage gap this project exists to close is
-    # real rather than an artefact of how these files were parsed.
+    # 11. External benchmark, matched institution by institution.
+    #
+    # The Blue Ridge Institute for Medical Research compiles the reference NIH
+    # departmental rankings from the same year-end RePORT data, independently.
+    #
+    # This check was first written as an aggregate: their grand total against
+    # ours. It passed at 0.12% and it was meaningless. Two unrelated ~$14.1M
+    # differences were cancelling -- BRIMR reports MD Anderson nowhere in its
+    # surgery table while we do, and BRIMR folds Vanderbilt University Medical
+    # Center's surgery into "Vanderbilt University" while we keep VUMC separate
+    # because it has been a separate legal entity since 2016. An aggregate can
+    # agree while every row inside it disagrees, so the check is per row.
     ext = REFERENCE / "external" / "brimr_surgery_2025.csv"
     if ext.exists():
         b = pd.read_csv(ext)
         mine = df[(df.nih_org_dept == "SURGERY") & (df.org_country == "UNITED STATES")
                   & (df.fiscal_year == 2025)]
-        ours, theirs = float(mine.total_cost.sum()), float(b.surgery_usd.sum())
-        gap = abs(ours - theirs) / theirs
-        check("brimr_surgery_2025_agreement", gap < 0.01,
-              f"FY2025 US departments of surgery: this pipeline ${ours:,.0f} across "
-              f"{mine.canonical_org_id.nunique()} institutions against BRIMR's ${theirs:,.0f} "
-              f"across {len(b)}. BRIMR lists no hospital in this table, which is the coverage "
-              f"gap, not a discrepancy.", round(gap, 5))
+        by = mine.groupby("canonical_name").total_cost.sum()
+        # Explicit aliases first; anything left over is paired by dropping the
+        # words that differ between the two naming conventions ("University",
+        # "School of Medicine", "Health Sciences Center") and requiring what
+        # remains to be identical. No fuzzy scoring, so a near-miss cannot be
+        # counted as a match.
+        norm_index: dict[str, list[str]] = {}
+        for nm in by.index:
+            norm_index.setdefault(_brimr_norm(nm), []).append(nm)
+        paired, exact = [], 0
+        for _, r in b.iterrows():
+            names = _BRIMR_ALIAS.get(r["name"]) or norm_index.get(_brimr_norm(r["name"]))
+            if not names:
+                continue
+            got = sum(float(by.get(n, 0.0)) for n in names)
+            if got > 0:
+                paired.append((r["name"], float(r.surgery_usd), got))
+                exact += int(abs(got - float(r.surgery_usd)) < 1.0)
+        n = len(paired)
+        near = sum(1 for _, want, got in paired if want and abs(got - want) / want <= 0.01)
+        # Published, so the agreement can be inspected row by row rather than
+        # taken on the strength of a summary statistic.
+        cmp_df = pd.DataFrame(paired, columns=["brimr_institution", "brimr_usd", "this_pipeline_usd"])
+        cmp_df["difference_usd"] = cmp_df.this_pipeline_usd - cmp_df.brimr_usd
+        cmp_df["pct_difference"] = (
+            cmp_df.difference_usd.abs() / cmp_df.brimr_usd.replace(0, pd.NA) * 100).round(4)
+        cmp_df["agrees_to_the_dollar"] = cmp_df.difference_usd.abs() < 1.0
+        cmp_df.sort_values("brimr_usd", ascending=False).to_csv(
+            TABLES / "external_benchmark_brimr_surgery_2025.csv", index=False)
+        log.info("BRIMR FY2025 surgery: %d matched, %d exact to the dollar, %d within 1%%",
+                 n, exact, near)
+        check("brimr_surgery_2025_matched_institutions", n >= 60 and exact / max(n, 1) >= 0.6,
+              f"FY2025 departments of surgery, matched institution by institution against BRIMR: "
+              f"{exact} of {n} agree to the dollar, {near} within 1%. The residual is dominated by "
+              f"Vanderbilt, where BRIMR attributes VUMC's surgery to the university and NIH codes "
+              f"only $336,630 of it; the reconstruction here recovers $10.86M of BRIMR's $14.41M "
+              f"independently from publication affiliations, which is an external calibration of "
+              f"the reconstruction as a lower bound.",
+              {"matched": n, "exact_to_the_dollar": exact, "within_1pct": near})
 
     out = pd.DataFrame(checks)
     out.to_csv(TABLES / "validation_report.csv", index=False)

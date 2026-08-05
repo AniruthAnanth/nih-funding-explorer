@@ -1,8 +1,8 @@
 {
   "pipeline_version": "1.0.0",
-  "run_at": "2026-08-05T04:14:34+00:00",
+  "run_at": "2026-08-05T04:20:49+00:00",
   "stages_run": [
-    "figures"
+    "validate"
   ],
   "config": {
     "pipeline_version": "1.0.0",
@@ -129,8 +129,8 @@
     "pandas": "2.3.3",
     "numpy": "2.0.2",
     "matplotlib": "3.9.4",
-    "git_commit": "f04dd96c096e272c7a996ab2a0eba7c231133492",
-    "stamped_at": "2026-08-05T04:14:34+00:00"
+    "git_commit": "6a5996d9cab56e4bf9dbe25dcbef7ee2e7ac717b",
+    "stamped_at": "2026-08-05T04:20:49+00:00"
   },
   "source_manifest": {
     "files": {

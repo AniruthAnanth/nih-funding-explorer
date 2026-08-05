@@ -2367,3 +2367,21 @@
 2026-08-05 00:14:35,654 INFO    site                   wrote docs/data/core.json (2.4 MB)
 2026-08-05 00:14:35,672 INFO    site                   copied 55 figures into docs/figures
 2026-08-05 00:14:35,691 INFO    site                   copied 25 tables into docs/tables
+2026-08-05 00:20:04,702 INFO    validate               validation: 18 checks, 0 failed
+2026-08-05 00:20:05,527 INFO    driver                 done: validate
+2026-08-05 00:20:31,717 INFO    validate               validation: 18 checks, 0 failed
+2026-08-05 00:20:32,393 INFO    driver                 done: validate
+2026-08-05 00:20:48,930 INFO    validate               BRIMR FY2025 surgery: 74 matched, 55 exact to the dollar, 60 within 1%
+2026-08-05 00:20:48,931 INFO    validate               validation: 18 checks, 0 failed
+2026-08-05 00:20:49,595 INFO    driver                 done: validate
+2026-08-05 00:20:50,317 INFO    site                   FY2025: appended 291 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:20:50,362 INFO    site                   wrote docs/data/pairs_FY2025.json (1.7 MB)
+2026-08-05 00:20:50,438 INFO    site                   FY2024_FY2025: appended 305 reconstructed department row(s) across 25 departments and 27 recipients
+2026-08-05 00:20:50,493 INFO    site                   wrote docs/data/pairs_FY2024_FY2025.json (2.0 MB)
+2026-08-05 00:20:50,611 INFO    site                   FY2021_FY2025: appended 345 reconstructed department row(s) across 25 departments and 28 recipients
+2026-08-05 00:20:50,679 INFO    site                   wrote docs/data/pairs_FY2021_FY2025.json (2.5 MB)
+2026-08-05 00:20:50,844 INFO    site                   wrote docs/data/trend_institution.json (2.3 MB)
+2026-08-05 00:20:51,116 INFO    site                   wrote docs/data/trend_institution_department.json (6.4 MB)
+2026-08-05 00:20:51,147 INFO    site                   wrote docs/data/core.json (2.4 MB)
+2026-08-05 00:20:51,173 INFO    site                   copied 55 figures into docs/figures
+2026-08-05 00:20:51,189 INFO    site                   copied 26 tables into docs/tables
