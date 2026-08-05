@@ -22,12 +22,20 @@ since 2016 and NIH files it under its own IPF code with no department at all --
 524 awards and $451.6M in FY2025, every one uncoded. This pipeline keeps them
 separate because they are separate recipients.
 
-That last case is the only external calibration the reconstruction has. BRIMR
-publishes $14.41M of Vanderbilt surgery; NIH codes $336,630 of it; the
-per-investigator reconstruction recovers $10.86M of the remainder from
-publication affiliations alone, having never seen BRIMR's number. A method
-described as a lower bound recovering about three quarters of an independently
-compiled figure is the behaviour that description predicts.
+That last case is the only external calibration the reconstruction has, and the
+arithmetic has to be stated carefully because there are three defensible
+denominators. BRIMR publishes $14,408,389 of Vanderbilt surgery for FY2025. NIH
+codes $336,630 of it, at Vanderbilt University. The per-investigator
+reconstruction adds $10,858,628 at VUMC, from publication affiliations alone and
+without ever seeing BRIMR's number. So:
+
+    coded + reconstructed, over BRIMR's total     77.70%
+    reconstructed alone, over the uncoded part    77.17%
+    reconstructed alone, over BRIMR's total       75.36%
+
+The first is the like-for-like comparison and is the figure quoted. The third is
+what you get by pairing the reconstruction with the wrong denominator, and it
+was briefly published that way.
 
 **Scope.** BRIMR's departmental tables cover medical schools. MD Anderson holds
 $14.1M of NIH-coded surgery here and appears nowhere in their surgery table,
@@ -36,7 +44,8 @@ because it is a cancer centre rather than a medical school.
 A second, independent calibration comes from departments that publish their own
 figures. MGH's Department of Surgery reports $35M of NIH expenditures for 2024
 against $74M of total research expenditures; the reconstruction here gives
-$30.75M of NIH awards for FY2024, or 87.9%. Vanderbilt via BRIMR gave 77.7%.
+$30,750,166 of NIH awards for FY2024, or 87.86%. Vanderbilt via BRIMR gave
+77.70% on the like-for-like comparison above.
 Two hospitals, two unrelated sources, both in the high seventies to high
 eighties, both short -- which is the whole claim being made for these figures.
 

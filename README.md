@@ -283,6 +283,37 @@ urology pattern `urolog` also matched "ne**urolog**y", and composite "From the â
 affiliation blocks were crediting one author's department to every co-author.
 Run it before changing `reference/department_string_patterns_v1.csv`.
 
+## Verifying a number before you quote it
+
+`docs/validation/verify_email_claims.py` re-derives every numeric claim that has
+been sent to a reader, from the published tables, and prints each one beside the
+file it came from:
+
+    python3 docs/validation/verify_email_claims.py
+
+88 claims, non-zero exit if any fails. It exists because a claim can be true of
+the data and still be wrong on the page. Two failures it now guards against both
+happened here: quoting a figure that had since been regenerated, and pairing a
+correct numerator with the wrong denominator. "The reconstruction recovers
+$10.86M, 77.7% of BRIMR's figure" was two true numbers in a false sentence --
+$10.86M is 75.36% of BRIMR's total, and 77.70% is what you get once the $336,630
+NIH codes directly is added in.
+
+## External benchmarks
+
+Two outside sources, both archived under `reference/external/` with URL and
+retrieval date, both checked on every run by `src/rankmgb/external.py`:
+
+| Benchmark | Result |
+|---|---|
+| BRIMR FY2025 departments of surgery, matched institution by institution | 55 of 75 agree **to the dollar**, 60 within 1% |
+| MGH Department of Surgery, its own published 2024 figures | reconstruction recovers 87.9% of $35M |
+| BRIMR's Vanderbilt line, where NIH codes almost nothing | coded + reconstructed is 77.7% of $14.4M |
+
+The first says the NIH-coded side is read correctly. The second and third are the
+only outside numbers that exist to test the reconstruction, and both land below
+100%, which is what "lower bound" has to mean to be worth writing down.
+
 ## Known limitations
 
 1. **NIH funding is not revenue.** These are NIH obligations only. No

@@ -1,0 +1,89 @@
+claim,expected,derived,source,ok
+MGB Surgery total funding FY2021-FY2025,266033307,266033307,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery distinct grants,134,134,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery award-years,364,364,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery distinct R01 grants,56,56,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery R01 award-years,179,179,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery would rank 1st of 119 on funding,1 of 119,1 of 119,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery would rank 2nd on distinct R01s,2,2,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery would rank 1st on R01 award-years,1,1,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB Surgery would rank 1st on grant count,1,1,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Duke surgery funding,220811823,220811823,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Duke surgery rank,1,1,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Duke surgery distinct grants,97,97,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Duke surgery distinct R01s,34,34,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+WashU St. Louis surgery funding,154066689,154066689,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+WashU St. Louis surgery rank,3,3,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+WashU St. Louis surgery distinct grants,65,65,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+WashU St. Louis surgery distinct R01s,39,39,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Michigan surgery funding,131746006,131746006,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Michigan surgery rank,4,4,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Michigan surgery distinct grants,106,106,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Michigan surgery distinct R01s,59,59,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Massachusetts General Hospital surgery funding,160711713,160711713,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Massachusetts General Hospital surgery rank,2,2,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Massachusetts General Hospital surgery distinct grants,102,102,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Massachusetts General Hospital surgery distinct R01s,40,40,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Brigham and Women's Hospital surgery funding,105321594,105321594,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Brigham and Women's Hospital surgery rank,5,5,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Brigham and Women's Hospital surgery distinct grants,32,32,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+Brigham and Women's Hospital surgery distinct R01s,16,16,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGH + BWH award-years sum to MGB's,364,364,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGH + BWH funding sums to MGB's,266033307,266033307,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+MGB total NIH FY2021-FY2025 ($5.11B),5.107,5.107,outputs/tables/rank_institution_FY2021_FY2025.csv,True
+MGB total NIH FY2025 ($1.05B),1.05,1.05,outputs/tables/rank_institution_FY2025.csv,True
+Johns Hopkins FY2021-FY2025 ($4.13B),4.129,4.129,outputs/tables/rank_institution_FY2021_FY2025.csv,True
+MGB is 1st nationally only as a roll-up,1,1,outputs/tables/rank_institution_FY2021_FY2025.csv,True
+MGH alone ranks 7th nationally,7,7,outputs/tables/rank_institution_FY2021_FY2025.csv,True
+BWH alone ranks 22nd nationally,22,22,outputs/tables/rank_institution_FY2021_FY2025.csv,True
+MGB Medicine FY2021-FY2025 ($1.66B),1658.1,1658.1,outputs/tables/mgb_departments_all.csv,True
+no M-series activity code exists FY2021-FY2025,0,0,data/processed/award_years_annotated.parquet,True
+no award-year is in mechanism family M,0,0,data/processed/award_years_annotated.parquet,True
+Blue Ridge institutions in their FY2025 surgery table,75,75,reference/external/brimr_surgery_2025.csv,True
+"of those, paired to a figure here",74,74,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+"agree to the dollar, as awarded",55,55,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+"agree to within 1%, as awarded",60,60,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+agree to the dollar under BRIMR's conventions,57,57,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+WASHINGTON UNIVERSITY ST LOUIS matches Blue Ridge to the dollar,31820064,31820064,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,31820064,31820064,reference/external/brimr_surgery_2025.csv,True
+UNIVERSITY OF CALIFORNIA SAN FRANCISCO matches Blue Ridge to the dollar,27918696,27918696,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,27918696,27918696,reference/external/brimr_surgery_2025.csv,True
+STANFORD UNIVERSITY matches Blue Ridge to the dollar,17940324,17940324,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,17940324,17940324,reference/external/brimr_surgery_2025.csv,True
+UNIVERSITY OF MINNESOTA matches Blue Ridge to the dollar,16514952,16514952,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,16514952,16514952,reference/external/brimr_surgery_2025.csv,True
+JOHNS HOPKINS UNIVERSITY matches Blue Ridge to the dollar,12290262,12290262,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,12290262,12290262,reference/external/brimr_surgery_2025.csv,True
+COLUMBIA UNIVERSITY HEALTH SCIENCES matches Blue Ridge to the dollar,11205970,11205970,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,11205970,11205970,reference/external/brimr_surgery_2025.csv,True
+CORNELL UNIVERSITY WEILL MEDICAL COLLEGE matches Blue Ridge to the dollar,10000633,10000633,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,10000633,10000633,reference/external/brimr_surgery_2025.csv,True
+UNIVERSITY OF NORTH CAROLINA CHAPEL HILL matches Blue Ridge to the dollar,7865510,7865510,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,7865510,7865510,reference/external/brimr_surgery_2025.csv,True
+"RUTGERS, THE STATE UNIVERSITY OF NEW JERSEY matches Blue Ridge to the dollar",7245955,7245955,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,7245955,7245955,reference/external/brimr_surgery_2025.csv,True
+INDIANA UNIVERSITY matches Blue Ridge to the dollar,6633379,6633379,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,6633379,6633379,reference/external/brimr_surgery_2025.csv,True
+UNIVERSITY OF TEXAS SOUTHWESTERN DALLAS matches Blue Ridge to the dollar,5144776,5144776,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,5144776,5144776,reference/external/brimr_surgery_2025.csv,True
+UNIVERSITY OF CALIFORNIA LOS ANGELES matches Blue Ridge to the dollar,7314362,7314362,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,7314362,7314362,reference/external/brimr_surgery_2025.csv,True
+UNIVERSITY OF CALIFORNIA SAN DIEGO matches Blue Ridge to the dollar,9176097,9176097,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+  ... and Blue Ridge itself says,9176097,9176097,reference/external/brimr_surgery_2025.csv,True
+"DUKE UNIVERSITY differs by $15,375",15375,15375,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+"UNIVERSITY OF MICHIGAN ANN ARBOR differs by $-10,795",-10795,-10795,outputs/tables/external_benchmark_brimr_surgery_2025.csv,True
+"MGH Surgery, published NIH figure for 2024",35000000,35000000,reference/external/self_reported_departments_v1.csv,True
+"MGH Surgery, this analysis FY2024",30750166,30750166,outputs/tables/external_benchmark_self_reported.csv,True
+MGH recovery,87.9,87.9,outputs/tables/external_benchmark_self_reported.csv,True
+MGH total research expenditures 2024,74000000,74000000,reference/external/self_reported_departments_v1.csv,True
+NIH is 47% of MGH Surgery research spending,47,47,reference/external/self_reported_departments_v1.csv,True
+Blue Ridge Vanderbilt surgery FY2025,14408389,14408389,reference/external/brimr_surgery_2025.csv,True
+NIH-coded Vanderbilt University surgery FY2025,336630,336630,data/processed/award_years_annotated.parquet,True
+VUMC reconstruction FY2025,10858628,10858628,data/processed/pi_departments.parquet,True
+"Vanderbilt recovery, coded + reconstructed over BRIMR total",77.7,77.7,derived from the three rows above,True
+NOT the figure to quote: reconstruction alone over BRIMR total,75.36,75.36,derived; kept here so the two cannot be confused,True
+ranked departments in the surgery table,119,119,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+"FY2025 sheet: reconstructed hospitals, excluding the roll-up",18,18,outputs/tables/surgery_ranking_with_mgb_FY2025_corroborated.csv,True
+FY2025 sheet: shaded rows including the roll-up,19,19,outputs/tables/surgery_ranking_with_mgb_FY2025_corroborated.csv,True
+"five-year sheet: reconstructed hospitals, excluding the roll-up",19,19,outputs/tables/surgery_ranking_with_mgb_FY2021_FY2025_corroborated.csv,True
+uncoded recipients profiled,27,27,data/processed/pi_departments.parquet,True
